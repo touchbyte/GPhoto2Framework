@@ -8,15 +8,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libgphoto2_port 2.5.10\n"
 "Report-Msgid-Bugs-To: gphoto-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2016-02-22 21:02+0100\n"
+"POT-Creation-Date: 2018-10-12 17:19+0200\n"
 "PO-Revision-Date: 2016-03-25 16:35+0200\n"
 "Last-Translator: Jorma Karvonen <karvonen.jorma@gmail.com>\n"
 "Language-Team: Finnish <translation-team-fi@lists.sourceforge.net>\n"
 "Language: fi\n"
-"X-Bugs: Report translation errors to the Language-Team address.\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: libgphoto2_port/gphoto2-port-info-list.c:409
@@ -129,7 +129,7 @@ msgstr "Porttia ei ole vielä alustettu"
 #  looginen ykkönen (esimerkiksi +5V). Sarjaporteissa looginen ykkönen 
 #  on yleensä -5...-12V ja looginen nolla +5...+12 V, mutta Gphotossa
 #  näytetään noudattavan mikropiirilogiikkaa.
-#: libgphoto2_port/gphoto2-port.c:682
+#: libgphoto2_port/gphoto2-port.c:686
 msgid "low"
 msgstr "looginen nolla"
 
@@ -138,107 +138,108 @@ msgstr "looginen nolla"
 #  looginen ykkönen (esimerkiksi +5V). Sarjaporteissa looginen ykkönen 
 #  on yleensä -5...-12V ja looginen nolla +5...+12 V, mutta Gphotossa
 #  näytetään noudattavan mikropiirilogiikkaa.
-#: libgphoto2_port/gphoto2-port.c:683
+#: libgphoto2_port/gphoto2-port.c:687
 msgid "high"
 msgstr "looginen ykkönen"
 
-#: libgphoto2_port/gphoto2-port.c:1211
+#: libgphoto2_port/gphoto2-port.c:1215
 msgid "No error description available"
 msgstr "Virhekuvausta ei ole saatavilla"
 
-#: disk/disk.c:147 disk/disk.c:148 disk/disk.c:224 disk/disk.c:225
-#: disk/disk.c:265 disk/disk.c:288
+#: disk/disk.c:149 disk/disk.c:150 disk/disk.c:228 disk/disk.c:229
+#: disk/disk.c:269 disk/disk.c:292
 #, c-format
 msgid "Media '%s'"
 msgstr "Media ’%s’"
 
-#: serial/unix.c:223
+#: serial/unix.c:230
 #, c-format
 msgid "Could not lock device '%s'"
 msgstr "Laitteen ’%s’ lukitus epäonnistui"
 
-#: serial/unix.c:233 usbdiskdirect/linux.c:95
+#: serial/unix.c:240 usbdiskdirect/linux.c:95
 #, c-format
 msgid "Device '%s' is locked by pid %d"
 msgstr "Laitteen ’%s’ on lukinnut pid %d"
 
-#: serial/unix.c:236 usbdiskdirect/linux.c:98
+#: serial/unix.c:243 usbdiskdirect/linux.c:98
 #, c-format
 msgid "Device '%s' could not be locked (dev_lock returned %d)"
 msgstr "Laitteen ’%s’ lukitus epäonnistui (dev_lock palautti %d)"
 
-#: serial/unix.c:265
+#: serial/unix.c:272
 #, c-format
 msgid "Device '%s' could not be unlocked."
 msgstr "Laitteen ’%s’ lukituksen avaus epäonnistui."
 
-#: serial/unix.c:277 usbdiskdirect/linux.c:127
+#: serial/unix.c:284 usbdiskdirect/linux.c:127
 #, c-format
 msgid "Device '%s' could not be unlocked as it is locked by pid %d."
-msgstr "Laitteen ’%s’ lukituksen avaus epäonnistui, koska sen on lukinnut pid %d."
+msgstr ""
+"Laitteen ’%s’ lukituksen avaus epäonnistui, koska sen on lukinnut pid %d."
 
-#: serial/unix.c:281 usbdiskdirect/linux.c:131
+#: serial/unix.c:288 usbdiskdirect/linux.c:131
 #, c-format
 msgid "Device '%s' could not be unlocked (dev_unlock returned %d)"
 msgstr "Laitteen ’%s’ lukituksen avaus epäonnistui (dev_unlock palautti %d)"
 
-#: serial/unix.c:339
+#: serial/unix.c:346
 #, c-format
 msgid "Serial Port %i"
 msgstr "Sarjaportti %i"
 
-#: serial/unix.c:352
+#: serial/unix.c:359
 msgid "Serial Port Device"
 msgstr "Sarjaporttilaite"
 
 #  Ensimmäinen parametri on portti
-#: serial/unix.c:434
+#: serial/unix.c:441
 #, c-format
 msgid "Failed to open '%s' (%s)."
 msgstr "Portin ’%s’ avaaminen epäonnistui (%s)."
 
 #  Ensimmäinen parametri on sarjaportti
-#: serial/unix.c:454
+#: serial/unix.c:461
 #, c-format
 msgid "Could not close '%s' (%s)."
 msgstr "Sarjaportin ’%s’ (%s) sulkeminen epäonnistui."
 
-#: serial/unix.c:510
+#: serial/unix.c:517
 #, c-format
 msgid "Could not write to port (%s)"
 msgstr "Kirjoittaminen porttiin (%s) epäonnistui"
 
-#: serial/unix.c:587
+#: serial/unix.c:594
 msgid "Parity error."
 msgstr "Pariteettivirhe."
 
-#: serial/unix.c:591
+#: serial/unix.c:598
 #, c-format
 msgid "Unexpected parity response sequence 0xff 0x%02x."
 msgstr "Odottamaton pariteettivastaussekvenssi 0xff 0x%02x."
 
-#: serial/unix.c:634
+#: serial/unix.c:641
 #, c-format
 msgid "Unknown pin %i."
 msgstr "Tuntematon nasta %i."
 
-#: serial/unix.c:656
+#: serial/unix.c:663
 #, c-format
 msgid "Could not get level of pin %i (%s)."
 msgstr "Nastan %i (%s) tason hakeminen epäonnistui."
 
-#: serial/unix.c:692
+#: serial/unix.c:699
 #, c-format
 msgid "Could not set level of pin %i to %i (%s)."
 msgstr "Nastan %i tason asettaminen arvoon %i (%s) epäonnistui."
 
 #  Ensimmäinen parametri on sarjaportti
-#: serial/unix.c:719
+#: serial/unix.c:726
 #, c-format
 msgid "Could not flush '%s' (%s)."
 msgstr "Sarjaportin ’%s’ (%s) puhdistaminen epäonnistui."
 
-#: serial/unix.c:831
+#: serial/unix.c:838
 #, c-format
 msgid "Could not set the baudrate to %d"
 msgstr "Siirtonopeuden asettaminen arvoon %d epäonnistui"
@@ -277,85 +278,100 @@ msgstr "Polkuun ’%s’ (%m) kirjoittaminen epäonnistui."
 msgid "Could not read from '%s' (%m)."
 msgstr "Polusta ’%s’ (%m) lukeminen epäonnistui."
 
-#: usb/libusb.c:260 libusb1/libusb1.c:373
+#: usb/libusb.c:264 libusb1/libusb1.c:395
 #, c-format
 msgid "Could not open USB device (%s)."
 msgstr "USB-laitteen (%s) avaaminen epäonnistui."
 
-#: usb/libusb.c:273 libusb1/libusb1.c:382
+#: usb/libusb.c:277 libusb1/libusb1.c:404
 msgid "Camera is already in use."
 msgstr "Kamera on jo käytössä."
 
-#: usb/libusb.c:281
+#: usb/libusb.c:285
 #, c-format
 msgid "Could not detach kernel driver '%s' of camera device."
 msgstr "Kameralaitteen käyttöjärjestelmäajuria ’%s’ ei voitu irrottaa."
 
-#: usb/libusb.c:286 libusb1/libusb1.c:397
+#: usb/libusb.c:290 libusb1/libusb1.c:419
 msgid "Could not query kernel driver of device."
 msgstr "Laitteen käyttöjärjestelmäajurin kyseleminen epäonnistui."
 
-#: usb/libusb.c:295 libusb1/libusb1.c:404
+#: usb/libusb.c:299 libusb1/libusb1.c:426
 #, c-format
-msgid "Could not claim interface %d (%s). Make sure no other program (%s) or kernel module (such as %s) is using the device and you have read/write access to the device."
-msgstr "Liitännän %d (%s) vaatiminen epäonnistui. Varmista, että mikään toinen ohjelma (%s) tai käyttöjärjestelmämoduuli (sellainen kuin %s) ei käytä laitetta ja sinulla on laitteeseen luku- tai kirjoitusoikeus."
+msgid ""
+"Could not claim interface %d (%s). Make sure no other program (%s) or kernel "
+"module (such as %s) is using the device and you have read/write access to "
+"the device."
+msgstr ""
+"Liitännän %d (%s) vaatiminen epäonnistui. Varmista, että mikään toinen "
+"ohjelma (%s) tai käyttöjärjestelmämoduuli (sellainen kuin %s) ei käytä "
+"laitetta ja sinulla on laitteeseen luku- tai kirjoitusoikeus."
 
-#: usb/libusb.c:307 libusb1/libusb1.c:415
+#: usb/libusb.c:311 libusb1/libusb1.c:437
 msgid "MacOS PTPCamera service"
 msgstr "MacOS PTPCamera-palvelu"
 
-#: usb/libusb.c:309 libusb1/libusb1.c:417
+#: usb/libusb.c:313 libusb1/libusb1.c:439
 msgid "unknown libgphoto2 using program"
 msgstr "tuntematon libgphoto2-kirjastoa käyttävä ohjelma"
 
-#: usb/libusb.c:326 libusb1/libusb1.c:484
+#: usb/libusb.c:330 libusb1/libusb1.c:508
 #, c-format
 msgid "Could not release interface %d (%s)."
 msgstr "Liitännän %d (%s) vapauttaminen epäonnistui."
 
-#: usb/libusb.c:341 libusb1/libusb1.c:498
+#: usb/libusb.c:345 libusb1/libusb1.c:522
 #, c-format
 msgid "Could not reset USB port (%s)."
 msgstr "USB-portin (%s) nollaus epäonnistui."
 
-#: usb/libusb.c:371
+#: usb/libusb.c:375
 #, c-format
 msgid "Could not close USB port (%s)."
 msgstr "USB-portin (%s) sulkeminen epäonnistui."
 
-#: usb/libusb.c:632 libusb1/libusb1.c:839
+#: usb/libusb.c:637 libusb1/libusb1.c:965
 #, c-format
 msgid "Could not set config %d/%d (%s)"
 msgstr "Asetuksen %d/%d (%s) asettaminen epäonnistui"
 
-#: usb/libusb.c:663 libusb1/libusb1.c:868
+#: usb/libusb.c:668 libusb1/libusb1.c:994
 #, c-format
 msgid "Could not set altsetting from %d to %d (%s)"
 msgstr "Asetuksen altsetting asetus arvosta %d arvoon %d (%s) epäonnistui"
 
-#: usb/libusb.c:752 libusb1/libusb1.c:1033
+#: usb/libusb.c:757 libusb1/libusb1.c:1159
 #, c-format
 msgid "The supplied vendor or product id (0x%x,0x%x) is not valid."
 msgstr "Tarjottu toimittaja- tai tuotetunniste (0x%x,0x%x) ei ole kelvollinen."
 
-#: usb/libusb.c:823 usb/libusb.c:909 libusb1/libusb1.c:1002
-#: libusb1/libusb1.c:1094
+#: usb/libusb.c:828 usb/libusb.c:914 libusb1/libusb1.c:1128
+#: libusb1/libusb1.c:1220
 #, c-format
-msgid "Could not find USB device (vendor 0x%x, product 0x%x). Make sure this device is connected to the computer."
-msgstr "USB-laitetta (toimittaja 0x%x, tuote 0x%x) ei löydetty. Varmista, että laite on liitetty tietokoneeseen."
+msgid ""
+"Could not find USB device (vendor 0x%x, product 0x%x). Make sure this device "
+"is connected to the computer."
+msgstr ""
+"USB-laitetta (toimittaja 0x%x, tuote 0x%x) ei löydetty. Varmista, että laite "
+"on liitetty tietokoneeseen."
 
-#: usb/libusb.c:1202 libusb1/libusb1.c:1383
+#: usb/libusb.c:1207 libusb1/libusb1.c:1509
 #, c-format
-msgid "Could not find USB device (class 0x%x, subclass 0x%x, protocol 0x%x). Make sure this device is connected to the computer."
-msgstr "USB-laitetta (luokka 0x%x, aliluokka 0x%x, yhteyskäytäntö 0x%x) ei löydetty. Varmista, että laite on liitetty tietokoneeseen."
+msgid ""
+"Could not find USB device (class 0x%x, subclass 0x%x, protocol 0x%x). Make "
+"sure this device is connected to the computer."
+msgstr ""
+"USB-laitetta (luokka 0x%x, aliluokka 0x%x, yhteyskäytäntö 0x%x) ei löydetty. "
+"Varmista, että laite on liitetty tietokoneeseen."
 
-#: libusb1/libusb1.c:391
+#: libusb1/libusb1.c:413
 msgid "Could not detach kernel driver of camera device."
 msgstr "Kameralaitteen käyttöjärjestelmäajurin irrottaminen epäonnistui."
 
-#: libusb1/libusb1.c:507
+#: libusb1/libusb1.c:531
 msgid "Could not reattach kernel driver of camera device."
-msgstr "Kameralaitteen käyttöjärjestelmäajurin liittäminen uudelleen epäonnistui."
+msgstr ""
+"Kameralaitteen käyttöjärjestelmäajurin liittäminen uudelleen epäonnistui."
 
 #: usbscsi/linux.c:108
 #, c-format
@@ -465,7 +481,9 @@ msgstr "Scsi-komennon lähettäminen kohteeseen: ’%s’ (%m) epäonnistui."
 #~ msgstr "Kirjastotiedostonimen ’%s’ (’%s’) lataus epäonnistui."
 
 #~ msgid "Could not find 'gp_port_library_operations' in '%s' ('%s')"
-#~ msgstr "Ei löydetty ’gp_port_library_operations’ kirjastotiedostonimestä ’%s’ (’%s’)"
+#~ msgstr ""
+#~ "Ei löydetty ’gp_port_library_operations’ kirjastotiedostonimestä "
+#~ "’%s’ (’%s’)"
 
 #  Parametrina on SERIAL tai USB
 #~ msgid "Opening %s port..."
@@ -542,7 +560,8 @@ msgstr "Scsi-komennon lähettäminen kohteeseen: ’%s’ (%m) epäonnistui."
 #~ msgstr "Nollaa halt-tila..."
 
 #~ msgid "Writing message (request=0x%x value=0x%x index=0x%x size=%i=0x%x)..."
-#~ msgstr "Kirjoitetaan viesti (pyyntö=0x%x arvo=0x%x indeksi=0x%x koko=%i=0x%x)..."
+#~ msgstr ""
+#~ "Kirjoitetaan viesti (pyyntö=0x%x arvo=0x%x indeksi=0x%x koko=%i=0x%x)..."
 
 #~ msgid "Reading message (request=0x%x value=0x%x index=0x%x size=%i=0x%x)..."
 #~ msgstr "Luetaan viesti (pyyntö=0x%x arvo=0x%x indeksi=0x%x koko=%i=0x%x)..."
@@ -553,8 +572,12 @@ msgstr "Scsi-komennon lähettäminen kohteeseen: ’%s’ (%m) epäonnistui."
 #~ msgid "Device has driver '%s' attached, detaching it now."
 #~ msgstr "Laitteeseen on liitetty ajuri ’%s’, irrotetaan se nyt."
 
-#~ msgid "USB device (vendor 0x%x, product 0x%x) is a mass storage device, and might not function with gphoto2. Reference: %s"
-#~ msgstr "USB-laite (toimittaja 0x%x, tuote 0x%x) on massatallennuslaite, ja ei ehkä toimi gphoto2:n kanssa. Viite: %s"
+#~ msgid ""
+#~ "USB device (vendor 0x%x, product 0x%x) is a mass storage device, and "
+#~ "might not function with gphoto2. Reference: %s"
+#~ msgstr ""
+#~ "USB-laite (toimittaja 0x%x, tuote 0x%x) on massatallennuslaite, ja ei "
+#~ "ehkä toimi gphoto2:n kanssa. Viite: %s"
 
 #~ msgid "Device has a kernel driver attached (%d), detaching it now."
 #~ msgstr "Laitteen käyttöjärjestelmäajuri on liitetty (%d), irrota se nyt."

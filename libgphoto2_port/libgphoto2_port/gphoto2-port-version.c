@@ -30,7 +30,7 @@ const char **gp_port_library_version(GPVersionVerbosity verbose)
 	static const char *shrt[] =
 		{
 			PACKAGE_VERSION,
-			"iolibs: " IOLIB_LIST,
+			"iolibs: "  "ptpip",
 #ifdef HAVE_CC
 			HAVE_CC,
 #else
@@ -67,7 +67,7 @@ const char **gp_port_library_version(GPVersionVerbosity verbose)
 	static const char *verb[] =
 		{
 			PACKAGE_VERSION,
-			"iolibs: " IOLIB_LIST,
+			"iolibs: "  "ptpip",
 #ifdef HAVE_CC
 			HAVE_CC " (C compiler used)",
 #else

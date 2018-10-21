@@ -32,7 +32,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <ltdl.h>
+#if !defined(IOS_BUILD)
+    #include <ltdl.h>
+#endif
 
 #include <gphoto2/gphoto2-port-result.h>
 #include <gphoto2/gphoto2-port-library.h>
@@ -70,6 +72,8 @@
  * \brief Internal private libgphoto2_port data.
  * This structure contains private data.
  **/
+
+#if !defined(IOS_BUILD)
 struct _GPPortPrivateCore {
 	char error[2048];	/**< Internal kept error message. */
 
@@ -77,6 +81,15 @@ struct _GPPortPrivateCore {
 	GPPortOperations *ops;	/**< Internal port operations. */
 	lt_dlhandle lh;		/**< Internal libtool library handle. */
 };
+#else
+struct _GPPortPrivateCore {
+    char error[2048];    /**< Internal kept error message. */
+    
+    struct _GPPortInfo info;    /**< Internal port information of this port. */
+    GPPortOperations *ops;    /**< Internal port operations. */
+};
+#endif
+
 
 /**
  * \brief Create new GPPort
@@ -170,13 +183,17 @@ gp_port_set_info (GPPort *port, GPPortInfo info)
 		free (port->pc->ops);
 		port->pc->ops = NULL;
 	}
+    
+#if !defined(IOS_BUILD)
 	if (port->pc->lh) {
 #if !defined(VALGRIND)
 		lt_dlclose (port->pc->lh);
 		lt_dlexit ();
 #endif
 	}
+#endif
 
+#if !defined(IOS_BUILD)
 	lt_dlinit ();
 	port->pc->lh = lt_dlopenext (info->library_filename);
 	if (!port->pc->lh) {
@@ -185,7 +202,6 @@ gp_port_set_info (GPPort *port, GPPortInfo info)
 		return (GP_ERROR_LIBRARY);
 	}
 
-	/* Load the operations */
 	ops_func = lt_dlsym (port->pc->lh, "gp_port_library_operations");
 	if (!ops_func) {
 		GP_LOG_E ("Could not find 'gp_port_library_operations' in '%s' ('%s')",
@@ -195,9 +211,14 @@ gp_port_set_info (GPPort *port, GPPortInfo info)
 		port->pc->lh = NULL;
 		return (GP_ERROR_LIBRARY);
 	}
+#else
+    
+    ops_func =  gp_port_library_operations;
 	port->pc->ops = ops_func ();
 	gp_port_init (port);
-
+    
+#endif
+    
 	/* Initialize the settings to some default ones */
 	switch (info->type) {
 	case GP_PORT_SERIAL:
@@ -355,6 +376,7 @@ gp_port_free (GPPort *port)
 			port->pc->ops = NULL;
 		}
 
+#if !defined(IOS_BUILD)
 		if (port->pc->lh) {
 #if !defined(VALGRIND)
 			lt_dlclose (port->pc->lh);
@@ -362,6 +384,7 @@ gp_port_free (GPPort *port)
 #endif
 			port->pc->lh = NULL;
 		}
+#endif
 
 		free (port->pc->info.name);
 		free (port->pc->info.path);

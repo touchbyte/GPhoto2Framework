@@ -29,7 +29,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <ltdl.h>
+#if !defined(IOS_BUILD)
+    #include <ltdl.h>
+#endif
 
 #include <gphoto2/gphoto2-result.h>
 #include <gphoto2/gphoto2-port-log.h>
@@ -66,7 +68,9 @@ struct _CameraAbilitiesList {
 };
 
 /** \internal */
+#if !defined(IOS_BUILD)
 static int gp_abilities_list_lookup_id (CameraAbilitiesList *, const char *);
+#endif
 /** \internal */
 static int gp_abilities_list_sort      (CameraAbilitiesList *);
 
@@ -140,6 +144,7 @@ typedef struct {
 } foreach_data_t;
 
 
+#if !defined(IOS_BUILD)
 static int
 foreach_func (const char *filename, lt_ptr data)
 {
@@ -151,6 +156,7 @@ foreach_func (const char *filename, lt_ptr data)
 
 	return ((fd->result == GP_OK)?0:1);
 }
+#endif
 
 
 int
@@ -163,12 +169,13 @@ gp_abilities_list_load_dir (CameraAbilitiesList *list, const char *dir,
 	int ret, x, old_count, new_count;
 	int i, p;
 	const char *filename;
-	CameraList *flist;
 	int count;
-	lt_dlhandle lh;
 
 	C_PARAMS (list && dir);
 
+#if !defined(IOS_BUILD)
+    lt_dlhandle lh;
+    CameraList *flist;
 	GP_LOG_D ("Using ltdl to load camera libraries from '%s'...", dir);
 	CHECK_RESULT (gp_list_new (&flist));
 	ret = gp_list_reset (flist);
@@ -284,6 +291,28 @@ gp_abilities_list_load_dir (CameraAbilitiesList *list, const char *dir,
 	lt_dlexit ();
 	gp_list_free (flist);
 
+#else
+    count = 0;
+    filename = strdup("ptp2");
+    p = gp_context_progress_start (context, count, _("Loading interal camera driver '%s'..."), filename);
+    id = camera_id;
+    ab = camera_abilities;
+    i = 1;
+    id (&text);
+    old_count = gp_abilities_list_count (list);
+    ab (list);
+    new_count = gp_abilities_list_count (list);
+    for (x = old_count; x < new_count; x++) {
+        strcpy (list->abilities[x].id, text.text);
+        strcpy (list->abilities[x].library, filename);
+    }
+    gp_context_progress_update (context, p, i);
+    if (gp_context_cancel (context) == GP_CONTEXT_FEEDBACK_CANCEL) {
+        return (GP_ERROR_CANCEL);
+    }
+    gp_context_progress_stop (context, p);
+#endif
+    
 	return (GP_OK);
 }
 
@@ -582,6 +611,7 @@ gp_abilities_list_sort (CameraAbilitiesList *list)
 }
 
 
+#if !defined(IOS_BUILD)
 static int
 gp_abilities_list_lookup_id (CameraAbilitiesList *list, const char *id)
 {
@@ -595,6 +625,7 @@ gp_abilities_list_lookup_id (CameraAbilitiesList *list, const char *id)
 
 	return (GP_ERROR);
 }
+#endif
 
 
 /**

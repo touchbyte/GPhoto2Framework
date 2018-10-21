@@ -30,7 +30,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <_stdint.h>
+#include <stdint.h>
 
 #include <libxml/parser.h>
 
@@ -1404,10 +1404,12 @@ olympus_setup (PTPParams *params) {
 	outerparams->getdata_func	= ums_wrap_getdata;
 	outerparams->getdata_func	= ums_wrap_getdata;
 
+#if !defined(IOS_BUILD)
 	/* events come just as PTP events */
 	outerparams->event_check	= ptp_usb_event_check;
 	outerparams->event_wait		= ptp_usb_event_wait;
-
+#endif
+    
 	return PTP_RC_OK;
 }
 #endif /* HAVE_LIBXML2 */

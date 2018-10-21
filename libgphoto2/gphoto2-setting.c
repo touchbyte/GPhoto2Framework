@@ -176,7 +176,11 @@ load_settings (void)
 	SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buf);
 	strcat (buf, "\\.gphoto");
 #else
+#if !defined(IOS_BUILD)
 	snprintf (buf, sizeof(buf), "%s/.gphoto", getenv ("HOME"));
+#else
+    snprintf (buf, sizeof(buf), "%s/.gphoto", getenv ("TMPDIR"));
+#endif
 #endif
 	GP_LOG_D ("Creating gphoto config directory ('%s')", buf);
 	(void)gp_system_mkdir (buf);
@@ -186,7 +190,11 @@ load_settings (void)
 	SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buf);
 	strcat(buf, "\\.gphoto\\settings");
 #else
+#if !defined(IOS_BUILD)
 	snprintf(buf, sizeof(buf), "%s/.gphoto/settings", getenv("HOME"));
+#else
+    snprintf(buf, sizeof(buf), "%s/.gphoto/settings", getenv("TMPDIR"));
+#endif
 #endif
 
 	if (verify_settings(buf) != GP_OK)
@@ -233,7 +241,11 @@ save_settings (void)
 	SHGetFolderPath(NULL, CSIDL_PROFILE, NULL, 0, buf);
 	strcat(buf, "\\.gphoto\\settings");
 #else
+#if !defined(IOS_BUILD)
 	snprintf (buf, sizeof(buf), "%s/.gphoto/settings", getenv ("HOME"));
+#else
+    snprintf (buf, sizeof(buf), "%s/.gphoto/settings", getenv ("TMPDIR"));
+#endif
 #endif
 
 

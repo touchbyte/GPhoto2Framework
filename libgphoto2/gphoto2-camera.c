@@ -32,7 +32,9 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include <ltdl.h>
+#if !defined(IOS_BUILD)
+    #include <ltdl.h>
+#endif
 
 #include <gphoto2/gphoto2-result.h>
 #include <gphoto2/gphoto2-library.h>
@@ -216,6 +218,7 @@
 		CR((c), gp_camera_init (c, ctx), ctx);			\
 }
 
+#if !defined(IOS_BUILD)
 struct _CameraPrivateCore {
 
 	/* Some information about the port */
@@ -242,6 +245,33 @@ struct _CameraPrivateCore {
 	unsigned int          *timeout_ids;
 	unsigned int           timeout_ids_len;
 };
+#else
+struct _CameraPrivateCore {
+    
+    /* Some information about the port */
+    unsigned int speed;
+    
+    /* The abilities of this camera */
+    CameraAbilities a;
+    int lh;;
+
+    
+    char error[2048];
+    
+    unsigned int ref_count;
+    unsigned char used;
+    unsigned char exit_requested;
+    
+    int initialized;
+    
+    /* Timeout functions */
+    CameraTimeoutStartFunc timeout_start_func;
+    CameraTimeoutStopFunc  timeout_stop_func;
+    void                  *timeout_data;
+    unsigned int          *timeout_ids;
+    unsigned int           timeout_ids_len;
+};
+#endif
 
 
 /**
@@ -292,6 +322,7 @@ gp_camera_exit (Camera *camera, GPContext *context)
 	gp_port_close (camera->port);
 	memset (camera->functions, 0, sizeof (CameraFunctions));
 
+#if !defined(IOS_BUILD)
 	if (camera->pc->lh) {
 #if !defined(VALGRIND)
 		lt_dlclose (camera->pc->lh);
@@ -299,6 +330,9 @@ gp_camera_exit (Camera *camera, GPContext *context)
 #endif
 		camera->pc->lh = NULL;
 	}
+#else
+    camera->pc->lh = 0;
+#endif
 
 	gp_filesystem_reset (camera->fs);
 
@@ -790,6 +824,7 @@ gp_camera_init (Camera *camera, GPContext *context)
 		}
 	}
 
+#if !defined(IOS_BUILD)
 	/* Load the library. */
 	GP_LOG_D ("Loading '%s'...", camera->pc->a.library);
 	lt_dlinit ();
@@ -833,7 +868,31 @@ gp_camera_init (Camera *camera, GPContext *context)
 		memset (camera->functions, 0, sizeof (CameraFunctions));
 		return (result);
 	}
+#else
+    init_func = camera_init;
+    camera->pc->lh = 1;
+    if (!init_func) {
+        gp_context_error (context, _("Camera driver '%s' is "
+                                     "missing the 'camera_init' function."),
+                          camera->pc->a.library);
+        return (GP_ERROR_LIBRARY);
+    }
+    
+    if (strcasecmp (camera->pc->a.model, "Directory Browse")) {
+        result = gp_port_open (camera->port);
+        if (result < 0) {
+            return (result);
+        }
+    }
+    
+    result = init_func (camera, context);
+    if (result < 0) {
+        gp_port_close (camera->port);
+        memset (camera->functions, 0, sizeof (CameraFunctions));
+        return (result);
+    }
 
+#endif
 	/* We don't care if that goes wrong */
 #ifdef HAVE_MULTI
 	gp_port_close (camera->port);

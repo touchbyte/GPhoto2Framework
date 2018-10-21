@@ -55,6 +55,10 @@
 #include "ptp.h"
 #include "ptp-private.h"
 
+#if defined(IOS_BUILD)
+#include <sys/time.h>
+#endif
+
 #define PTPIP_VERSION_MAJOR 0x0001
 #define PTPIP_VERSION_MINOR 0x0000
 
@@ -444,6 +448,9 @@ ptp_ptpip_init_command_request (PTPParams* params)
 #if !defined (WIN32)
 	if (gethostname (hostname, sizeof(hostname)))
 		return PTP_RC_GeneralError;
+    #if defined(IOS_BUILD)
+        strcat(hostname, " (PhotoSync)");
+    #endif
 #else
 	strcpy (hostname, "gpwindows");
 #endif

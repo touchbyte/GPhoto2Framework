@@ -8166,6 +8166,7 @@ camera_init (Camera *camera, GPContext *context)
 
 
 	switch (camera->port->type) {
+#if !defined(IOS_BUILD)
 	case GP_PORT_USB:
 		params->sendreq_func	= ptp_usb_sendreq;
 		params->senddata_func	= ptp_usb_senddata;
@@ -8187,6 +8188,7 @@ camera_init (Camera *camera, GPContext *context)
 #endif
 		}
 		break;
+#endif
 	case GP_PORT_PTPIP: {
 		GPPortInfo	info;
 		char 		*xpath;
@@ -8262,17 +8264,20 @@ camera_init (Camera *camera, GPContext *context)
 			/* Try a couple sessionids starting with 1 */
 			if (tries < 10)
 				continue;
-
+#if !defined(IOS_BUILD)
 			if (tries < 11 && camera->port->type == GP_PORT_USB) {
 				/* Try whacking PTP device */
 				ptp_usb_control_device_reset_request (&camera->pl->params);
 				sessionid = 1;
 				continue;
 			}
+#endif
 		} else if ((ret == PTP_ERROR_RESP_EXPECTED) || (ret == PTP_ERROR_IO)) {
 			/* Try whacking PTP device */
+#if !defined(IOS_BUILD)
 			if (tries < 3 && camera->port->type == GP_PORT_USB)
 				ptp_usb_control_device_reset_request (params);
+#endif
 		}
 
 		if (tries < 3)

@@ -35,7 +35,9 @@
 #warning We need regex.h, but it has not been detected.
 #endif
 
-#include <ltdl.h>
+#if !defined(IOS_BUILD)
+    #include <ltdl.h>
+#endif
 
 #include <gphoto2/gphoto2-port-result.h>
 #include <gphoto2/gphoto2-port-library.h>
@@ -189,7 +191,7 @@ gp_port_info_list_append (GPPortInfoList *list, GPPortInfo info)
         return (list->count - 1 - generic);
 }
 
-
+#if !defined(IOS_BUILD)
 static int
 foreach_func (const char *filename, lt_ptr data)
 {
@@ -254,6 +256,7 @@ foreach_func (const char *filename, lt_ptr data)
 
 	return (0);
 }
+#endif
 
 
 /**
@@ -277,11 +280,19 @@ gp_port_info_list_load (GPPortInfoList *list)
 
 	C_PARAMS (list);
 
-	GP_LOG_D ("Using ltdl to load io-drivers from '%s'...", iolibs);
-	lt_dlinit ();
-	lt_dladdsearchdir (iolibs);
-	result = lt_dlforeachfile (iolibs, foreach_func, list);
-	lt_dlexit ();
+#if !defined(IOS_BUILD)
+    GP_LOG_D ("Using ltdl to load io-drivers from '%s'...", iolibs);
+    lt_dlinit ();
+    lt_dladdsearchdir (iolibs);
+    result = lt_dlforeachfile (iolibs, foreach_func, list);
+    lt_dlexit ();
+#else
+    GP_LOG_D ("Loading compiled in PTP/IP driver...");
+    result = gp_port_library_list(list);
+    list->iolib_count = 1;
+    list->info[1]->library_filename = strdup("ptpip");
+#endif
+    
 	if (result < 0)
 		return (result);
 	if (list->iolib_count == 0) {
