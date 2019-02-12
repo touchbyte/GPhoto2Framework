@@ -394,7 +394,7 @@ camera_prepare_canon_eos_capture(Camera *camera, GPContext *context) {
 
 	GP_LOG_D ("preparing EOS capture...");
 
-	C_PTP (ptp_canon_eos_setremotemode(params, 1));
+	C_PTP (ptp_canon_eos_setremotemode(params, 15));
 	C_PTP (ptp_canon_eos_seteventmode(params, 1));
 	params->eos_camerastatus = -1;	/* aka unknown */
 
@@ -467,7 +467,7 @@ camera_prepare_canon_eos_capture(Camera *camera, GPContext *context) {
 
 		C_PTP (ptp_canon_eos_seteventmode(params, 2));
 		ct_val.u16 = 0x0008;
-		C_PTP (ptp_canon_eos_setdevicepropvalue (params, PTP_DPC_CANON_EOS_EVFOutputDevice, &ct_val, PTP_DTC_UINT16));
+	//	C_PTP (ptp_canon_eos_setdevicepropvalue (params, PTP_DPC_CANON_EOS_EVFOutputDevice, &ct_val, PTP_DTC_UINT16));
 
 #ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		usleep(1000*1000); /* 1 second */

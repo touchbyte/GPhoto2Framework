@@ -8251,7 +8251,7 @@ camera_init (Camera *camera, GPContext *context)
 	SET_CONTEXT(camera, context);
 
 	tries = 0;
-	sessionid = 1;
+	sessionid = 0x41;
 	while (1) {
 		ret = LOG_ON_PTP_E (ptp_opensession (params, sessionid));
 		if (ret == PTP_RC_SessionAlreadyOpened || ret == PTP_RC_OK)
@@ -8327,7 +8327,7 @@ camera_init (Camera *camera, GPContext *context)
 	CR (fixup_cached_deviceinfo (camera,&params->deviceinfo));
 
 	print_debug_deviceinfo(params, &params->deviceinfo);
-
+    
 	switch (params->deviceinfo.VendorExtensionID) {
 	case PTP_VENDOR_CANON:
 #if 0
@@ -8348,7 +8348,7 @@ camera_init (Camera *camera, GPContext *context)
 			return chdk_init (camera, context);
 
 		if (ptp_operation_issupported(params, PTP_OC_CANON_EOS_SetRemoteMode)) {
-			if (is_canon_eos_m(params)) {
+		//	if (is_canon_eos_m(params)) {
 				C_PTP (ptp_canon_eos_setremotemode(params, 0x15));
 
 				/* Setting remote mode changes device info on EOS M2,
@@ -8356,10 +8356,15 @@ camera_init (Camera *camera, GPContext *context)
 				C_PTP (ptp_getdeviceinfo(&camera->pl->params, &camera->pl->params.deviceinfo));
 				CR (fixup_cached_deviceinfo (camera, &camera->pl->params.deviceinfo));
 				print_debug_deviceinfo(params, &params->deviceinfo);
-			} else {
-				C_PTP (ptp_canon_eos_setremotemode(params, 1));
+		//	} else {
+             //   C_PT P (ptp_canon_eos_setremotemode(params, 0x5));
+		//		C_PTP (ptp_canon_eos_setremotemode(params, 1));
 			}
-		}
+              ptp_generic_no_data(params,PTP_OC_CANON_902F,0);
+           //   C_PTP (ptp_canon_eos_seteventmode(params, 1));
+//            C_PTP (ptp_canon_eos_setrequestolcinfogroup(params, 0x00000fff));
+		
+
 		break;
 	case PTP_VENDOR_NIKON:
 		if (ptp_operation_issupported(params, PTP_OC_NIKON_CurveDownload))

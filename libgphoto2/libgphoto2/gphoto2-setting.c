@@ -179,7 +179,7 @@ load_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf (buf, sizeof(buf), "%s/.gphoto", getenv ("HOME"));
 #else
-    snprintf (buf, sizeof(buf), "%s/.gphoto", getenv ("TMPDIR"));
+    snprintf (buf, sizeof(buf), "%s/Library/.gphoto", getenv ("HOME"));
 #endif
 #endif
 	GP_LOG_D ("Creating gphoto config directory ('%s')", buf);
@@ -193,7 +193,7 @@ load_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf(buf, sizeof(buf), "%s/.gphoto/settings", getenv("HOME"));
 #else
-    snprintf(buf, sizeof(buf), "%s/.gphoto/settings", getenv("TMPDIR"));
+    snprintf(buf, sizeof(buf), "%s/Library/.gphoto/settings", getenv("HOME"));
 #endif
 #endif
 
@@ -244,7 +244,7 @@ save_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf (buf, sizeof(buf), "%s/.gphoto/settings", getenv ("HOME"));
 #else
-    snprintf (buf, sizeof(buf), "%s/.gphoto/settings", getenv ("TMPDIR"));
+    snprintf (buf, sizeof(buf), "%s/Library/.gphoto/settings", getenv ("HOME"));
 #endif
 #endif
 

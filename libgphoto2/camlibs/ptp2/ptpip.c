@@ -432,6 +432,19 @@ retry:
 	return PTP_RC_OK;
 }
 
+void prepend(char* s, const char* t)
+{
+    size_t len = strlen(t);
+    size_t i;
+    
+    memmove(s + len, s, strlen(s) + 1);
+    
+    for (i = 0; i < len; ++i)
+    {
+        s[i] = t[i];
+    }
+}
+
 #define ptpip_initcmd_guid	8
 #define ptpip_initcmd_name	24
 
@@ -449,7 +462,7 @@ ptp_ptpip_init_command_request (PTPParams* params)
 	if (gethostname (hostname, sizeof(hostname)))
 		return PTP_RC_GeneralError;
     #if defined(IOS_BUILD)
-        strcat(hostname, " (PhotoSync)");
+        prepend (hostname, "PhotoSync-");
     #endif
 #else
 	strcpy (hostname, "gpwindows");
