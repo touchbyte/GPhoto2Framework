@@ -776,6 +776,7 @@ ptp_ptpip_connect (PTPParams* params, const char *address) {
 	saddr.sin_family	= AF_INET;
 	free (addr);
 	params->cmdfd = socket (PF_INET, SOCK_STREAM, 0);
+    
 	if (params->cmdfd == -1) {
 		perror ("socket cmd");
 		return GP_ERROR_BAD_PARAMETERS;

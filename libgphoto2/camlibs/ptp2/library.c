@@ -7466,6 +7466,10 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 			(ptp_operation_issupported(params,PTP_OC_CANON_EOS_GetPartialObject)) &&
 			(size > BLOBSIZE)
 		) {
+            
+                int id;
+                id = gp_context_progress_start(context, size, "Starting get file progress for %s",filename);
+
 				unsigned char	*ximage = NULL;
 				uint32_t 	offset = 0;
 
@@ -7479,7 +7483,9 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 					free (ximage);
 					ximage = NULL;
 					offset += xsize;
+                    gp_context_progress_update(context, id, offset);
 				}
+                gp_context_progress_stop(context, id);
 				goto done;
 		}
 #undef BLOBSIZE
