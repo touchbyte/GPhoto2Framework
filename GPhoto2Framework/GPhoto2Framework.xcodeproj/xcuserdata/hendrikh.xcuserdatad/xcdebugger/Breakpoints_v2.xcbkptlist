@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GPhoto2Example/ViewController.m"
-            timestampString = "566321363.80928"
+            timestampString = "573433987.016561"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
             landmarkName = "-connectCamera"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../libgphoto2/libgphoto2/gphoto2-camera.c"
-            timestampString = "566321363.810106"
+            timestampString = "573433987.0170979"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "888"
@@ -49,38 +49,6 @@
             endingLineNumber = "397"
             landmarkName = "camera_prepare_canon_eos_capture"
             landmarkType = "9">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "camera_prepare_canon_eos_capture"
-                  moduleName = "gphoto2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
-                  timestampString = "566321365.224324"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "397"
-                  endingLineNumber = "397"
-                  offsetFromSymbolStart = "77">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "camera_prepare_canon_eos_capture"
-                  moduleName = "gphoto2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
-                  timestampString = "566321365.228935"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "397"
-                  endingLineNumber = "397"
-                  offsetFromSymbolStart = "108">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -105,13 +73,13 @@
                   symbolName = "camera_prepare_canon_eos_capture"
                   moduleName = "gphoto2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
-                  timestampString = "566321365.2346621"
+                  urlString = "file:///Users/hendrikh/Desktop/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
+                  timestampString = "573433989.1771179"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
                   endingLineNumber = "443"
-                  offsetFromSymbolStart = "2022">
+                  offsetFromSymbolStart = "2931">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -120,13 +88,13 @@
                   symbolName = "camera_prepare_canon_eos_capture"
                   moduleName = "gphoto2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
-                  timestampString = "566321365.238363"
+                  urlString = "file:///Users/hendrikh/Desktop/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
+                  timestampString = "573433989.179587"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
                   endingLineNumber = "443"
-                  offsetFromSymbolStart = "2032">
+                  offsetFromSymbolStart = "2972">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -138,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GPhoto2Example/ViewController.m"
-            timestampString = "566321363.810268"
+            timestampString = "573433987.017301"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "-connectCamera"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,13 +122,77 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "GPhoto2Example/ViewController.m"
-            timestampString = "566321363.810504"
+            timestampString = "573433987.01767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
             landmarkName = "-connectCamera"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/ptp2/library.c"
+            timestampString = "573433987.0184489"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "8559"
+            endingLineNumber = "8559"
+            landmarkName = "camera_init"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/ptp2/library.c"
+            timestampString = "573434031.359385"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "8600"
+            endingLineNumber = "8600"
+            landmarkName = "camera_init"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/ptp2/library.c"
+            timestampString = "573434034.549929"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "8613"
+            endingLineNumber = "8613"
+            landmarkName = "camera_init"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/ptp2/library.c"
+            timestampString = "573434096.905272"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "8644"
+            endingLineNumber = "8644"
+            landmarkName = "camera_init"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
