@@ -4,8 +4,8 @@ AC_PREREQ(2.59)
 dnl NOTE: Be version style _higher_ than the last release.
 dnl       So lastversion.X.trunk for instance. Bump X if necessary.
 
-dnl ******* THE NEXT RELEASE VERSION MUST BE 2.5.20 at least or higher!
-AC_INIT([libgphoto2 photo camera library], [2.5.19.1], [gphoto-devel@lists.sourceforge.net], [libgphoto2])
+dnl ******* THE NEXT RELEASE VERSION MUST BE 2.5.23 at least or higher!
+AC_INIT([libgphoto2 photo camera library], [2.5.22.1], [gphoto-devel@lists.sourceforge.net], [libgphoto2])
 
 AC_CONFIG_SRCDIR([libgphoto2/gphoto2-version.c])
 AC_CONFIG_HEADERS([config.h])
@@ -249,6 +249,9 @@ dnl FIXME: What is this good for?
 dnl Replace `main' with a function in -libs:
 dnl ---------------------------------------------------------------------------
 AC_CHECK_LIB(ibs, main)
+
+dnl we use some libm functions in some drivers, so just add -lm
+AC_CHECK_LIB(m, sqrt)
 
 
 dnl ---------------------------------------------------------------------------

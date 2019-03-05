@@ -56,14 +56,16 @@
 
 static int
 blink2_getnumpics(
-    GPPort *port, GPContext *context,int *numpics
+    GPPort *port, GPContext *context, unsigned int *numpics
 ) {
-    char buf[6];
+    unsigned char buf[2];
     int ret;
     
-    ret = gp_port_usb_msg_read(port, BLINK2_GET_NUMPICS, 0x03, 0, buf, 2);
-    if (ret<GP_OK)
+    ret = gp_port_usb_msg_read(port, BLINK2_GET_NUMPICS, 0x03, 0, (char*)buf, 2);
+    if (ret < GP_OK)
 	return ret;
+    gp_log(GP_LOG_DEBUG, "blink2","ret is %d", ret);
+    if (ret < 2) return GP_ERROR_IO_READ;
     *numpics = (buf[0]<<8) | buf[1];
     return GP_OK;
 }
@@ -92,8 +94,9 @@ static int
 file_list_func (CameraFilesystem *fs, const char *folder, CameraList *list,
 		void *data, GPContext *context)
 {
-	Camera *camera = data;
-	int	i, ret, numpics, bytes;
+	Camera		*camera = data;
+	int		i, ret;
+	unsigned int	bytes, numpics;
 	unsigned char	*xbuf, buf[8];
 
 	ret = blink2_getnumpics( camera->port, context, &numpics );
@@ -106,11 +109,13 @@ file_list_func (CameraFilesystem *fs, const char *folder, CameraList *list,
 		free(xbuf);
 		return ret;
 	}
+	if (ret < 1) return GP_ERROR_IO_READ;
 	ret = gp_port_read( camera->port, (char*)xbuf, bytes);
 	if (ret < GP_OK) {
 		free(xbuf);
 		return ret;
 	}
+	if (ret < bytes) return GP_ERROR_IO_READ;
 	for ( i=0; i < numpics; i++) {
 		char name[20];
 		if (xbuf[8*(i+1)])
@@ -120,7 +125,7 @@ file_list_func (CameraFilesystem *fs, const char *folder, CameraList *list,
 		gp_list_append( list, name, NULL);
 	}
 	free(xbuf);
-	return (GP_OK);
+	return GP_OK;
 }
 
 static int
@@ -130,7 +135,8 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 {
 	Camera *camera = data;
         int image_no, result;
-	int	i, ret, numpics, bytes;
+	int	i, ret;
+	unsigned int numpics, bytes;
 	unsigned char	*xbuf, buf[8];
 
 	struct xaddr {
@@ -155,12 +161,14 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 		free(xbuf);
 		return ret;
 	}
+	if (ret < 1) return GP_ERROR_IO_READ;
 	ret = gp_port_read (camera->port, (char*)xbuf, bytes);
 	if (ret < GP_OK) {
 		free(addrs);
 		free(xbuf);
 		return ret;
 	}
+	if (ret < bytes) return GP_ERROR_IO_READ;
 	for ( i=0; i < numpics; i++) {
 		int end, start;
 
@@ -355,14 +363,16 @@ delete_all_func (CameraFilesystem *fs, const char *folder, void *data,
 	ret = gp_port_usb_msg_read( camera->port, BLINK2_DELETE_ALL, 0x03, 0, buf, 1);
 	if (ret < GP_OK)
 		return ret;
-        return (GP_OK);
+	if (ret < 1) return GP_ERROR_IO_READ;
+        return GP_OK;
 }
 
 static int
 camera_capture (Camera *camera, CameraCaptureType type, CameraFilePath *path,
                 GPContext *context)
 {
-	int oldnumpics, numpics, ret;
+	int ret;
+	unsigned int oldnumpics, numpics;
 	char buf[1];
 	
 	ret = blink2_getnumpics (camera->port, context, &oldnumpics);
@@ -372,10 +382,12 @@ camera_capture (Camera *camera, CameraCaptureType type, CameraFilePath *path,
 	ret = gp_port_usb_msg_read( camera->port, BLINK2_INIT_CAPTURE, 0x03, 0, buf, 1);
 	if (ret < GP_OK)
 		return ret;
+	if (ret < 1) return GP_ERROR_IO_READ;
 	do {
 		ret = gp_port_usb_msg_read( camera->port, BLINK2_CHECK_CAPTURE_FINISH, 0x03, 0, buf, 1);
 		if (ret < GP_OK)
 			return ret;
+		if (ret < 1) return GP_ERROR_IO_READ;
 		sleep(1);
 	} while (buf[0] == 0x00);
 
@@ -451,8 +463,10 @@ camera_init (Camera *camera, GPContext *context)
 	ret = gp_port_usb_msg_read( camera->port, BLINK2_GET_FIRMWARE_ID, 0x03, 0, buf, 6);
 	if (ret < GP_OK)
 		return ret;
+	if (ret < 6) return GP_ERROR_IO_READ;
 	ret = gp_port_usb_msg_read( camera->port, 0x04, 0x03, 0, buf, 1);
 	if (ret < GP_OK)
 		return ret;
+	if (ret < 1) return GP_ERROR_IO_READ;
 	return GP_OK;
 }

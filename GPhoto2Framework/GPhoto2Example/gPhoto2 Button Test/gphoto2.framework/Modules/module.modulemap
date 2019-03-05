@@ -1,0 +1,6 @@
+framework module gphoto2 {
+  umbrella header "gphoto2.h"
+
+  export *
+  module * { export * }
+}

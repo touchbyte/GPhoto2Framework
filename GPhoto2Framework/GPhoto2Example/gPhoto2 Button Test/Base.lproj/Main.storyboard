@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Nd4-f3-MG5">
+                                <rect key="frame" x="37.5" y="96" width="300" height="361.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ovJ-qQ-vwn">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IP:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gs3-1T-fka">
+                                        <rect key="frame" x="0.0" y="35.5" width="300" height="20.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="bi1-s0-bWx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UKH-2d-sZY">
+                                        <rect key="frame" x="0.0" y="71" width="300" height="30"/>
+                                        <state key="normal" title="Find Camera"/>
+                                        <connections>
+                                            <action selector="discoverCamera:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ywq-xm-xf7"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e4p-Fy-Ihe">
+                                        <rect key="frame" x="0.0" y="116" width="300" height="30"/>
+                                        <state key="normal" title="Check File System"/>
+                                        <connections>
+                                            <action selector="checkFileSystem:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GKd-la-cP9"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cx8-MH-LEk">
+                                        <rect key="frame" x="0.0" y="161" width="300" height="30"/>
+                                        <state key="normal" title="Get Camera Props"/>
+                                        <connections>
+                                            <action selector="cameraProperties:" destination="BYZ-38-t0r" eventType="touchUpInside" id="X6V-pF-0T4"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oGy-IM-C16">
+                                        <rect key="frame" x="0.0" y="206" width="300" height="30"/>
+                                        <state key="normal" title="Shoot &amp; Save"/>
+                                        <connections>
+                                            <action selector="shootAndSave:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LKk-iZ-Nac"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZfT-xW-C36">
+                                        <rect key="frame" x="0.0" y="251" width="300" height="30"/>
+                                        <state key="normal" title="Set CaptureRarget to Card"/>
+                                        <connections>
+                                            <action selector="setCaptureTarget:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OrM-0C-mjM"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srG-ut-Jf2">
+                                        <rect key="frame" x="0.0" y="296" width="300" height="30"/>
+                                        <state key="normal" title="Exit Connection"/>
+                                        <connections>
+                                            <action selector="exitConnectionButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9RQ-sb-oGK"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uV3-oG-QkN">
+                                        <rect key="frame" x="0.0" y="341" width="300" height="20.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="300" id="gcP-y5-QfX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Btl-Cc-keX">
+                                <rect key="frame" x="37" y="488" width="312" height="150"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="loT-C5-v6f"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="9j8-uf-TJd"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="OVL-zB-MhM"/>
+                                </connections>
+                            </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2sT-Lz-Bbc">
+                                <rect key="frame" x="177.5" y="460" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Nd4-f3-MG5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="76" id="6Ey-0e-okE"/>
+                            <constraint firstItem="Btl-Cc-keX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="37" id="Mh2-XH-rtU"/>
+                            <constraint firstItem="Btl-Cc-keX" firstAttribute="top" secondItem="2sT-Lz-Bbc" secondAttribute="bottom" constant="8" id="VgR-8c-Ecv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Btl-Cc-keX" secondAttribute="bottom" constant="29" id="ZAJ-pU-bzO"/>
+                            <constraint firstItem="Nd4-f3-MG5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lsn-04-WKp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Btl-Cc-keX" secondAttribute="trailing" constant="26" id="vEv-5w-a7h"/>
+                            <constraint firstItem="2sT-Lz-Bbc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="vdz-0T-asU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicatorView" destination="2sT-Lz-Bbc" id="Us4-Pt-MWb"/>
+                        <outlet property="cameraLabel" destination="ovJ-qQ-vwn" id="8SO-XD-pq9"/>
+                        <outlet property="cameraPropertiesButton" destination="cx8-MH-LEk" id="TsL-Er-bd1"/>
+                        <outlet property="checkFileSystemButton" destination="e4p-Fy-Ihe" id="CQY-0N-emz"/>
+                        <outlet property="exitConnectionButton" destination="srG-ut-Jf2" id="0cK-Ui-h1j"/>
+                        <outlet property="findCameraButton" destination="UKH-2d-sZY" id="gQ4-15-ZCv"/>
+                        <outlet property="iPLabel" destination="gs3-1T-fka" id="mXb-hJ-Ny0"/>
+                        <outlet property="setCaptureTargetButton" destination="ZfT-xW-C36" id="ysJ-F4-uWG"/>
+                        <outlet property="shootSaveButton" destination="oGy-IM-C16" id="fW3-MO-bm1"/>
+                        <outlet property="statusLabel" destination="uV3-oG-QkN" id="aCR-tS-Vhl"/>
+                        <outlet property="tableView" destination="Btl-Cc-keX" id="qix-UM-QsE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+</document>

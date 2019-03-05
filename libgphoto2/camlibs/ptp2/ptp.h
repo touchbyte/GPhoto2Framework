@@ -309,7 +309,8 @@ typedef struct _PTPIPHeader PTPIPHeader;
 */
 
 #define PTP_OC_CANON_GetWebServiceData		0x9069 /* no args */
-#define PTP_OC_CANON_SetWebServiceData		0x906B
+#define PTP_OC_CANON_SetWebServiceData		0x906A
+#define PTP_OC_CANON_DeleteWebServiceData	0x906B
 #define PTP_OC_CANON_GetRootCertificateSpec	0x906C /* no args */
 /*
 0000  12 00 00 00 02 00 6c 90-1a 00 00 00 00 01 6c 30  ......l.......l0
@@ -320,9 +321,11 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_OC_CANON_SetRootCertificateData	0x906F
 #define PTP_OC_CANON_GetGpsMobilelinkObjectInfo	0x9075 /* 2 args: utcstart, utcend */
 #define PTP_OC_CANON_SendGpsTagInfo		0x9076 /* 1 arg: oid */
-#define PTP_OC_CANON_GetTrancecodeApproxSize	0x9077 /* 1 arg: oid? */
-#define PTP_OC_CANON_RequestTrancecodeStart	0x9078 /* 1 arg: oid? */
-#define PTP_OC_CANON_RequestTrancecodeCancel	0x9079 /* 1 arg: oid? */
+#define PTP_OC_CANON_GetTranscodeApproxSize	0x9077 /* 1 arg: oid? */
+#define PTP_OC_CANON_RequestTranscodeStart	0x9078 /* 1 arg: oid? */
+#define PTP_OC_CANON_RequestTranscodeCancel	0x9079 /* 1 arg: oid? */
+
+#define PTP_OC_CANON_SetRemoteShootingMode	0x9086
 
 /* 9101: no args, 8 byte data (01 00 00 00 00 00 00 00), no resp data. */
 #define PTP_OC_CANON_EOS_GetStorageIDs		0x9101
@@ -427,7 +430,7 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_OC_CANON_EOS_GetCTGInfo		0x9135
 #define PTP_OC_CANON_EOS_GetLensAdjust		0x9136
 #define PTP_OC_CANON_EOS_SetLensAdjust		0x9137
-#define PTP_OC_CANON_EOS_GetMusicInfo		0x9138
+#define PTP_OC_CANON_EOS_ReadyToSendMusic	0x9138
 /* 3 paramaeters, no data, OFC, size, unknown */
 #define PTP_OC_CANON_EOS_CreateHandle		0x9139
 #define PTP_OC_CANON_EOS_SendPartialObjectEx	0x913A
@@ -469,22 +472,29 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_OC_CANON_EOS_SetLvPcFlavoreditMode	0x915C /* 1 arg */
 #define PTP_OC_CANON_EOS_SetLvPcFlavoreditParam	0x915D /* 1 arg */
 #define PTP_OC_CANON_EOS_AfCancel		0x9160
+#define PTP_OC_CANON_EOS_SetImageRecoveryDataEx	0x916B
+#define PTP_OC_CANON_EOS_GetImageRecoveryListEx	0x916C
+#define PTP_OC_CANON_EOS_NotifyAutoTransferStatus	0x916E
+#define PTP_OC_CANON_EOS_GetReducedObject	0x916F
 #define PTP_OC_CANON_EOS_GetObjectInfo64	0x9170	/* 1 arg: oid */
 #define PTP_OC_CANON_EOS_GetObject64		0x9171	/* 1 arg: oid */
 #define PTP_OC_CANON_EOS_GetPartialObject64	0x9172	/* args: oid, offset, maxbyte */
 #define PTP_OC_CANON_EOS_GetObjectInfoEx64	0x9173	/* 2 args: storageid, oid  ? */
 #define PTP_OC_CANON_EOS_GetPartialObjectEX64	0x9174	/* args: oid, offset 64bit, maxbyte */
 #define PTP_OC_CANON_EOS_CreateHandle64		0x9175
+#define PTP_OC_CANON_EOS_NotifySaveComplete	0x9177
 #define PTP_OC_CANON_EOS_NotifyEstimateNumberofImport		0x9182 /* 1 arg: importnumber */
 #define PTP_OC_CANON_EOS_NotifyNumberofImported	0x9183 /* 1 arg: importnumber */
 #define PTP_OC_CANON_EOS_NotifySizeOfPartialDataTransfer	0x9184 /* 4 args: filesizelow, filesizehigh, downloadsizelow, downloadsizehigh */
 #define PTP_OC_CANON_EOS_NotifyFinish		0x9185 /* 1 arg: reason */
+#define PTP_OC_CANON_EOS_GetObjectURL		0x91AB
+#define PTP_OC_CANON_EOS_SetFELock		0x91B9
 #define PTP_OC_CANON_EOS_SetDefaultCameraSetting		0x91BE
 #define PTP_OC_CANON_EOS_GetAEData		0x91BF
 #define PTP_OC_CANON_EOS_NotifyNetworkError	0x91E8 /* 1 arg: errorcode */
 #define PTP_OC_CANON_EOS_AdapterTransferProgress		0x91E9
-#define PTP_OC_CANON_EOS_TransferComplete2	0x91F0
-#define PTP_OC_CANON_EOS_CancelTransfer2	0x91F1
+#define PTP_OC_CANON_EOS_TransferCompleteFTP	0x91F0
+#define PTP_OC_CANON_EOS_CancelTransferFTP	0x91F1
 #define PTP_OC_CANON_EOS_FAPIMessageTX		0x91FE
 #define PTP_OC_CANON_EOS_FAPIMessageRX		0x91FF
 
@@ -712,6 +722,8 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_OC_ANDROID_EndEditObject			0x95C5
 
 /* Leica opcodes, from Lightroom tether plugin */
+/* also from:
+ * https://alexhude.github.io/2019/01/24/hacking-leica-m240.html */
 #define PTP_OC_LEICA_SetCameraSettings			0x9001
 #define PTP_OC_LEICA_GetCameraSettings			0x9002
 #define PTP_OC_LEICA_GetLensParameter			0x9003
@@ -728,6 +740,36 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_OC_LEICA_OpenLESession			0x9005
 #define PTP_OC_LEICA_CloseLESession			0x9006
 #define PTP_OC_LEICA_RequestObjectTransferReady		0x9007
+#define PTP_OC_LEICA_GetGeoTrackingData			0x9008
+#define PTP_OC_LEICA_OpenDebugSession			0x900a
+#define PTP_OC_LEICA_CloseDebugSession			0x900b
+#define PTP_OC_LEICA_GetDebugBuffer			0x900c
+#define PTP_OC_LEICA_DebugCommandString			0x900d
+#define PTP_OC_LEICA_GetDebugRoute			0x900e
+#define PTP_OC_LEICA_SetIPTCData			0x900f
+#define PTP_OC_LEICA_GetIPTCData			0x9010
+#define PTP_OC_LEICA_Get3DAxisData			0x9020
+#define PTP_OC_LEICA_OpenLiveViewSession		0x9030
+#define PTP_OC_LEICA_CloseLiveViewSession		0x9031
+#define PTP_OC_LEICA_OpenProductionSession		0x9100
+#define PTP_OC_LEICA_CloseProductionSession		0x9101
+#define PTP_OC_LEICA_UpdateFirmware			0x9102
+#define PTP_OC_LEICA_OpenOSDSession			0x9103
+#define PTP_OC_LEICA_CloseOSDSession			0x9104
+#define PTP_OC_LEICA_GetOSDData				0x9105
+#define PTP_OC_LEICA_GetFirmwareStruct			0x9106
+#define PTP_OC_LEICA_GetDebugMenu			0x910b
+#define PTP_OC_LEICA_SetDebugMenu			0x910c
+#define PTP_OC_LEICA_OdinMessage			0x910d
+#define PTP_OC_LEICA_GetDebugObjectHandles		0x910e
+#define PTP_OC_LEICA_GetDebugObject			0x910f
+#define PTP_OC_LEICA_DeleteDebugObject			0x9110
+#define PTP_OC_LEICA_GetDebugObjectInfo			0x9111
+#define PTP_OC_LEICA_WriteDebugObject			0x9112
+#define PTP_OC_LEICA_CreateDebugObject			0x9113
+#define PTP_OC_LEICA_Calibrate3DAxis			0x9114
+#define PTP_OC_LEICA_MagneticCalibration		0x9115
+#define PTP_OC_LEICA_GetViewFinderData			0x9116
 
 #define PTP_OC_PARROT_GetSunshineValues		0x9201
 #define PTP_OC_PARROT_GetTemperatureValues	0x9202
@@ -769,7 +811,7 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_OC_PANASONIC_9408			0x9408
 #define PTP_OC_PANASONIC_9409			0x9409	/* 1 arg */
 #define PTP_OC_PANASONIC_940A			0x940A	/* 1 arg, e.g. 0x08000010 */
-#define PTP_OC_PANASONIC_940B			0x940B	/* 1 arg, e.g. 0x08000010 */
+#define PTP_OC_PANASONIC_SetCaptureTarget	0x940B	/* 1 arg, e.g. 0x08000010 */
 #define PTP_OC_PANASONIC_MoveRecControl		0x940C	/* 07000011 start, 07000012 stop, 0700013 still capture */
 #define PTP_OC_PANASONIC_PowerControl		0x940D	/* 1 arg: 0x0A000011 power off, 0x0a00012 device reset, 0x0a00013 device restart */
 #define PTP_OC_PANASONIC_PlayControl		0x940E	/* 2 arg? 0x05000011 current=0, next=1, prev=0xffffffff */
@@ -777,8 +819,8 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_OC_PANASONIC_9410			0x9410	/* Rec Ctrl Other */
 #define PTP_OC_PANASONIC_SetGPSDataInfo		0x9411
 #define PTP_OC_PANASONIC_Liveview		0x9412	/* 0d000010 start, 0d000011 stop */
-#define PTP_OC_PANASONIC_9414			0x9414	/* 1 arg e.g 12000020 */
-#define PTP_OC_PANASONIC_9416			0x9416	/* Rec Ctrl Mf Assist, Rec Ctrl Backup Req ... 1 arg */
+#define PTP_OC_PANASONIC_PollEvents		0x9414	/* ? 1 arg e.g 12000020 */
+#define PTP_OC_PANASONIC_ManualFocusDrive	0x9416	/* Rec Ctrl Mf Assist, Rec Ctrl Backup Req ... 1 arg */
 
 #define PTP_OC_PANASONIC_ChangeEvent		0x9603	/* 2 args ... e.g. 0x4002, new (change object added event) */
 #define PTP_OC_PANASONIC_GetFromEventInfo	0x9605	/* 1 arg, e.g. 0x41000013 , 15c00021: setup exec menu save comp, 15c00022: setup exec pixel refresh comp */
@@ -941,6 +983,7 @@ typedef struct _PTPIPHeader PTPIPHeader;
 
 /* Canon EOS events */
 #define PTP_EC_CANON_EOS_RequestGetEvent		0xc101
+#define PTP_EC_CANON_EOS_RequestCancelTransferMA	0xc180
 #define PTP_EC_CANON_EOS_ObjectAddedEx			0xc181
 #define PTP_EC_CANON_EOS_ObjectRemoved			0xc182
 #define PTP_EC_CANON_EOS_RequestGetObjectInfoEx		0xc183
@@ -976,9 +1019,14 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_EC_CANON_EOS_ObjectAddedEx64		0xc1a7
 #define PTP_EC_CANON_EOS_ObjectInfoChangedEx64		0xc1a8
 #define PTP_EC_CANON_EOS_RequestObjectTransfer64	0xc1a9
+#define PTP_EC_CANON_EOS_RequestObjectTransferDT64	0xc1aa
 #define PTP_EC_CANON_EOS_RequestObjectTransferFTP64	0xc1ab
+#define PTP_EC_CANON_EOS_RequestObjectTransferInfoEx64	0xc1ac
+#define PTP_EC_CANON_EOS_RequestObjectTransferMA64	0xc1ad
 #define PTP_EC_CANON_EOS_ImportError			0xc1af
 #define PTP_EC_CANON_EOS_BlePairing			0xc1b0
+#define PTP_EC_CANON_EOS_RequestAutoSendImages		0xc1b1
+#define PTP_EC_CANON_EOS_RequestTranscodedBlockTransfer	0xc1b2
 #define PTP_EC_CANON_EOS_RequestObjectTransferFTP	0xc1f1
 
 /* Nikon extension Event Codes */
@@ -1008,6 +1056,7 @@ typedef struct _PTPIPHeader PTPIPHeader;
 #define PTP_EC_PARROT_MagnetoCalibrationStatus	0xC202
 
 #define PTP_EC_PANASONIC_ObjectAdded		0xC108
+#define PTP_EC_PANASONIC_ObjectAddedSDRAM	0xC109
 
 
 /* constants for GetObjectHandles */
@@ -1166,6 +1215,7 @@ typedef struct _PTPObjectFilesystemInfo PTPObjectFilesystemInfo;
 #define PTP_OFC_CANON_CRW3			0xb103
 #define PTP_OFC_CANON_MOV			0xb104
 #define PTP_OFC_CANON_MOV2			0xb105
+#define PTP_OFC_CANON_CR3			0xb108
 /* CHDK specific raw mode */
 #define PTP_OFC_CANON_CHDK_CRW			0xb1ff
 /* Sony */
@@ -1702,6 +1752,13 @@ typedef struct _PTPCanonEOSDeviceInfo {
 #define PTP_DPC_CANON_EOS_ImageFormatExtHD	0xD123	/* file setting exthd */
 #define PTP_DPC_CANON_EOS_RefocusState		0xD124
 #define PTP_DPC_CANON_EOS_CameraNickname	0xD125
+#define PTP_DPC_CANON_EOS_StroboSettingExpCompositionControl	0xD126
+#define PTP_DPC_CANON_EOS_ConnectStatus		0xD127
+#define PTP_DPC_CANON_EOS_LensBarrelStatus	0xD128
+#define PTP_DPC_CANON_EOS_SilentShutterSetting	0xD129
+#define PTP_DPC_CANON_EOS_LV_AF_EyeDetect	0xD12C
+#define PTP_DPC_CANON_EOS_AutoTransMobile	0xD12D
+#define PTP_DPC_CANON_EOS_URLSupportFormat	0xD12E
 #define PTP_DPC_CANON_EOS_SpecialAcc		0xD12F
 #define PTP_DPC_CANON_EOS_CompressionS		0xD130
 #define PTP_DPC_CANON_EOS_CompressionM1		0xD131
@@ -1752,6 +1809,8 @@ typedef struct _PTPCanonEOSDeviceInfo {
 #define PTP_DPC_CANON_EOS_PictureStyleExUserSet1	0xD163
 #define PTP_DPC_CANON_EOS_PictureStyleExUserSet2	0xD164
 #define PTP_DPC_CANON_EOS_PictureStyleExUserSet3	0xD165
+#define PTP_DPC_CANON_EOS_MovieAVModeFine	0xD166
+#define PTP_DPC_CANON_EOS_ShutterReleaseCounter	0xD167
 #define PTP_DPC_CANON_EOS_AvailableImageSize	0xD168
 #define PTP_DPC_CANON_EOS_ErrorHistory		0xD169
 #define PTP_DPC_CANON_EOS_LensExchangeHistory	0xD16A
@@ -1846,6 +1905,7 @@ typedef struct _PTPCanonEOSDeviceInfo {
 #define PTP_DPC_CANON_EOS_MovieParam2		0xD1CA
 #define PTP_DPC_CANON_EOS_StroboSettingExpComposition		0xD1CB
 #define PTP_DPC_CANON_EOS_MovieParam3		0xD1CC
+#define PTP_DPC_CANON_EOS_MovieParam4		0xD1CD
 #define PTP_DPC_CANON_EOS_LVMedicalRotate	0xD1CF
 #define PTP_DPC_CANON_EOS_Artist		0xD1d0
 #define PTP_DPC_CANON_EOS_Copyright		0xD1d1
@@ -1863,6 +1923,8 @@ typedef struct _PTPCanonEOSDeviceInfo {
 #define PTP_DPC_CANON_EOS_LensID		0xD1dd
 #define PTP_DPC_CANON_EOS_LCDBrightness		0xD1de
 #define PTP_DPC_CANON_EOS_CADarkBright		0xD1df
+
+#define PTP_DPC_CANON_EOS_FocusShiftSetting	0xD208
 
 /* Nikon extension device property codes */
 #define PTP_DPC_NIKON_ShootingBank			0xD010
@@ -2064,6 +2126,7 @@ typedef struct _PTPCanonEOSDeviceInfo {
 #define PTP_DPC_NIKON_TunePreset2			0xD153
 #define PTP_DPC_NIKON_TunePreset3			0xD154
 #define PTP_DPC_NIKON_TunePreset4			0xD155
+#define PTP_DPC_NIKON_WhiteBalanceNaturalLightAutoBias	0xD15E /* Only encountered in D850? */
 #define PTP_DPC_NIKON_BeepOff				0xD160
 #define PTP_DPC_NIKON_AutofocusMode			0xD161
 #define PTP_DPC_NIKON_AFAssist				0xD163
@@ -2295,9 +2358,11 @@ typedef struct _PTPCanonEOSDeviceInfo {
 #define PTP_DPC_SONY_CCFilter				0xD210
 #define PTP_DPC_SONY_AspectRatio			0xD211
 #define PTP_DPC_SONY_FocusFound     			0xD213 /* seems to be signaled (1->2) when focus is achieved */
+#define PTP_DPC_SONY_Zoom     				0xD214 /* might be focal length * 1.000.000 */
 #define PTP_DPC_SONY_ObjectInMemory     		0xD215 /* used to signal when to retrieve new object */
 #define PTP_DPC_SONY_ExposeIndex			0xD216
 #define PTP_DPC_SONY_BatteryLevel			0xD218
+#define PTP_DPC_SONY_SensorCrop				0xD219
 #define PTP_DPC_SONY_PictureEffect			0xD21B
 #define PTP_DPC_SONY_ABFilter				0xD21C
 #define PTP_DPC_SONY_ISO				0xD21E /* ? */
@@ -2666,6 +2731,7 @@ typedef uint16_t (* PTPIOGetResp)	(PTPParams* params, PTPContainer* resp);
 typedef uint16_t (* PTPIOGetData)	(PTPParams* params, PTPContainer* ptp,
 	                                 PTPDataHandler *putter);
 typedef uint16_t (* PTPIOCancelReq)	(PTPParams* params, uint32_t transaction_id);
+typedef uint16_t (* PTPIODevStatReq) (PTPParams* params);
 
 /* debug functions */
 typedef void (* PTPErrorFunc) (void *data, const char *format, va_list args)
@@ -2704,6 +2770,19 @@ struct _PTPDeviceProperty {
 };
 typedef struct _PTPDeviceProperty PTPDeviceProperty;
 
+struct _MTPPropertyDesc {
+	uint16_t	opc;
+	PTPObjectPropDesc	opd;
+};
+typedef struct _MTPPropertyDesc MTPPropertyDesc;
+
+struct _MTPObjectFormat {
+	uint16_t	ofc;
+	unsigned int	nrofpds;
+	MTPPropertyDesc	*pds;
+};
+typedef struct _MTPObjectFormat MTPObjectFormat;
+
 /* Transaction data phase description, internal flags to sendreq / transaction driver. */
 #define PTP_DP_NODATA           0x0000  /* no data phase */
 #define PTP_DP_SENDDATA         0x0001  /* sending data */
@@ -2727,6 +2806,7 @@ struct _PTPParams {
 	PTPIOGetResp	event_check_queue;
 	PTPIOGetResp	event_wait;
 	PTPIOCancelReq	cancelreq_func;
+	PTPIODevStatReq	devstatreq_func;
 
 	/* Custom error and debug function */
 	PTPErrorFunc	error_func;
@@ -2747,6 +2827,9 @@ struct _PTPParams {
 	int		split_header_data;
 	int		ocs64; /* 64bit objectsize */
 
+	int		nrofobjectformats;
+	MTPObjectFormat	*objectformats;
+
 	/* PTP: internal structures used by ptp driver */
 	PTPObject	*objects;
 	unsigned int	nrofobjects;
@@ -2756,6 +2839,9 @@ struct _PTPParams {
 	/* PTP: the current event queue */
 	PTPContainer	*events;
 	int		nrofevents;
+
+	/* Capture count for SDRAM capture style images */
+	unsigned int		capcnt;
 
 	/* live view enabled */
 	int			inliveview;
@@ -2837,6 +2923,7 @@ uint16_t ptp_usb_control_get_extended_event_data (PTPParams *params, char *buffe
 uint16_t ptp_usb_control_device_reset_request (PTPParams *params);
 uint16_t ptp_usb_control_get_device_status (PTPParams *params, char *buffer, int *size);
 uint16_t ptp_usb_control_cancel_request (PTPParams *params, uint32_t transid);
+uint16_t ptp_usb_control_device_status_request (PTPParams *params);
 
 
 int      ptp_ptpip_connect	(PTPParams* params, const char *port);
@@ -3018,6 +3105,8 @@ uint16_t ptp_mtp_setobjectpropvalue (PTPParams* params, uint32_t oid, uint16_t o
 				PTPPropertyValue *value, uint16_t datatype);
 uint16_t ptp_mtp_getobjectreferences (PTPParams* params, uint32_t handle, uint32_t** ohArray, uint32_t* arraylen);
 uint16_t ptp_mtp_setobjectreferences (PTPParams* params, uint32_t handle, uint32_t* ohArray, uint32_t arraylen);
+uint16_t ptp_mtp_getobjectproplist_generic (PTPParams* params, uint32_t handle, uint32_t formats, uint32_t properties, uint32_t propertygroups, uint32_t level, MTPProperties **props, int *nrofprops);
+uint16_t ptp_mtp_getobjectproplist_level (PTPParams* params, uint32_t handle, uint32_t level, MTPProperties **props, int *nrofprops);
 uint16_t ptp_mtp_getobjectproplist (PTPParams* params, uint32_t handle, MTPProperties **props, int *nrofprops);
 uint16_t ptp_mtp_getobjectproplist_single (PTPParams* params, uint32_t handle, MTPProperties **props, int *nrofprops);
 uint16_t ptp_mtp_sendobjectproplist (PTPParams* params, uint32_t* store, uint32_t* parenthandle, uint32_t* handle,
@@ -3173,6 +3262,18 @@ uint16_t ptp_canon_checkevent (PTPParams* params,
  *
  **/
 #define ptp_canon_eos_keepdeviceon(params) ptp_generic_no_data(params,PTP_OC_CANON_EOS_KeepDeviceOn,0)
+
+/**
+ * ptp_canon_eos_popupflash:
+ *
+ * This operation pops up the builtin flash of the Canon EOS.
+ * 
+ * params:      PTPParams*
+ *
+ * Return values: Some PTP_RC_* code.
+ *
+ **/
+#define ptp_canon_eos_popupflash(params) ptp_generic_no_data(params,PTP_OC_CANON_EOS_PopupBuiltinFlash,0)
 /**
  * ptp_canon_initiatecaptureinmemory:
  * 
@@ -3314,6 +3415,7 @@ uint16_t ptp_canon_eos_setdevicepropvalueex (PTPParams* params, unsigned char* d
 #define ptp_canon_eos_pchddcapacity(params,p1,p2,p3) ptp_generic_no_data(params,PTP_OC_CANON_EOS_PCHDDCapacity,3,p1,p2,p3)
 uint16_t ptp_canon_eos_bulbstart (PTPParams* params);
 uint16_t ptp_canon_eos_bulbend (PTPParams* params);
+uint16_t ptp_canon_eos_905f (PTPParams* params, uint32_t);
 uint16_t ptp_canon_eos_getdevicepropdesc (PTPParams* params, uint16_t propcode,
 				PTPDevicePropDesc *devicepropertydesc);
 uint16_t ptp_canon_eos_setdevicepropvalue (PTPParams* params, uint16_t propcode,
@@ -3721,8 +3823,9 @@ uint16_t ptp_panasonic_setdeviceproperty (PTPParams* params, uint32_t propcode, 
 uint16_t ptp_panasonic_getdeviceproperty (PTPParams *params, uint32_t propcode, uint16_t *valuesize, uint32_t *currentValue);
 uint16_t ptp_panasonic_getdevicepropertydesc (PTPParams *params, uint32_t propcode, uint16_t valuesize, uint32_t *currentValue, uint32_t **propertyValueList, uint32_t *propertyValueListLength);
 uint16_t ptp_panasonic_getdevicepropertysize (PTPParams *params, uint32_t propcode);
-
-
+uint16_t ptp_panasonic_setcapturetarget (PTPParams *params, uint16_t mode);
+uint16_t ptp_panasonic_manualfocusdrive (PTPParams* params, uint16_t mode);
+uint16_t ptp_panasonic_9401 (PTPParams* params, uint32_t x);
 
 uint16_t ptp_olympus_liveview_image (PTPParams* params, unsigned char **data, unsigned int *size);
 #define ptp_olympus_omd_move_focus(params,direction,step_size) ptp_generic_no_data(params,PTP_OC_OLYMPUS_OMD_MFDrive,2,direction,step_size)

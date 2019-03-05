@@ -7978,7 +7978,7 @@ msgstr " Error %04x de PTP peticionado"
 
 #: camlibs/ptp2/config.c:8917 camlibs/ptp2/config.c:9008
 #, c-format
-msgid "Sorry, the property '%s' / 0x%04x is currently ready-only."
+msgid "Sorry, the property '%s' / 0x%04x is currently read-only."
 msgstr ""
 
 #: camlibs/ptp2/config.c:8923
