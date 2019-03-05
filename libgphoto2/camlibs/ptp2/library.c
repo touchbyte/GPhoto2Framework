@@ -2358,6 +2358,7 @@ static struct {
 	{PTP_OFC_MTP_vCalendar2,	PTP_VENDOR_MICROSOFT, "text/calendar"},
 	{PTP_OFC_CANON_CRW,		PTP_VENDOR_CANON, "image/x-canon-cr2"},
 	{PTP_OFC_CANON_CRW3,		PTP_VENDOR_CANON, "image/x-canon-cr2"},
+    {PTP_OFC_CANON_CR3,        PTP_VENDOR_CANON, "image/x-canon-cr3"},
 	{PTP_OFC_CANON_MOV,		PTP_VENDOR_CANON, "video/quicktime"},
 	{PTP_OFC_CANON_CHDK_CRW,	PTP_VENDOR_CANON, "image/x-canon-cr2"},
 	{PTP_OFC_SONY_RAW,		PTP_VENDOR_SONY, "image/x-sony-arw"},
@@ -3699,6 +3700,10 @@ camera_canon_eos_capture (Camera *camera, CameraCaptureType type, CameraFilePath
 		mime = GP_MIME_CRW;
 		strcat(path->name, "cr2");
 		gp_file_set_mime_type (file, GP_MIME_CRW);
+    } else if (oi.ObjectFormat == PTP_OFC_CANON_CR3) {
+            mime = GP_MIME_CR3;
+            strcat(path->name, "cr3");
+            gp_file_set_mime_type (file, GP_MIME_CR3);
 	} else {
 		mime = GP_MIME_JPEG;
 		strcat(path->name, "jpg");
@@ -5415,7 +5420,11 @@ camera_wait_for_event (Camera *camera, int timeout,
 						strcat(path->name, "cr2");
 						gp_file_set_mime_type (file, GP_MIME_CRW);
 						mime = GP_MIME_CRW;
-					} else {
+                    } else if (entry.u.object.oi.ObjectFormat == PTP_OFC_CANON_CR3) {
+                        strcat(path->name, "cr3");
+                        gp_file_set_mime_type (file, GP_MIME_CR3);
+                        mime = GP_MIME_CR3;
+                    } else {
 						strcat(path->name, "jpg");
 						gp_file_set_mime_type (file, GP_MIME_JPEG);
 						mime = GP_MIME_JPEG;
@@ -7423,7 +7432,9 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 			((ob->oi.ObjectFormat != PTP_OFC_CANON_CRW)) &&
 			((ob->oi.ObjectFormat != PTP_OFC_CANON_MOV)) &&
 			((ob->oi.ObjectFormat != PTP_OFC_CANON_MOV2)) &&
-			((ob->oi.ObjectFormat != PTP_OFC_CANON_CRW3))
+			((ob->oi.ObjectFormat != PTP_OFC_CANON_CRW3)) &&
+            ((ob->oi.ObjectFormat != PTP_OFC_CANON_CR3))
+                         
 		))
 			return GP_ERROR_NOT_SUPPORTED;
 		C_PTP_REP (ptp_getthumb(params, oid, &ximage, &xlen));
