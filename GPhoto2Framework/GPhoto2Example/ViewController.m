@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "ptp.h"
+#import "ptp-private.h"
 @import gphoto2;
 
 @interface ViewController ()
@@ -186,14 +188,16 @@ capture_to_memory(Camera *camera, GPContext *context, const char **ptr, unsigned
     gp_port_info_list_new (&portinfolist);
     ret = gp_port_info_list_load (portinfolist);
     ret = gp_port_info_list_count (portinfolist);
-    indexPort = gp_port_info_list_lookup_path (portinfolist, "ptpip:192.168.2.225");
+    indexPort = gp_port_info_list_lookup_path (portinfolist, "ptpip:192.168.2.120");
     if (indexPort>=0) {
         gp_port_info_list_get_info (portinfolist, indexPort, &pi);
         gp_camera_set_port_info (camera, pi);
     }
     
     ret = gp_camera_init (camera, context);
-    
+    PTPParams *params = &camera->pl->params;
+    params->storageids.Storage = NULL;
+
     /*
     CameraText    text;
     ret = gp_camera_get_summary (camera, &text, context);
@@ -202,8 +206,10 @@ capture_to_memory(Camera *camera, GPContext *context, const char **ptr, unsigned
     }
     printf("Summary:\n%s\n", text.text);
     */
-  
     
+  
+    return;
+
     
     char        *owner;
     ret = get_config_value_string (camera, "Artist", &owner, context);

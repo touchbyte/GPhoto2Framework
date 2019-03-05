@@ -118,14 +118,18 @@ static int put_8bit_le(unsigned char *data, uint8_t x) {
 static int put_string(unsigned char *data, char *str) {
 	int i;
 
-	if (strlen(str)>255)
+	if (!str) {	/* empty string, just has length 0 */
+		data[0] = 0;
+		return 1;
+	}
+	if (strlen(str)+1>255)
 		gp_log (GP_LOG_ERROR, "put_string", "string length is longer than 255 characters");
 
-	data[0] = strlen (str);
+	data[0] = strlen (str)+1;
 	for (i=0;i<data[0];i++)
 		put_16bit_le(data+1+2*i,str[i]);
 
-	return 1+strlen(str)*2;
+	return 1+(strlen(str)+1)*2;
 }
 
 static char * get_string(unsigned char *data) {
@@ -476,12 +480,6 @@ ptp_nikon_setcontrolmode_write(vcamera *cam, ptpcontainer *ptp) {
 		ptp_response (cam, PTP_RC_InvalidParameter, 0);
 		return 1;
 	}
-	if (cam->session) {
-		gp_log (GP_LOG_ERROR,__FUNCTION__,"session is already open");
-		ptp_response (cam, PTP_RC_SessionAlreadyOpened, 0);
-		return 1;
-	}
-	cam->session = ptp->params[0];
 	ptp_response (cam,PTP_RC_OK,0);
 	return 1;
 }
@@ -1944,6 +1942,7 @@ vcam_read(vcamera*cam, int ep, unsigned char *data, int bytes) {
 			fwrite(cam->inbulk, 1, toread, cam->fuzzf);
 			/* fallthrough */
 		} else {
+#ifdef FUZZ_PTP
 			/* for reading fuzzer data */
 			if (cam->fuzzpending) {
 				toread = cam->fuzzpending;
@@ -1953,7 +1952,7 @@ vcam_read(vcamera*cam, int ep, unsigned char *data, int bytes) {
 			} else {
 				hasread = fread (data, 1, 4, cam->fuzzf);
 				if (hasread != 4)
-					return 0;
+					return GP_ERROR_IO_READ;
 
 				toread = data[0] | (data[1]<<8) | (data[2]<<16) | (data[3]<<24);
 
@@ -1970,6 +1969,12 @@ vcam_read(vcamera*cam, int ep, unsigned char *data, int bytes) {
 
 				hasread += 4; /* readd size */
 			}
+#else
+			/* just return a blob of data in generic fuzzing */
+			hasread = fread (data, 1, bytes, cam->fuzzf);
+			if (!hasread && feof(cam->fuzzf))
+				return GP_ERROR_IO_READ;
+#endif
 #if 0
 			for (i=0;i<toread;i++)
 				data[i] ^= cam->inbulk[i];
@@ -2076,6 +2081,8 @@ vcam_readint(vcamera*cam, unsigned char *data, int bytes, int timeout) {
 #ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		usleep (timeout*1000);
 #endif
+		if (cam->fuzzf && feof(cam->fuzzf))
+			return GP_ERROR_IO;
 		return GP_ERROR_TIMEOUT;
 	}
 	gettimeofday (&now, NULL);
