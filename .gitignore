@@ -124,3 +124,5 @@ tests/test-gphoto2
 +.vscode/
 
 *.xcuserstate
+
+*.xcuserstate
