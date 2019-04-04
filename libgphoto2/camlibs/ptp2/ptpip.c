@@ -462,7 +462,11 @@ ptp_ptpip_init_command_request (PTPParams* params)
 	if (gethostname (hostname, sizeof(hostname)))
 		return PTP_RC_GeneralError;
     #if defined(IOS_BUILD)
-        prepend (hostname, "PhotoSync-");
+        char buf[100];
+        gp_setting_get("ptpip", "hostname", buf);
+        if (strlen(buf)>0) {
+            strcpy(hostname, buf);
+        }
     #endif
 #else
 	strcpy (hostname, "gpwindows");

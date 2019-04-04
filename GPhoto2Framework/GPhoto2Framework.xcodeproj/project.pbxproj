@@ -571,6 +571,7 @@
 					"$(PROJECT_DIR)/GPhoto2Example/gPhoto2\\ Button\\ Test",
 					"$(PROJECT_DIR)/GPhoto2Example/gPhoto2\\ Button\\ Test/SSDP",
 				);
+				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = GPhoto2Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -741,6 +742,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					_GPHOTO2_INTERNAL_CODE,
 					IOS_BUILD,

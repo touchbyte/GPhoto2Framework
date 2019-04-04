@@ -193,7 +193,11 @@ capture_to_memory(Camera *camera, GPContext *context, const char **ptr, unsigned
         gp_port_info_list_get_info (portinfolist, indexPort, &pi);
         gp_camera_set_port_info (camera, pi);
     }
-    
+    gp_port_info_list_free(portinfolist);
+    gp_abilities_list_free(abilities);
+
+    gp_setting_set("ptpip", "hostname", "PhotoSync-iPod");
+
     ret = gp_camera_init (camera, context);
     PTPParams *params = &camera->pl->params;
     params->storageids.Storage = NULL;
