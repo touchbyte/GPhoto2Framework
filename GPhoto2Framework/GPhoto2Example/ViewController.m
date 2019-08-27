@@ -3,7 +3,7 @@
 //  GPhoto2Example
 //
 //  Created by Hendrik Holtmann on 21.10.18.
-//  Copyright © 2018 Hendrik Holtmann. All rights reserved.
+//  Copyright © 2019 Hendrik Holtmann. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -12,69 +12,15 @@
 @import gphoto2;
 
 @interface ViewController ()
+{
+    Camera        *camera;
+    GPContext *context;
 
+}
+    @property(nonatomic, assign) BOOL connected;
 @end
 
 @implementation ViewController
-
-static int
-_lookup_widget(CameraWidget*widget, const char *key, CameraWidget **child) {
-    int ret;
-    ret = gp_widget_get_child_by_name (widget, key, child);
-    if (ret < GP_OK)
-        ret = gp_widget_get_child_by_label (widget, key, child);
-    return ret;
-}
-
-int
-get_config_value_string (Camera *camera, const char *key, char **str, GPContext *context) {
-    CameraWidget        *widget = NULL, *child = NULL;
-    CameraWidgetType    type;
-    int            ret;
-    char            *val;
-    
-    ret = gp_camera_get_config (camera, &widget, context);
-    if (ret < GP_OK) {
-        fprintf (stderr, "camera_get_config failed: %d\n", ret);
-        return ret;
-    }
-    ret = _lookup_widget (widget, key, &child);
-    if (ret < GP_OK) {
-        fprintf (stderr, "lookup widget failed: %d\n", ret);
-        goto out;
-    }
-    
-    /* This type check is optional, if you know what type the label
-     * has already. If you are not sure, better check. */
-    ret = gp_widget_get_type (child, &type);
-    if (ret < GP_OK) {
-        fprintf (stderr, "widget get type failed: %d\n", ret);
-        goto out;
-    }
-    switch (type) {
-        case GP_WIDGET_MENU:
-        case GP_WIDGET_RADIO:
-        case GP_WIDGET_TEXT:
-            break;
-        default:
-            fprintf (stderr, "widget has bad type %d\n", type);
-            ret = GP_ERROR_BAD_PARAMETERS;
-            goto out;
-    }
-    
-    /* This is the actual query call. Note that we just
-     * a pointer reference to the string, not a copy... */
-    ret = gp_widget_get_value (child, &val);
-    if (ret < GP_OK) {
-        fprintf (stderr, "could not query widget value: %d\n", ret);
-        goto out;
-    }
-    /* Create a new copy for our caller. */
-    *str = strdup (val);
-    out:
-    gp_widget_free (widget);
-    return ret;
-}
 
 static void
 ctx_error_func (GPContext *context, const char *str, void *data)
@@ -92,22 +38,9 @@ ctx_status_func (GPContext *context, const char *str, void *data)
 
 GPContext* sample_create_context() {
     GPContext *context;
-    
-    /* This is the mandatory part */
     context = gp_context_new();
-    
-    /* All the parts below are optional! */
     gp_context_set_error_func (context, ctx_error_func, NULL);
     gp_context_set_status_func (context, ctx_status_func, NULL);
-    
-    /* also:
-     gp_context_set_cancel_func    (p->context, ctx_cancel_func,  p);
-     gp_context_set_message_func   (p->context, ctx_message_func, p);
-     if (isatty (STDOUT_FILENO))
-     gp_context_set_progress_funcs (p->context,
-     ctx_progress_start_func, ctx_progress_update_func,
-     ctx_progress_stop_func, p);
-     */
     return context;
 }
 
@@ -121,46 +54,8 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     fprintf(stdout, "%s\n", str);
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self connectCamera];
-}
-static void
-capture_to_memory(Camera *camera, GPContext *context, const char **ptr, unsigned long int *size) {
-    int retval;
-    CameraFile *file;
-    CameraFilePath camera_file_path;
-    
-    printf("Capturing.\n");
-    
-    /* NOP: This gets overridden in the library to /capt0000.jpg */
-    strcpy(camera_file_path.folder, "/");
-    strcpy(camera_file_path.name, "foo.jpg");
-    
-    retval = gp_camera_capture(camera, GP_CAPTURE_IMAGE, &camera_file_path, context);
-    printf("  Retval: %d\n", retval);
-    
-    printf("Pathname on the camera: %s/%s\n", camera_file_path.folder, camera_file_path.name);
-    
-    retval = gp_file_new(&file);
-    printf("  Retval: %d\n", retval);
-    retval = gp_camera_file_get(camera, camera_file_path.folder, camera_file_path.name,
-                                GP_FILE_TYPE_NORMAL, file, context);
-    printf("  Retval: %d\n", retval);
-    
-    gp_file_get_data_and_size (file, ptr, size);
-    
-    printf("Deleting.\n");
-    retval = gp_camera_file_delete(camera, camera_file_path.folder, camera_file_path.name,
-                                   context);
-    printf("  Retval: %d\n", retval);
-    /*gp_file_free(file); */
-}
-
--(void)connectCamera
+-(int)connectCamera:(NSString*)cameraIP
 {
-    Camera        *camera;
-    GPContext *context;
     int        ret,indexCamera,indexPort;
     CameraAbilitiesList    *abilities;
     CameraAbilities    a;
@@ -168,11 +63,11 @@ capture_to_memory(Camera *camera, GPContext *context, const char **ptr, unsigned
     GPPortInfoList        *portinfolist = NULL;
     GPPortInfo    pi;
     
+    NSString *connectionStr = [NSString stringWithFormat:@"ptpip:%@",cameraIP];
+    
     gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
     gp_log_add_func(GP_LOG_DEBUG, logdumper, NULL);
-    
     context = sample_create_context();
-    
     gp_camera_new (&camera);
     
     gp_abilities_list_new (&abilities);
@@ -184,11 +79,10 @@ capture_to_memory(Camera *camera, GPContext *context, const char **ptr, unsigned
         gp_camera_set_abilities (camera, a);
     }
     
-    
     gp_port_info_list_new (&portinfolist);
     ret = gp_port_info_list_load (portinfolist);
     ret = gp_port_info_list_count (portinfolist);
-    indexPort = gp_port_info_list_lookup_path (portinfolist, "ptpip:192.168.2.120");
+    indexPort = gp_port_info_list_lookup_path (portinfolist, [connectionStr UTF8String]);
     if (indexPort>=0) {
         gp_port_info_list_get_info (portinfolist, indexPort, &pi);
         gp_camera_set_port_info (camera, pi);
@@ -196,57 +90,113 @@ capture_to_memory(Camera *camera, GPContext *context, const char **ptr, unsigned
     gp_port_info_list_free(portinfolist);
     gp_abilities_list_free(abilities);
 
-    gp_setting_set("ptpip", "hostname", "PhotoSync-iPod");
-
+    gp_setting_set("ptpip", "hostname", "gphoto-example");
     ret = gp_camera_init (camera, context);
-    PTPParams *params = &camera->pl->params;
-    params->storageids.Storage = NULL;
+    return ret;
+}
 
-    /*
-    CameraText    text;
-    ret = gp_camera_get_summary (camera, &text, context);
+-(int)listAlFiles:(const char*)folder foundfile:(int*)foundfile files:(NSMutableArray*)files
+{
+    int        i, ret;
+    CameraList    *list;
+    const char    *newfile;
+    
+    ret = gp_list_new (&list);
     if (ret < GP_OK) {
-        printf("Camera failed retrieving summary.\n");
+        NSLog(@"Could not allocate list.\n");
+        return ret;
     }
-    printf("Summary:\n%s\n", text.text);
-    */
-    
-  
-    return;
-
-    
-    char        *owner;
-    ret = get_config_value_string (camera, "Artist", &owner, context);
+    ret = gp_camera_folder_list_folders (camera, folder, list, context);
+    gp_list_sort (list);
+    for (i = 0; i < gp_list_count (list); i++) {
+        const char *newfolder;
+        char *buf;
+        int havefile = 0;
+        
+        gp_list_get_name (list, i, &newfolder);
+        if (!strlen(newfolder)) continue;
+        buf = malloc (strlen(folder) + 1 + strlen(newfolder) + 1);
+        strcpy(buf, folder);
+        if (strcmp(folder,"/"))        /* avoid double / */
+            strcat(buf, "/");
+        strcat(buf, newfolder);
+        fprintf(stderr,"newfolder=%s\n", newfolder);
+        ret = [self listAlFiles:buf foundfile:&havefile files:files];
+        free (buf);
+        if (ret != GP_OK) {
+            gp_list_free (list);
+            NSLog(@"Failed to recursively list folders.\n");
+            return ret;
+        }
+    }
+    gp_list_reset (list);
+    ret = gp_camera_folder_list_files (camera, folder, list, context);
     if (ret < GP_OK) {
-        printf ("Could not query owner.\n");
+        gp_list_free (list);
+        NSLog(@"Could not list files.\n");
+        return ret;
     }
-    printf("Current owner: %s\n", owner);
-    
-    return;
-
-    
-
-    CameraList *list;
-     ret = gp_list_new (&list);
-    ret = gp_camera_folder_list_folders(camera, "/store_00020001", list, context);
-
-    
-    char    *data;
-    unsigned long size;
-    capture_to_memory(camera, context, (const char**)&data, &size);
-
-    [[NSData dataWithBytes:data length:size] writeToFile:[NSTemporaryDirectory() stringByAppendingPathComponent:@"canon.jpg"] atomically:NO];
-    
-    /*
-    gp_camera_exit (camera, context);
-    gp_camera_free (camera);
-*/
-    
-    if (ret < GP_OK) {
-        printf("No camera auto detected.\n");
-        gp_camera_free (camera);
+    gp_list_sort (list);
+    if (gp_list_count (list) <= 0) {
+        gp_list_free (list);
+        return GP_OK;
+    }
+    int j;
+    for (j = 0; j < gp_list_count (list); j++) {
+        ret = gp_list_get_name (list, j, &newfile); /* only entry 0 needed */
+        if (ret != GP_OK) {
+            NSLog(@"Could not get file info.\n");
+        } else {
+            NSString *title = [[NSString alloc] initWithUTF8String:newfile];
+            NSString *path = [[NSString alloc] initWithUTF8String:folder];
+            [files addObject:[path stringByAppendingPathComponent:title]];
+        }
     }
     
+    if (foundfile) *foundfile = 1;
+    gp_list_free (list);
+    return GP_OK;
+}
+
+- (IBAction)connectTouched:(id)sender {
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
+    NSString *ip = self.ipTextField.text;
+    if (ip != nil && ![ip isEqualToString:@""]) {
+        if (!_connected) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                int ret = [self connectCamera:ip];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (ret == GP_OK) {
+                        self.listButton.enabled = YES;
+                        self.connected = YES;
+                        self.consoleTextView.text = @"Connection to Camera successful";
+                        self.connectButton.enabled = NO;
+                    } else {
+                        self.consoleTextView.text = @"Failed to connect";
+                    }
+                    UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
+                });
+            });
+        }
+    }
+}
+
+- (IBAction)listTouched:(id)sender {
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableArray *allfiles = [NSMutableArray new];
+        int ret = [self listAlFiles:"/" foundfile:NULL files:allfiles];
+        if (ret == GP_OK) {
+            NSString *outText = @"";
+            for (NSString* item in allfiles) {
+                outText = [outText stringByAppendingFormat:@"%@\n",item];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
+                self.consoleTextView.text = outText;
+            });
+        }
+    });
 }
 
 
