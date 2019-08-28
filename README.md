@@ -6,3 +6,4 @@ libgphoto2/libgphoto2_port wrapped as iOS dynamic framework
 * port and camera model need to be specified before calling gp_camera_init (no autodection available), Tested with Canon EOS Wifi Cameras
 * all external dependencies, which are not useful/supported on iOS, removed (libusb, ltdl)
 
+For any questions/feedback, please contact holtmann@touchbyte.com
