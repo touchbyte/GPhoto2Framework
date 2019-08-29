@@ -11,3 +11,5 @@
 * [PhotoSync 4.0 for iOS](https://www.photosync-app.com)
 
 For any questions/feedback, please contact holtmann@touchbyte.com
+
+![Screnshot Example](https://download.photosync-app.com/images/example_libgphoto2.png)
