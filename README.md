@@ -12,4 +12,4 @@
 
 For any questions/feedback, please contact holtmann@touchbyte.com
 
-![Screnshot Example](https://download.photosync-app.com/images/example_libgphoto2.png)
+![Screenshot Example](https://download.photosync-app.com/images/example_libgphoto2.png)
