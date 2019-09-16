@@ -1,6 +1,6 @@
 # GPhoto2Framework
 ## libgphoto2/libgphoto2_port wrapped as iOS dynamic framework
-* Xcode 10 project, supports iOS 8 and higher
+* Xcode 10 project
 * compiled in ptp/ip iolib-driver and ptp2 camlib-driver
 * supports iOS 8 and higher
 * port and camera model need to be specified before calling gp_camera_init (no autodection available), Tested with Canon EOS Wifi Cameras
