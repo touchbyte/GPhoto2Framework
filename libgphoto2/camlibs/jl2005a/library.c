@@ -164,8 +164,8 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 {
 	Camera *camera = user_data;
 	int status = GP_OK;
-	int w, h = 0, k;
-	int i,j;
+	unsigned int w, h = 0;
+	int i,j,k;
 	int b = 0;
 	int compressed = 0;
 	unsigned char header[5] = "\xff\xff\xff\xff\x55";
@@ -190,6 +190,10 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 	GP_DEBUG ("width is %i\n", w);
 	h = jl2005a_get_pic_height(camera->port);
 	GP_DEBUG ("height is %i\n", h);
+
+	/* sanity check against bad usb devices */
+	if ((w ==0) || (w > 1024) || (h == 0) || (h > 1024)) return GP_ERROR_CORRUPTED_DATA;
+
 	/* Image data to be downloaded contains header and footer bytes */
 	data = malloc (b+14);
 	if (!data) return GP_ERROR_NO_MEMORY;
@@ -224,15 +228,33 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 			compressed = 1;
 			h = 288;
 		}
+
+	/* sanity check the sizes, as the ahd bayer algorithm does not like very small height / width */
+	if ((h < 72) || (w < 176)) {
+		status = GP_ERROR_CORRUPTED_DATA;
+		goto end;
+	}
 	p_data = malloc( w*h );
 	if (!p_data) {
 		status =  GP_ERROR_NO_MEMORY;
 		goto end;
 	}
-	if (compressed)
+	if (compressed) {
+		/* compressed seems to mean half the lines */
+		if (w/2*h > b+14) {
+			free(p_data);
+			status = GP_ERROR_CORRUPTED_DATA;
+			goto end;
+		}
 		jl2005a_decompress (image_start, p_data, w, h);
-	else
+	} else {
+		if (w*h > b+14) {
+			free(p_data);
+			status = GP_ERROR_CORRUPTED_DATA;
+			goto end;
+		}
 		memcpy(p_data, image_start, w*h);
+	}
 	ppm = malloc (w * h * 3 + 256); /* room for data and header */
 	if (!ppm) {
 		free(p_data);
@@ -247,7 +269,7 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 	size = strlen ((char *)ppm);
 	ptr = ppm + size;
 	size = size + (w * h * 3);
-	GP_DEBUG ("size = %i\n", size);
+	GP_DEBUG ("size = %i, w = %d, h = %d\n", size, w,h );
 	gp_ahd_decode (p_data, w , h, ptr, BAYER_TILE_BGGR);
 
 	free(p_data);
@@ -255,7 +277,7 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 	gp_gamma_correct_single (gtable, ptr, w * h);
 	gp_file_set_mime_type (file, GP_MIME_PPM);
 	gp_file_set_data_and_size (file, (char *)ppm, size);
-	end:
+end:
 	free(data);
 	return status;
 }

@@ -57,6 +57,10 @@
 #  define N_(String) (String)
 #endif
 
+#ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
+#define sleep(x)
+#endif
+
 #define GP_MODULE "gsmart300"
 static int gsmart300_download_data (CameraPrivateLibrary * lib,
 		int data_type, uint16_t index, unsigned int size,
@@ -141,6 +145,11 @@ gsmart300_request_file (CameraPrivateLibrary * lib, CameraFile *file,
 	qIndex = p[7] & 0x07;
 
 	file_size = data_size + GSMART_JPG_DEFAULT_HEADER_LENGTH + 1024 * 10;
+
+	if (flash_size < data_size) {
+		GP_DEBUG("flash_size %d is smaller than data_size %d\n", flash_size, data_size);
+		return GP_ERROR_CORRUPTED_DATA;
+	}
 
 	/* slurp in the image */
 	mybuf = malloc (flash_size);
@@ -371,11 +380,11 @@ gsmart300_get_FATs (CameraPrivateLibrary * lib)
 
 	if (lib->fats)
 		free (lib->fats);
-	lib->fats = malloc ((lib->num_files) * FLASH_PAGE_SIZE_300);
+	lib->fats = calloc (lib->num_files,FLASH_PAGE_SIZE_300);
 
 	if (lib->files)
 		free (lib->files);
-	lib->files = malloc (lib->num_files * sizeof (struct GsmartFile));
+	lib->files = calloc (lib->num_files,sizeof (struct GsmartFile));
 
 	p = lib->fats;
 

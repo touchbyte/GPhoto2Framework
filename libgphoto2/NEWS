@@ -1,10 +1,104 @@
-libgphoto2 2.5.22.1 development
+libgphoto2 2.5.24.1 development
+------------------------------------------------------------------------------
+libgphoto2 2.5.24 release
+
+ptp2:
+* GoPro: fixed all images not visible bug
+* Canon EOS: lock/unlock ui before more operations
+* Canon Powershot SX / EOS M: some setup adjustments to make powershot sx work better
+* Nikon Keymission 170: try override opcodes to allow capture
+* Nikon DSLR: fixed a regression where 5 seconds was longer image capture shutterspeed
+* Sony: adjusted manualfocusing not to autofocus
+* Fuji: access ISO config
+* Sony: fixed manual focusing
+* Sony: specify capturetarget on camera, available on current 2019/2020 Sony
+* bugfixes
+* New ids added:
+  * Sony Alpha RX100V, A7s, RX0 II,
+  * Nikon Z50, Coolpix L810, KeyMission 170
+  * Canon PowerShot SX530HS, SX 620HS, 
+  * Canon EOS 2000D, 1500D, R2, M6 Mark 2, 250D,
+  * Fuji X-A5, X-E3, GFX100
+  * GoPro Hero 7 White, 7 Silver, 7 Black, 8 Black
+
+lumix:
+
+* New WIFI Lumix camera driver was added, using curl and libxml2.
+
+  Lots of abilities supported already, also capture preview.
+  However capture itself is not yet working.
+  This driver needs libxml2 and libcurl to be built.
+
+all:
+
+* Selecting camera libraries has changed a bit.
+
+
+  --camlibs=everything will select all and outdated drivers
+  --camlibs=standard  will select "current day" drivers
+  --camlibs=standard,outdated  will select "current day" and "outdated" drivers
+
+  You can now also use modifiers like +canon or -canon to enable/disable selected camera libraries.
+
+  The default is "standard", same as before.
+
+* fixed some issues found by AFL fuzzing, mostly in "outdated" drivers.
+
+* SECURITY.md: Small document added describing security properties of the library.
+
+------------------------------------------------------------------------------
+libgphoto2 2.5.23 release
 
 ptp2:
 * Sony capture stability and speed improvements
+* Canon EOS capture stability improvements, reduce partial read blobs from 5MB to 1MB
+* Canon EOS M image format unpacking adjustments
+* Olympus OMD: bulb capture added, trigger capture capable
+* Panasonic GH5: added manualfocusdrive, capturetarget
+* Canon PowerShot X work ... trying to support / improve stability of capture
+* PTP string packing adjusted to standard (empty and null strings)
+* New ids added:
+  * Sony Alpha A68, RX100M6, DSC-WX350
+  * Nikon Coolpix L100
+  * Canon PowerShot G7X, G9X Mark II
+  * Canon Rebel T6, EOS 2000D
+  * Fuji X-A2, GFX 50R, XT-30
+  * Ricoh WG-M2
+* libmtp ids synced.
+
+pentax:
+* synced smaller parts with pktriggercord
 
 translations:
 * updated danish
+
+fuzzing:
+* vusb and sample-afl now able to fuzz all USB cameras (even if slow)
+
+all:
+* Various crashes fixed that were found during AFL fuzzing the USB drivers
+
+* The camlibs for cameras (and driver) older than 15 years have been
+  default disabled for installation, to speed up libgphoto2 startup
+  and also reduce attack surface against malicious USB devices.
+
+  See OUTDATED.txt in git for notes.
+
+  You can reenable them using:
+
+	./configure --with-camlibs=all,outdated
+
+  or by the camlib driver name (sample: jd11):
+
+	./configure --with-camlibs=all,jd11
+
+  To get the lists of all camera libraries use:
+
+	./configure --help
+
+  If you still have an old camera using one of these camlibs in active
+  use, please report this to the devteam so we can reenable it per
+  default.
 
 ------------------------------------------------------------------------------
 libgphoto2 2.5.22 release

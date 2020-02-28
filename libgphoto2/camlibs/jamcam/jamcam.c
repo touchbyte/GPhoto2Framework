@@ -181,7 +181,8 @@ static int get_file_func (CameraFilesystem *fs, const char *folder,
 	char *raw, *ppm;
 	unsigned char gtable[256];
 	char *ptr;
-	int size = 0, n = 0;
+	unsigned int size = 0;
+	int n = 0;
 	int width, height;
 	struct jamcam_file *jc_file;
 
@@ -237,6 +238,12 @@ static int get_file_func (CameraFilesystem *fs, const char *folder,
 			"# CREATOR: gphoto2, jamcam library\n"
 			"%d %d\n"
 			"255\n", jc_file->width, jc_file->height );
+
+		if ((jc_file->width > 640) || (jc_file->height > 480)) {
+			free (raw);
+			free (ppm);
+			return GP_ERROR;
+		}
 
 		ptr = ppm + strlen( ppm );
 

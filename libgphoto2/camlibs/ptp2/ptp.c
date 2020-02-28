@@ -1,7 +1,7 @@
 /* ptp.c
  *
  * Copyright (C) 2001-2004 Mariusz Woloszyn <emsi@ipartners.pl>
- * Copyright (C) 2003-2018 Marcus Meissner <marcus@jet.franken.de>
+ * Copyright (C) 2003-2019 Marcus Meissner <marcus@jet.franken.de>
  * Copyright (C) 2006-2008 Linus Walleij <triad@df.lth.se>
  * Copyright (C) 2007 Tero Saarni <tero.saarni@gmail.com>
  * Copyright (C) 2009 Axel Waggershauser <awagger@web.de>
@@ -879,6 +879,46 @@ ptp_olympus_omd_capture (PTPParams* params)
 	ret =  ptp_transaction(params, &ptp, PTP_DP_GETDATA, 0, &buffer, &size);
 	free (buffer);
 	return ret;
+}
+/**
+ * ptp_olympus_bulbstart:
+ * params:	PTPParams*
+ *
+ * Starts Olympus Bulb capture.
+ *
+ * Return values: Some PTP_RC_* code.
+ **/
+uint16_t
+ptp_olympus_omd_bulbstart (PTPParams* params)
+{
+	PTPContainer	ptp;
+
+	PTP_CNT_INIT(ptp, PTP_OC_OLYMPUS_OMD_Capture, 0x3); // initiate capture
+	CHECK_PTP_RC(ptp_transaction(params, &ptp, PTP_DP_NODATA, 0, NULL, NULL));
+	if ((ptp.Nparam >= 1) && ((ptp.Param1 & 0x7000) == 0x2000))
+		return ptp.Param1;
+	return PTP_RC_OK;
+}
+
+
+/**
+ * ptp_olympus_bulbend:
+ * params:	PTPParams*
+ *
+ * Stops Olympus Bulb capture.
+ *
+ * Return values: Some PTP_RC_* code.
+ **/
+uint16_t
+ptp_olympus_omd_bulbend (PTPParams* params)
+{
+	PTPContainer	ptp;
+
+	PTP_CNT_INIT(ptp, PTP_OC_OLYMPUS_OMD_Capture, 0x6); // initiate capture
+	CHECK_PTP_RC(ptp_transaction(params, &ptp, PTP_DP_NODATA, 0, NULL, NULL));
+	if ((ptp.Nparam >= 1) && ((ptp.Param1 & 0x7000) == 0x2000))
+		return ptp.Param1;
+	return PTP_RC_OK;
 }
 
 uint16_t
@@ -3257,7 +3297,6 @@ ptp_canon_eos_setdevicepropvalue (PTPParams* params,
 		size = 8 + ptp_pack_EOS_ImageFormat( params, NULL, value->u16 );
 		data = malloc( size );
 		if (!data) return PTP_RC_GeneralError;
-		params->canon_props[i].dpd.CurrentValue.u16 = value->u16;
 		ptp_pack_EOS_ImageFormat( params, data + 8, value->u16 );
 		break;
 	case PTP_DPC_CANON_EOS_CustomFuncEx:
@@ -3266,7 +3305,6 @@ ptp_canon_eos_setdevicepropvalue (PTPParams* params,
 		size = 8 + ptp_pack_EOS_CustomFuncEx( params, NULL, value->str );
 		data = malloc( size );
 		if (!data) return PTP_RC_GeneralError;
-		params->canon_props[i].dpd.CurrentValue.str = strdup( value->str );
 		ptp_pack_EOS_CustomFuncEx( params, data + 8, value->str );
 		break;
 	default:
@@ -3284,24 +3322,19 @@ ptp_canon_eos_setdevicepropvalue (PTPParams* params,
 		case PTP_DTC_UINT8:
 			/*fprintf (stderr, "%x -> %d\n", propcode, value->u8);*/
 			htod8a(&data[8], value->u8);
-			params->canon_props[i].dpd.CurrentValue.u8 = value->u8;
 			break;
 		case PTP_DTC_UINT16:
 		case PTP_DTC_INT16:
 			/*fprintf (stderr, "%x -> %d\n", propcode, value->u16);*/
 			htod16a(&data[8], value->u16);
-			params->canon_props[i].dpd.CurrentValue.u16 = value->u16;
 			break;
 		case PTP_DTC_INT32:
 		case PTP_DTC_UINT32:
 			/*fprintf (stderr, "%x -> %d\n", propcode, value->u32);*/
 			htod32a(&data[8], value->u32);
-			params->canon_props[i].dpd.CurrentValue.u32 = value->u32;
 			break;
 		case PTP_DTC_STR:
 			strcpy((char*)data + 8, value->str);
-			free (params->canon_props[i].dpd.CurrentValue.str);
-			params->canon_props[i].dpd.CurrentValue.str = strdup(value->str);
 			break;
 		}
 	}
@@ -3311,6 +3344,41 @@ ptp_canon_eos_setdevicepropvalue (PTPParams* params,
 
 	ret = ptp_transaction(params, &ptp, PTP_DP_SENDDATA, size, &data, NULL);
 	free (data);
+	if (ret == PTP_RC_OK) {
+		/* commit to cache only after successful setting */
+		switch (propcode) {
+		case PTP_DPC_CANON_EOS_ImageFormat:
+		case PTP_DPC_CANON_EOS_ImageFormatCF:
+		case PTP_DPC_CANON_EOS_ImageFormatSD:
+		case PTP_DPC_CANON_EOS_ImageFormatExtHD:
+			/* special handling of ImageFormat properties */
+			params->canon_props[i].dpd.CurrentValue.u16 = value->u16;
+			break;
+		case PTP_DPC_CANON_EOS_CustomFuncEx:
+			/* special handling of CustomFuncEx properties */
+			params->canon_props[i].dpd.CurrentValue.str = strdup( value->str );
+			break;
+		default:
+			switch (datatype) {
+			case PTP_DTC_INT8:
+			case PTP_DTC_UINT8:
+				params->canon_props[i].dpd.CurrentValue.u8 = value->u8;
+				break;
+			case PTP_DTC_UINT16:
+			case PTP_DTC_INT16:
+				params->canon_props[i].dpd.CurrentValue.u16 = value->u16;
+				break;
+			case PTP_DTC_INT32:
+			case PTP_DTC_UINT32:
+				params->canon_props[i].dpd.CurrentValue.u32 = value->u32;
+				break;
+			case PTP_DTC_STR:
+				free (params->canon_props[i].dpd.CurrentValue.str);
+				params->canon_props[i].dpd.CurrentValue.str = strdup(value->str);
+				break;
+			}
+		}
+	}
 	return ret;
 }
 
@@ -4013,6 +4081,30 @@ ptp_nikon_get_preview_image (PTPParams* params, unsigned char **xdata, unsigned 
 	CHECK_PTP_RC(ptp_transaction(params, &ptp, PTP_DP_GETDATA, 0, xdata, xsize));
 	if (ptp.Nparam > 0)
 		*handle = ptp.Param1;
+	return PTP_RC_OK;
+}
+
+/**
+ * ptp_canon_eos_get_remotemode:
+ *
+ * This command gets the EOS remote mode.
+ *
+ * params:	PTPParams*
+ *
+ * Return values: Some PTP_RC_* code.
+ *
+ **/
+uint16_t
+ptp_canon_eos_getremotemode (PTPParams* params, uint32_t *mode)
+{
+	PTPContainer	ptp;
+
+        PTP_CNT_INIT(ptp, PTP_OC_CANON_EOS_GetRemoteMode);
+
+	CHECK_PTP_RC(ptp_transaction(params, &ptp, PTP_DP_NODATA, 0, NULL, NULL));
+	*mode = 0;
+	if (ptp.Nparam > 0)
+		*mode = ptp.Param1;
 	return PTP_RC_OK;
 }
 
@@ -4883,7 +4975,7 @@ ptp_fuji_getevents (PTPParams* params, uint16_t** events, uint16_t* count)
 			{
 				param = dtoh16a(&data[2 + 6 * i]);
 				value = dtoh32a(&data[2 + 6 * i + 2]);
-				*events[i] = param;
+				(*events)[i] = param;
 				ptp_debug(params, "param: %02x, value: %d ", param, value);
 			}
 		}
@@ -5722,6 +5814,7 @@ ptp_get_property_description(PTPParams* params, uint16_t dpc)
 		{PTP_DPC_FUJI_Quality, N_("AE Lock")},				/* 0xD213 */
 		{PTP_DPC_FUJI_Quality, N_("Aperture")},				/* 0xD218 */
 		{PTP_DPC_FUJI_Quality, N_("Shutter Speed")},			/* 0xD219 */
+		{PTP_DPC_FUJI_FocusPoint, N_("Focus Point")},			/* 0xD347 */
 		{0,NULL}
         };
 
@@ -5748,6 +5841,7 @@ ptp_get_property_description(PTPParams* params, uint16_t dpc)
 		{PTP_DPC_SONY_SensorCrop, N_("Sensor Crop")},
 		{PTP_DPC_SONY_AutoFocus, N_("Autofocus")},
 		{PTP_DPC_SONY_Capture, N_("Capture")},
+		{PTP_DPC_WhiteBalance, N_("White Balance")},		/* 0x5005 */
 		{0,NULL}
         };
 
@@ -7527,9 +7621,13 @@ ptp_object_want (PTPParams *params, uint32_t handle, unsigned int want, PTPObjec
 			ob->oi.ParentObject = 0;
 
 		/* Apple iOS X does that for the root folder. */
-		if (ob->oi.ParentObject == ob->oi.StorageID) {
-			ptp_debug (params, "parent %08x of %s has same id as storage id. rewriting to 0.", ob->oi.ParentObject, ob->oi.Filename);
-			ob->oi.ParentObject = 0;
+		if ((ob->oi.ParentObject == ob->oi.StorageID)) {
+			PTPObject *parentob;
+
+			if (ptp_object_find (params, ob->oi.ParentObject, &parentob) != PTP_RC_OK) {
+				ptp_debug (params, "parent %08x of %s has same id as storage id. and no object found ... rewriting to 0.", ob->oi.ParentObject, ob->oi.Filename);
+				ob->oi.ParentObject = 0;
+			}
 		}
 
 		/* Read out the canon special flags */

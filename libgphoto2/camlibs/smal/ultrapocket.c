@@ -35,6 +35,10 @@
 #include "ultrapocket.h"
 #include "smal.h"
 
+#ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
+# define sleep(x) 
+#endif
+
 #define GP_MODULE "Smal Ultrapocket"
 
 #include <locale.h>
@@ -169,7 +173,7 @@ getpicture_logitech_pd(Camera *camera, GPContext *context, unsigned char **rd, c
     unsigned char *rawdata;
     int            ptc,pc,id;
 
-    memcpy(command+3, filename, 11); /* the id of the image to transfer */
+    strncpy(command+3, filename, 11); /* the id of the image to transfer */
 
     CHECK_RESULT(ultrapocket_command(port, 1, command, 0x10));
 
@@ -381,11 +385,14 @@ static int
 ultrapocket_reset(Camera *camera)
 {
    GPPortInfo oldpi;
+   GPPortInfo newpi;
    GPPort *port = camera->port;
    CameraAbilities cab;
    unsigned char cmdbuf[0x10];
    gp_camera_get_abilities(camera, &cab);
    GP_DEBUG ("First connect since camera was used - need to reset cam");
+   char *val;
+   GPPortType porttype;
 
    /*
     * this resets the ultrapocket.  Messy, but it's what the windows
@@ -399,11 +406,20 @@ ultrapocket_reset(Camera *camera)
    /* -------------- */
    sleep(4); /* This should do - _might_ need increasing */
    CHECK_RESULT(gp_port_get_info(port, &oldpi));
+   gp_port_info_new(&newpi);
+   gp_port_info_get_name (oldpi, &val);
+   gp_port_info_set_name (newpi, val);
+   gp_port_info_get_path (oldpi, &val);
+   gp_port_info_set_path (newpi, val);
+   gp_port_info_get_type (oldpi, &porttype);
+   gp_port_info_set_type (newpi, porttype);
+   /*gp_port_info_get_library_filename (oldpi, &val);
+   gp_port_info_set_library_filename (newpi, val);*/
+
    CHECK_RESULT(gp_port_free(port));
    CHECK_RESULT(gp_port_new(&port));
-   CHECK_RESULT(gp_port_set_info(port, oldpi));
-   CHECK_RESULT(gp_port_usb_find_device(port, 
-      cab.usb_vendor, cab.usb_product));
+   CHECK_RESULT(gp_port_set_info(port, newpi));
+   CHECK_RESULT(gp_port_usb_find_device(port, cab.usb_vendor, cab.usb_product));
    CHECK_RESULT(gp_port_open(port));
    camera->port = port;
    return GP_OK;

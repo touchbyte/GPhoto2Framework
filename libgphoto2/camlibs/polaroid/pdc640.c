@@ -511,7 +511,7 @@ pdc640_processtn (int width, int height, unsigned char **data, int size) {
 	int y;
 
 	/* Sanity checks */
-	if ((data == NULL) || (size < width * height))
+	if ((data == NULL) || (size  / width < height))
 		return (GP_ERROR_CORRUPTED_DATA);
 
 	/* Allocate a new buffer */
@@ -568,6 +568,7 @@ pdc640_deltadecode (int width, int height, unsigned char **rawdata, int *rawsize
 
 	GP_DEBUG ("pdc640_deltacode ()");
 
+	if (width < 2) return GP_ERROR_CORRUPTED_DATA; /* invalid, we implicitly assume it to be 2 or higher in the decoder */
 	/* Create a buffer to store RGB data in */
 	size = width * height;
 	data = malloc (size * sizeof (char));
@@ -697,7 +698,7 @@ pdc640_getpic (Camera *camera, int n, int thumbnail, int justraw,
 	CHECK_RESULT (pdc640_transmit_pic (camera->port, cmd, width, thumbnail,
 					*data, *size));
 
-	if (thumbnail || (compression_type == 0 )) {
+	if (thumbnail || ((compression_type & 3) == 0 )) {
 		/* Process uncompressed data */
 		CHECK_RESULT (pdc640_processtn (width, height,
 						data, *size));

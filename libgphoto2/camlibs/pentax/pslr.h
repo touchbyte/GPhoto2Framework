@@ -1,6 +1,6 @@
 /*
     pkTriggerCord
-    Copyright (C) 2011-2018 Andras Salamon <andras.salamon@melda.info>
+    Copyright (C) 2011-2019 Andras Salamon <andras.salamon@melda.info>
     Remote control of Pentax DSLR cameras.
 
     Support for K200D added by Jens Dreyer <jens.dreyer@udo.edu> 04/2011
@@ -72,7 +72,7 @@ user_file_format_t *get_file_format_t( user_file_format uff );
 
 // OFF-AUTO: Off-Auto-Aperture
 typedef enum {
-    PSLR_EXPOSURE_MODE_P = 0 ,
+    PSLR_EXPOSURE_MODE_P = 0,
     PSLR_EXPOSURE_MODE_GREEN = 1,
 //    PSLR_EXPOSURE_MODE_HYP = 2,
 //    PSLR_EXPOSURE_MODE_AUTO_PICT = 1,

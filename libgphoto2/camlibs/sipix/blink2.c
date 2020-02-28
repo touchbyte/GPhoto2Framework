@@ -178,6 +178,10 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 		end = 	(xbuf[8*i+13] << 16) |
 			(xbuf[8*i+14] <<  8) |
 			(xbuf[8*i+15]);
+
+		if (end < start)
+			return GP_ERROR_IO_READ;
+
 		addrs[i].start = start;
 		addrs[i].len = (end-start)/4;
 		addrs[i].type = xbuf[8*(i+1)];
@@ -190,14 +194,18 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 		free(addrs);
                 return image_no;
 	}
+	if (image_no >= numpics) {
+		free(addrs);
+		gp_log(GP_LOG_DEBUG, "blink2","image %d requested, but only %d pics on camera?", image_no, numpics);
+                return GP_ERROR;
+	}
         switch (type) {
         case GP_FILE_TYPE_NORMAL:
 #ifdef HAVE_LIBJPEG
 {
 		char *convline,*convline2,*rawline;
 		unsigned char	*jpegdata;
-		unsigned int start, len, pitch;
-		int curread;
+		unsigned int curread, start, len, pitch;
 		struct jpeg_decompress_struct	dinfo;
 		struct jpeg_source_mgr		xjsm;
 		struct jpeg_error_mgr		jerr;
@@ -209,6 +217,11 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
         		gp_file_set_mime_type (file, GP_MIME_JPEG);
 		start = addrs[image_no].start;
 		len = addrs[image_no].len;
+
+		if (len >= UINT_MAX / 8) {
+			result = GP_ERROR_NO_MEMORY;
+			break;
+		}
 		jpegdata = (unsigned char*)malloc (len*8);
 		if (!jpegdata) {
 			result = GP_ERROR_NO_MEMORY;
@@ -231,11 +244,12 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 		curread  = 0;
 		do {
 			int res;
-			res = gp_port_read (camera->port, (char*)(jpegdata+curread), len );
+			res = gp_port_read (camera->port, (char*)(jpegdata+curread), len-curread );
 			if (res < GP_OK) {
 				result = GP_OK;
 				break;
 			}
+			if (!res) break;
 			curread += res;
 		} while (curread<=len);
 

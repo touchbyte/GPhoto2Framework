@@ -34,16 +34,16 @@
 #define CHECK(result) {int __res; __res = result; if (__res < 0) return (__res);}
 
 struct jamcam_file {
-	int position;
-	int width;
-	int height;
-	int data_incr;
+	unsigned int position;
+	unsigned int width;
+	unsigned int height;
+	unsigned int data_incr;
 };
 
 int jamcam_enq(Camera *camera);
 int jamcam_file_count(Camera *camera);
 struct jamcam_file *jamcam_file_info(Camera *camera, int number);
-int jamcam_request_image(Camera *camera, CameraFile *file, char *buf, int *len, int number, GPContext *context );
-int jamcam_request_thumbnail(Camera *camera, CameraFile *file, char *buf, int *len, int number, GPContext *context );
+int jamcam_request_image(Camera *camera, CameraFile *file, char *buf, unsigned int *len, int number, GPContext *context );
+int jamcam_request_thumbnail(Camera *camera, CameraFile *file, char *buf, unsigned int *len, int number, GPContext *context );
 
 #endif /* __LIBRARY_H__ */

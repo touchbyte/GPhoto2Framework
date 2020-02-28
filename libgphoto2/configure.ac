@@ -1,11 +1,11 @@
 dnl Process this file with autoreconf to produce a configure script.
-AC_PREREQ(2.59)
+AC_PREREQ(2.62)
 
 dnl NOTE: Be version style _higher_ than the last release.
 dnl       So lastversion.X.trunk for instance. Bump X if necessary.
 
-dnl ******* THE NEXT RELEASE VERSION MUST BE 2.5.23 at least or higher!
-AC_INIT([libgphoto2 photo camera library], [2.5.22.1], [gphoto-devel@lists.sourceforge.net], [libgphoto2])
+dnl ******* THE NEXT RELEASE VERSION MUST BE 2.5.25 at least or higher!
+AC_INIT([libgphoto2 photo camera library], [2.5.24.1], [gphoto-devel@lists.sourceforge.net], [libgphoto2])
 
 AC_CONFIG_SRCDIR([libgphoto2/gphoto2-version.c])
 AC_CONFIG_HEADERS([config.h])
@@ -71,6 +71,11 @@ dnl ---------------------------------------------------------------------------
 dnl Checks for programs.
 dnl ---------------------------------------------------------------------------
 
+AC_MSG_CHECKING([original CC value])
+AC_MSG_RESULT(["$CC"])
+AC_MSG_CHECKING([original CXX value])
+AC_MSG_RESULT(["$CXX"])
+
 AC_PROG_CC
 AC_PROG_CPP
 AC_PROG_CXX
@@ -82,6 +87,33 @@ dnl Something with the sequences is not quite alright yet.
 dnl SED is supposed to be set in AC_LIBTOOL_SETUP, but the
 dnl sequence seems to get mixed up.
 SED=${SED-sed}
+
+
+dnl If CXX is neither unset nor empty nor "no", presume we can compile
+dnl C++ sources. A C++ compiler is not required for libgphoto2 itself,
+dnl but is useful to make sure that the libgphoto2 header files
+dnl compile when included into C++ source files.
+AM_CONDITIONAL([HAVE_CXX], [test "x$CXX" != "x" && test "x$CXX" != "xno"])
+
+
+dnl --------------------------------------------------------------------
+dnl Determine the most pedantic compiler flags we can can find for both
+dnl C and C++, so that we can test that the libgphoto2 headers compile
+dnl with those flags.
+dnl --------------------------------------------------------------------
+GP_PEDANTIC_COMPILER_FLAGS([C90],   [C],   [-std=c90])
+GP_PEDANTIC_COMPILER_FLAGS([C99],   [C],   [-std=c99])
+GP_PEDANTIC_COMPILER_FLAGS([C11],   [C],   [-std=c11])
+dnl
+GP_PEDANTIC_COMPILER_FLAGS([CXX98], [C++], [-std=c++98])
+GP_PEDANTIC_COMPILER_FLAGS([CXX11], [C++], [-std=c++11])
+GP_PEDANTIC_COMPILER_FLAGS([CXX14], [C++], [-std=c++14])
+GP_PEDANTIC_COMPILER_FLAGS([CXX17], [C++], [-std=c++17])
+
+
+dnl Every compile example after here will be using the C language
+AC_LANG([C])
+
 
 dnl ---------------------------------------------------------------------------
 dnl Turn on (almost) all warnings when using gcc
@@ -255,6 +287,13 @@ AC_CHECK_LIB(m, sqrt)
 
 
 dnl ---------------------------------------------------------------------------
+dnl test GP_SET_ macros from gp-set.m4
+dnl ---------------------------------------------------------------------------
+dnl GP_SET_TESTSUITE
+dnl AC_MSG_ERROR([gp-set.m4 testsuite done.])
+
+
+dnl ---------------------------------------------------------------------------
 dnl check for libjpeg
 dnl ---------------------------------------------------------------------------
 LIBJPEG=""
@@ -281,6 +320,19 @@ GP_CHECK_LIBRARY([LIBXML2],[libxml-2.0],[>= 2.0],
                 [http://xmlsoft.org]
 )
 GP_CONFIG_MSG([XML support for Olympus E series],[${have_LIBXML2}])
+
+GP_CHECK_LIBRARY([LIBCURL],[libcurl],[>= 7.1],
+		[curl/curl.h],[curl_easy_init],[],[],
+                [default-on],
+		[https://www.curl.org]
+)
+GP_CONFIG_MSG([CURL support for Lumix Wifi],[${have_LIBCURL}])
+
+AM_CONDITIONAL([HAVE_LIBCURL],
+               [test -n "$have_LIBCURL" && test "X$have_LIBCURL" != "Xno"])
+AM_CONDITIONAL([HAVE_LIBXML2],
+               [test -n "$have_LIBXML2" && test "X$have_LIBXML2" != "Xno"])
+
 
 dnl ---------------------------------------------------------------------------
 dnl check for libgd
@@ -467,82 +519,88 @@ AM_CPPFLAGS="$AM_CPPFLAGS -DCAMLIBS=\\\"\$(camlibdir)\\\""
 dnl ---------------------------------------------------------------------------
 dnl Camera drivers (camlibs)
 dnl ---------------------------------------------------------------------------
-dnl * See m4m/gp-camlibs.m4 for usage details, e.g. for marking camlibs as
+dnl * See gp-camlibs.m4 for usage details, e.g. for marking camlibs as
 dnl   unlisted.
 dnl * Please add new camlibs in alphabetical order.
 dnl * Selective build:
 dnl   $ make -C camlibs canon.la ptp2.la
+dnl   or
+dnl   $ make -C camlibs GP_CAMLIB_SET="canon.la ptp2.la"
 dnl * Selective install:
-dnl   $ make CAMLIBS="canon.la ptp2.la" install-camlibs
-GP_CAMLIB([adc65])dnl
-GP_CAMLIB([agfa_cl20])dnl
-GP_CAMLIB([aox])dnl
+dnl   $ make GP_CAMLIB_SET="canon.la ptp2.la" install-camlibs
+GP_CAMLIB([adc65],[outdated])dnl very old serial camera
+GP_CAMLIB([agfa_cl20],[outdated])dnl
+GP_CAMLIB([aox],[outdated])dnl
 GP_CAMLIB([ax203])dnl
-GP_CAMLIB([barbie])dnl
+GP_CAMLIB([barbie],[outdated])dnl
 GP_CAMLIB([canon])dnl
-GP_CAMLIB([casio_qv])dnl
-GP_CAMLIB([clicksmart310])dnl
+GP_CAMLIB([casio_qv],[outdated])dnl
+GP_CAMLIB([clicksmart310],[outdated])dnl
 GP_CAMLIB([digigr8])dnl
-GP_CAMLIB([digita])dnl
-GP_CAMLIB([dimera3500])dnl
+GP_CAMLIB([digita],[outdated])dnl
+GP_CAMLIB([dimera3500],[outdated])dnl
 GP_CAMLIB([directory])dnl
-GP_CAMLIB([enigma13])dnl
-GP_CAMLIB([fuji])dnl
-GP_CAMLIB([gsmart300])dnl
-GP_CAMLIB([hp215])dnl
-GP_CAMLIB([iclick])dnl
-GP_CAMLIB([jamcam])dnl
-GP_CAMLIB([jd11])dnl
+GP_CAMLIB([enigma13],[outdated])dnl
+GP_CAMLIB([fuji],[outdated])dnl
+GP_CAMLIB([gsmart300],[outdated])dnl
+GP_CAMLIB([hp215],[outdated])dnl
+GP_CAMLIB([iclick],[outdated])dnl
+GP_CAMLIB([jamcam],[outdated])dnl
+GP_CAMLIB([jd11],[outdated])dnl
 GP_CAMLIB([jl2005a])dnl
 GP_CAMLIB([jl2005c])dnl
-GP_CAMLIB([kodak_dc120])dnl
-GP_CAMLIB([kodak_dc210])dnl
+GP_CAMLIB([kodak_dc120],[outdated])dnl
+GP_CAMLIB([kodak_dc210],[outdated])dnl
 GP_CAMLIB([kodak_dc240])dnl
-GP_CAMLIB([kodak_dc3200])dnl
-GP_CAMLIB([kodak_ez200])dnl
-GP_CAMLIB([konica])dnl
-GP_CAMLIB([konica_qm150])dnl
-GP_CAMLIB([largan])dnl
-GP_CAMLIB([lg_gsm])dnl
+GP_CAMLIB([kodak_dc3200],[outdated])dnl
+GP_CAMLIB([kodak_ez200],[outdated])dnl
+GP_CAMLIB([konica],[outdated])dnl
+GP_CAMLIB([konica_qm150],[outdated])dnl
+GP_CAMLIB([largan],[outdated])dnl
+GP_CAMLIB([lg_gsm],[outdated])dnl
+AM_COND_IF([HAVE_LIBCURL], [dnl
+AM_COND_IF([HAVE_LIBXML2], [dnl
+GP_CAMLIB([lumix])dnl
+])
+])
 GP_CAMLIB([mars])dnl
 GP_CAMLIB([dimagev])dnl
-GP_CAMLIB([mustek])dnl
-GP_CAMLIB([panasonic_coolshot])dnl
-GP_CAMLIB([panasonic_l859])dnl
-GP_CAMLIB([panasonic_dc1000])dnl
-GP_CAMLIB([panasonic_dc1580])dnl
-GP_CAMLIB([pccam300])dnl
-GP_CAMLIB([pccam600])dnl
+GP_CAMLIB([mustek],[outdated])dnl
+GP_CAMLIB([panasonic_coolshot],[outdated])dnl
+GP_CAMLIB([panasonic_l859],[outdated])dnl
+GP_CAMLIB([panasonic_dc1000],[outdated])dnl
+GP_CAMLIB([panasonic_dc1580],[outdated])dnl
+GP_CAMLIB([pccam300],[outdated])dnl
+GP_CAMLIB([pccam600],[outdated])dnl
 GP_CAMLIB([pentax])dnl
-GP_CAMLIB([polaroid_pdc320])dnl
-GP_CAMLIB([polaroid_pdc640])dnl
-GP_CAMLIB([polaroid_pdc700])dnl
+GP_CAMLIB([polaroid_pdc320],[outdated])dnl
+GP_CAMLIB([polaroid_pdc640],[outdated])dnl
+GP_CAMLIB([polaroid_pdc700],[outdated])dnl
 GP_CAMLIB([ptp2])dnl
-GP_CAMLIB([ricoh])dnl
+GP_CAMLIB([ricoh],[outdated])dnl
 GP_CAMLIB([ricoh_g3])dnl
-GP_CAMLIB([samsung])dnl
+GP_CAMLIB([samsung],[outdated])dnl
 GP_CAMLIB([sierra])dnl
 GP_CAMLIB([sipix_blink], [unlisted])dnl did not find out the correct decompressor, unfinished
-GP_CAMLIB([sipix_blink2])dnl
-GP_CAMLIB([sipix_web2])dnl
-GP_CAMLIB([smal])dnl
+GP_CAMLIB([sipix_blink2],[outdated])dnl
+GP_CAMLIB([sipix_web2],[outdated])dnl
+GP_CAMLIB([smal],[outdated])dnl
 GP_CAMLIB([sonix])dnl
-GP_CAMLIB([sony_dscf1])dnl
-GP_CAMLIB([sony_dscf55])dnl
-GP_CAMLIB([soundvision])dnl
-GP_CAMLIB([spca50x])dnl
+GP_CAMLIB([sony_dscf1],[outdated])dnl
+GP_CAMLIB([sony_dscf55],[outdated])dnl
+GP_CAMLIB([soundvision],[outdated])dnl
+GP_CAMLIB([spca50x],[outdated])dnl
 GP_CAMLIB([sq905])dnl
 GP_CAMLIB([st2205])dnl
-GP_CAMLIB([stv0674])dnl
-GP_CAMLIB([stv0680])dnl
-GP_CAMLIB([sx330z])dnl
+GP_CAMLIB([stv0674],[outdated])dnl
+GP_CAMLIB([stv0680],[outdated])dnl
+GP_CAMLIB([sx330z],[outdated])dnl
 GP_CAMLIB([template], [unlisted])dnl
 GP_CAMLIB([topfield])dnl
-GP_CAMLIB([toshiba_pdrm11])dnl
+GP_CAMLIB([toshiba_pdrm11],[outdated])dnl
 GP_CAMLIB([tp6801])dnl
 dnl
 GP_CAMLIBS_DEFINE()dnl
-GP_CONFIG_MSG([Camlibs],[${camlibs}])
 
 
 dnl --------------------------------------------------------------------
@@ -605,10 +663,6 @@ CPPFLAGS="$CPPFLAGS_save"
 ],[],[default-on],[http://www.sourceforge.net/projects/libexif])dnl
 
 
-dnl FIXME: Is this accurate?
-AM_CONDITIONAL([HAVE_CXX], [test -n "$CXX" && test "X$CXX" != "Xno"])
-
-
 dnl ---------------------------------------------------------------------------
 dnl Configure subprojects
 dnl ---------------------------------------------------------------------------
@@ -616,10 +670,18 @@ if test -d "$srcdir/libgphoto2_port"; then
 	AC_CONFIG_SUBDIRS([libgphoto2_port])
 else
 	AC_MSG_ERROR([
-*** Hey, where have you hidden my libgphoto2_port?
-*** I needed that!
+******************************************************
+*** Hey, where have you hidden my libgphoto2_port? ***
+*** I needed that!                                 ***
+******************************************************
 ])
 fi
+
+
+# ---------------------------------------------------------------------------
+# clean up
+# ---------------------------------------------------------------------------
+GP_SET_CLEAN_FILES
 
 
 # ---------------------------------------------------------------------------
@@ -652,39 +714,39 @@ doc/api/Makefile
 ],[
 dnl This relies on this code being called for each of the above files
 dnl with ac_file set to the filename.
-	if echo "$ac_file" | grep '.sh$' > /dev/null; then
-		if test -f "$ac_file"; then
-			chmod +x "$ac_file"
-		fi
+case "$ac_file" in #(
+*.sh)
+	if test -f "$ac_file"; then
+		chmod +x "$ac_file"
 	fi
+	;;
+esac
 ])
 AC_OUTPUT
 
-if test "x$CDPATH" != "x"
-then
-        echo
-        echo "***********************************************************"
-        echo "* You have CDPATH set. You may have to run \"unset CDPATH\" *"
-        echo "* before running \"make dist\" or \"make rpm\".               *"
-        echo "***********************************************************"
-fi
+AS_IF([test "x$CDPATH" != "x"], [dnl
+  AC_MSG_WARN([
+
+    #=========================================================#
+    # You have CDPATH set. You may have to run "unset CDPATH" #
+    # before running "make dist" or "make rpm".               #
+    #=========================================================#
+])
+])dnl
 
 GP_CONFIG_OUTPUT
 
 dnl Catch the Gentoo folks about to shoot themselves in the foot.
 dnl Just enabling "foo" often does not make a camera made by
 dnl manufacturer "Foo" work.
-if test "x$camlibs" = "xall"; then
-   :
-else
-   GP_CAMLIBS_WARNING
-fi
+GP_CAMLIBS_CONDITIONAL_WARNING
 
-echo "Please check whether the configuration I detected matches what you
-would like to have. E.g. make sure that USB support is there if you
-intend to use USB cameras with $PACKAGE_NAME.
+cat<<_GP_EOF
+Please check whether the configuration I have detected matches what
+you would like to have. E.g. make sure that USB support is there if
+you intend to use USB cameras with ${PACKAGE_NAME}.
 
 Please also check that PKG_CONFIG_PATH contains
-    ${pkgconfigdir} 
+    ${pkgconfigdir}
 before compiling any libgphoto2 frontend.
-"
+_GP_EOF

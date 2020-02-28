@@ -97,7 +97,8 @@ spca50x_sdram_get_fat_page (CameraPrivateLibrary * lib, int index,
 					 SPCA50X_FAT_PAGE_SIZE, p));
 			break;
 		default:
-			break;
+			gp_log(GP_LOG_ERROR, "spca50x", "spca50x_sdram_get_fat_page: dramtype %d unhandled", dramtype);
+			return GP_ERROR;
 	}
 
 	return GP_OK;
@@ -116,7 +117,9 @@ spca50x_sdram_get_file_count_and_fat_count (CameraPrivateLibrary * lib,
 		uint8_t lower, upper;
 
 		CHECK (gp_port_usb_msg_write (lib->gpdev, 0x5, 0, 0, NULL, 0));
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep (1);
+#endif
 		CHECK (gp_port_usb_msg_read
 				(lib->gpdev, 0, 0, 0xe15,
 				 (char *) & lib->num_files_on_sdram, 1));
@@ -125,7 +128,9 @@ spca50x_sdram_get_file_count_and_fat_count (CameraPrivateLibrary * lib,
 		/*  get fatscount */
 		CHECK (gp_port_usb_msg_write
 				(lib->gpdev, 0x05, 0x0000, 0x0008, NULL, 0));
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep (1);
+#endif
 		CHECK (gp_port_usb_msg_read
 				(lib->gpdev, 0, 0, 0x0e19,
 				 (char *)&lower, 1));
@@ -165,7 +170,9 @@ spca50x_sdram_delete_file (CameraPrivateLibrary * lib, unsigned int index)
 
 	CHECK (gp_port_usb_msg_write
 	       (lib->gpdev, 0x06, fat_index, 0x0007, NULL, 0));
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 	sleep (1);
+#endif
 
 	/* Reread fats the next time it is accessed */
 	lib->dirty_sdram = 1;
@@ -184,7 +191,9 @@ spca50x_sdram_delete_all (CameraPrivateLibrary * lib)
 		CHECK (gp_port_usb_msg_write
 		       (lib->gpdev, 0x02, 0x0000, 0x0005, NULL, 0));
 	}
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 	sleep (3);
+#endif
 
 	/* Reread fats the next time it is accessed */
 	lib->dirty_sdram = 1;
@@ -218,6 +227,7 @@ spca50x_get_image (CameraPrivateLibrary * lib, uint8_t ** buf,
 	int omit_escape = 0;
 
 	p = g_file->fat;
+	if (!p) return GP_ERROR;
 
 	/* get the position in memory where the image is */
 	start = (p[1] & 0xff) + (p[2] & 0xff) * 0x100;
@@ -272,7 +282,9 @@ spca50x_get_image (CameraPrivateLibrary * lib, uint8_t ** buf,
 			free (mybuf);
 			return ret;
 		}
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep (1);
+#endif
 		ret = gp_port_read (lib->gpdev, (char *)mybuf, size);
 		if (ret < GP_OK) {
 			free (mybuf);
@@ -433,6 +445,11 @@ spca50x_get_avi (CameraPrivateLibrary * lib, uint8_t ** buf,
 			start_of_frame = avi;
 
 			/* jpeg starts here */
+			if ((data - mybuf) + frame_size > size) {
+				free (mybuf);
+				GP_DEBUG("BAD: accessing more than we read (%d vs total %d)", (data-mybuf)+frame_size , size);
+				return GP_ERROR_CORRUPTED_DATA;
+			}
 			create_jpeg_from_data (avi, data, qIndex, frame_width,
 					       frame_height, 0x22, frame_size,
 					       &length, 1, 0);
@@ -627,7 +644,9 @@ spca50x_get_image_thumbnail (CameraPrivateLibrary * lib, uint8_t ** buf,
 			free (mybuf);
 			return ret;
 		}
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep (1);
+#endif
 		ret = gp_port_read (lib->gpdev, (char *)mybuf, size);
 		if (ret < GP_OK) {
 			free (mybuf);
@@ -707,6 +726,10 @@ spca50x_sdram_get_info (CameraPrivateLibrary * lib)
 		CHECK (spca50x_get_FATs (lib, dramtype));
 
 		index = lib->files[lib->num_files_on_sdram - 1].fat_end;
+		if (index >= lib->num_fats) {
+			gp_log(GP_LOG_ERROR, "spca50x", "%d exceeds num_fats %d", index, lib->num_fats);
+			return GP_ERROR;
+		}
 		p = lib->fats + SPCA50X_FAT_PAGE_SIZE * index;
 		/* p now points to the fat of the last image of the last file */
 
@@ -851,8 +874,8 @@ spca50x_get_FATs (CameraPrivateLibrary * lib, int dramtype)
 		lib->files = NULL;
 	}
 
-	lib->fats = malloc (lib->num_fats * SPCA50X_FAT_PAGE_SIZE);
-	lib->files = malloc (lib->num_files_on_sdram * sizeof (struct SPCA50xFile));
+	lib->fats = calloc (lib->num_fats , SPCA50X_FAT_PAGE_SIZE);
+	lib->files = calloc (lib->num_files_on_sdram , sizeof (struct SPCA50xFile));
 
 	p = lib->fats;
 	if (lib->bridge == BRIDGE_SPCA504) {
@@ -870,7 +893,9 @@ spca50x_get_FATs (CameraPrivateLibrary * lib, int dramtype)
 		spca50x_reset (lib);
 		CHECK (gp_port_usb_msg_write
 		       (lib->gpdev, 0x05, 0x00, 0x07, NULL, 0));
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep (1);
+#endif
 		CHECK (gp_port_read
 		       (lib->gpdev, (char *)lib->fats,
 			lib->num_fats * SPCA50X_FAT_PAGE_SIZE));
@@ -880,6 +905,11 @@ spca50x_get_FATs (CameraPrivateLibrary * lib, int dramtype)
 	index = 0;
 
 	while (index < lib->num_fats) {
+		if (file_index >= lib->num_files_on_sdram) {
+			free (lib->fats); lib->fats = NULL;
+			free (lib->files); lib->files = NULL;
+			return GP_ERROR;
+		}
 
 		type = p[0];
 		/* While the spca504a indicates start of avi as 0x08 and cont.
@@ -887,6 +917,8 @@ spca50x_get_FATs (CameraPrivateLibrary * lib, int dramtype)
 		 * gets its own fat table with a sequence number at p[18]. */
 		if ((type == 0x80) || (type == 0x03 && (p[18] != 0x00))) {
 			/* continuation of an avi */
+			if (!file_index)
+				return GP_ERROR;
 			lib->files[file_index - 1].fat_end = index;
 		} else {
 			/* its an image */
@@ -901,6 +933,9 @@ spca50x_get_FATs (CameraPrivateLibrary * lib, int dramtype)
 					  ++lib->num_movies);
 				lib->files[file_index].mime_type =
 					SPCA50X_FILE_TYPE_AVI;
+			} else {
+				gp_log(GP_LOG_ERROR, "spca50x", "type %d unhandled - error", type);
+				return GP_ERROR;
 			}
 			lib->files[file_index].fat = p;
 			lib->files[file_index].fat_start = index;

@@ -62,6 +62,7 @@ free_files (CameraPrivateLibrary *pl)
 			if(pl->files[i].thumb) free (pl->files[i].thumb);
 		}
 		free(pl->files);
+		pl->files = NULL;
 	}
 }
 
@@ -72,7 +73,9 @@ spca50x_flash_wait_for_ready(CameraPrivateLibrary *pl)
 	int timeout = 30;
 	uint8_t ready = 0;
 	while (timeout--) {
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep(1);
+#endif
 		if (pl->bridge == BRIDGE_SPCA500) {
 			CHECK (gp_port_usb_msg_read (pl->gpdev,
 							0x00, 0x0000, 0x0101,
@@ -99,8 +102,11 @@ spca500_flash_84D_wait_while_busy(CameraPrivateLibrary *pl)
 {
 	int timeout = 30;
 	uint8_t ready = 0;
+
 	while (timeout--) {
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep(1);
+#endif
 	CHECK (gp_port_usb_msg_read (pl->gpdev,
 					0x00, 0x0000, 0x0100,
 					(char*)&ready, 0x01));
@@ -190,7 +196,7 @@ spca50x_flash_get_TOC(CameraPrivateLibrary *pl, int *filecount)
 		/* Now, create the files info buffer */
 		free_files(pl);
 		/* NOTE: using calloc to ensure new block is "empty" */
-		pl->files = calloc (1, *filecount * sizeof (struct SPCA50xFile));
+		pl->files = calloc (*filecount , sizeof (struct SPCA50xFile));
 		if (!pl->files)
 			return GP_ERROR_NO_MEMORY;
 	} else { /* all other cams with flash... */
@@ -315,7 +321,9 @@ spca500_flash_capture (CameraPrivateLibrary *pl)
 
 		/* wait until the camera is not busy any more */
 		/* spca50x_flash_wait_for_ready doesn't work here */
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep(3);
+#endif
 		
 		/* invalidate TOC/info cache */
 		pl->dirty_flash = 1;
@@ -572,7 +580,7 @@ spca50x_process_thumbnail (CameraPrivateLibrary *lib,	/*  context */
 
 	yuv_p = buf;
 	rgb_p = tmp + hdrlen;
-	while (yuv_p < buf + file_size) {
+	while ((yuv_p < buf + file_size) && (rgb_p < tmp + hdrlen + w*h*3 - 6)) {
 		uint32_t u, v, y, y2;
 		uint32_t r, g, b;
 
@@ -804,6 +812,9 @@ spca50x_flash_get_file (CameraPrivateLibrary *lib, GPContext *context,
 
 	if (lib->fw_rev != 1 && thumbnail)
 		return GP_ERROR_NOT_SUPPORTED;
+
+	if (!lib->flash_toc)
+		return GP_ERROR;
 
 	if (thumbnail) {
 		p = lib->flash_toc + (index*2+1) * 32;

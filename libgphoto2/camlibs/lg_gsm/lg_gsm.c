@@ -66,6 +66,7 @@ int lg_gsm_init (GPPort *port, Model *model, Info *info)
 
 	/* This information, too. */
 	memcpy (info, &firmware[6], 40);
+	info[39] = 0;
 
 	GP_DEBUG("info = %s\n", info);
 	/*GP_DEBUG("info[20] = 0x%x\n", firmware[26]);*/
@@ -115,7 +116,7 @@ unsigned int lg_gsm_get_picture_size  (GPPort *port, int pic)
 	return size;
 }
 
-int lg_gsm_read_picture_data (GPPort *port, char *data, int size, int n) 
+int lg_gsm_read_picture_data (GPPort *port, char *data, unsigned int datasize, unsigned int n) 
 {
 	char listphotos[] = "\x04\x0\x08\x0\x0\x0\x40\x0\x0\x0\x0\x0\x0\x0";
 
@@ -126,6 +127,7 @@ int lg_gsm_read_picture_data (GPPort *port, char *data, int size, int n)
 	char block[50000];
 	char oknok[6];
 
+	unsigned int size;
 	int pos=0;
 	int block_size=50000;
 	int header_size=8;
@@ -157,10 +159,14 @@ int lg_gsm_read_picture_data (GPPort *port, char *data, int size, int n)
 	/* then read 142 */
 	READ(port, photodesc, 142);
 	size = (int)photodesc[138] + (int)photodesc[139]*0x100 + (int)photodesc[140]*0x10000+(int)photodesc[141]*0x1000000;
-	GP_DEBUG(" size of picture %i is 0x%x\n", n, size);
+	GP_DEBUG(" size of picture %i is 0x%x", n, size);
 	/* max. 1280x960x24bits ? */
 	if ( (size >= 0x384000 ) ) {
 		return GP_ERROR;
+	}
+	if (datasize < size) {
+		GP_DEBUG("size of picture %u, previous read %u", datasize, size);
+		return GP_ERROR_CORRUPTED_DATA;
 	}
 
 	memcpy(getphoto, &get_photo_cmd[0], 10);
@@ -179,6 +185,7 @@ int lg_gsm_read_picture_data (GPPort *port, char *data, int size, int n)
 	for (i = 1 ; i <= nb_blocks ; i++)
 	{
 		remain = size - pos;
+		GP_DEBUG ("size %d, pos %d, remain %d, block_size %d, header_size %d", size, pos, remain, block_size, header_size);
 		if (remain >= block_size - header_size)
 		{
 			READ(port, block, block_size);
@@ -204,11 +211,11 @@ int lg_gsm_read_picture_data (GPPort *port, char *data, int size, int n)
 
 int lg_gsm_list_files (GPPort *port, CameraList *list) 
 {
-	int num_pics;
+	unsigned int num_pics;
 	int i;	
 
 	char oknok[6];
-	char photonumber[22];
+	unsigned char photonumber[22];
 	char photolist[142000]; /* max_photos * 142 */
 	char name[44];
 	char value[88];
@@ -231,9 +238,12 @@ int lg_gsm_list_files (GPPort *port, CameraList *list)
 	/* lsphoto : write 0x04000800000040000000ffffffff */
 	MSGWRITE(port, 0x13, 0xe, 0x0, "", 0);
 	WRITE(port, list_all_photo, 0xe);
-	READ(port, photonumber, 0x16);
+	READ(port, (char*)photonumber, 0x16);
 
 	num_pics=photonumber[20]+256*photonumber[21];
+
+	GP_DEBUG ("num_pics = %d\n", num_pics);
+	if (num_pics > 1000) return GP_ERROR;
 
 	/* increase timeout to 20s */
 	/*port->timeout=20000;*/
@@ -243,7 +253,9 @@ int lg_gsm_list_files (GPPort *port, CameraList *list)
 	for (i = 0; i < num_pics; i++){
 		/* sprintf( name, "lg_gsm_pic%03i.jpg", i ); */
 		memcpy(name,&photolist[6+142*i],44);
+		name[43] = 0;
 		memcpy(value,&photolist[50+142*i],80);
+		value[80] = 0;
 		gp_list_append(list, name, value);
 	}
 	/* restore timeout to 5s */

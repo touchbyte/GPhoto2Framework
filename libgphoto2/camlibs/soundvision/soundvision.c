@@ -229,6 +229,7 @@ static int soundvision_file_get (Camera *camera, const char *filename, int thumb
           /* The below two lines might look wrong, but they aren't! */
        buflen = soundvision_get_pic_size(camera->pl,filename);
        if (thumbnail) buflen=soundvision_get_thumb_size(camera->pl,filename);
+       if (buflen < 0) return buflen;
     }
    
    
@@ -321,6 +322,7 @@ static int camera_summary(Camera *camera, CameraText *summary,
 
     char revision[9];
    
+    revision[0]=0;
     soundvision_reset(camera->pl,revision,NULL);
    
     if (camera->pl->device_type==SOUNDVISION_TIGERFASTFLICKS) {
