@@ -47,7 +47,7 @@ auto-m4/
 autom4te.cache/
 camlibs/all-def-camlibs
 camlibs/all-src-camlibs
-config.h
+#config.h
 config.h.in
 config.log
 config.status

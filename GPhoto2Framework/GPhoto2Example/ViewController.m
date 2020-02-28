@@ -18,6 +18,7 @@
 
 }
     @property(nonatomic, assign) BOOL connected;
+@property(nonatomic, assign) PTPDeviceInfo deviceInfo;
 @end
 
 @implementation ViewController
@@ -92,6 +93,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 
     gp_setting_set("ptpip", "hostname", "gphoto-example");
     ret = gp_camera_init (camera, context);
+    self.deviceInfo =camera->pl->params.deviceinfo;
     return ret;
 }
 
@@ -180,6 +182,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
         }
     }
 }
+
 
 - (IBAction)listTouched:(id)sender {
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
