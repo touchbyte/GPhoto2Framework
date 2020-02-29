@@ -99,26 +99,25 @@
 		8922355E217D129E00199AD2 /* gphoto2-port-info-list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-port-info-list.h"; path = "../../../libgphoto2/libgphoto2_port/gphoto2/gphoto2-port-info-list.h"; sourceTree = "<group>"; };
 		89223585217D2E7600199AD2 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../libgphoto2/config.h; sourceTree = "<group>"; };
 		89223587217D2EB700199AD2 /* ptpip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ptpip.c; path = ../../../libgphoto2/libgphoto2_port/ptpip/ptpip.c; sourceTree = "<group>"; };
-		893C066D217D113A005522E0 /* gphoto2-result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-result.h"; path = "../../../libgphoto2/gphoto2/gphoto2-result.h"; sourceTree = "<group>"; };
-		893C066E217D113A005522E0 /* gphoto2-list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-list.h"; path = "../../../libgphoto2/gphoto2/gphoto2-list.h"; sourceTree = "<group>"; };
-		893C066F217D113A005522E0 /* gphoto2-setting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-setting.h"; path = "../../../libgphoto2/gphoto2/gphoto2-setting.h"; sourceTree = "<group>"; };
-		893C0670217D113A005522E0 /* gphoto2-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-version.h"; path = "../../../libgphoto2/gphoto2/gphoto2-version.h"; sourceTree = "<group>"; };
-		893C0671217D113A005522E0 /* gphoto2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gphoto2.h; path = ../../../libgphoto2/gphoto2/gphoto2.h; sourceTree = "<group>"; };
-		893C0672217D113A005522E0 /* gphoto2-abilities-list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-abilities-list.h"; path = "../../../libgphoto2/gphoto2/gphoto2-abilities-list.h"; sourceTree = "<group>"; };
-		893C0673217D113A005522E0 /* gphoto2-widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-widget.h"; path = "../../../libgphoto2/gphoto2/gphoto2-widget.h"; sourceTree = "<group>"; };
-		893C0674217D113A005522E0 /* gphoto2-filesys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-filesys.h"; path = "../../../libgphoto2/gphoto2/gphoto2-filesys.h"; sourceTree = "<group>"; };
-		893C0675217D113A005522E0 /* gphoto2-library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-library.h"; path = "../../../libgphoto2/gphoto2/gphoto2-library.h"; sourceTree = "<group>"; };
-		893C0676217D113A005522E0 /* gphoto2-camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-camera.h"; path = "../../../libgphoto2/gphoto2/gphoto2-camera.h"; sourceTree = "<group>"; };
-		893C0677217D113A005522E0 /* gphoto2-context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-context.h"; path = "../../../libgphoto2/gphoto2/gphoto2-context.h"; sourceTree = "<group>"; };
-		893C0678217D113A005522E0 /* gphoto2-file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-file.h"; path = "../../../libgphoto2/gphoto2/gphoto2-file.h"; sourceTree = "<group>"; };
-		897992A5217CEEA600C72F2E /* ptp-pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "ptp-pack.c"; path = "../../../../libgphoto2/camlibs/ptp2/ptp-pack.c"; sourceTree = "<group>"; };
-		897992A6217CEEA700C72F2E /* ptp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ptp.c; path = ../../../../libgphoto2/camlibs/ptp2/ptp.c; sourceTree = "<group>"; };
-		897992A8217CEEA700C72F2E /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = config.c; path = ../../../../libgphoto2/camlibs/ptp2/config.c; sourceTree = "<group>"; };
-		897992AA217CEEA700C72F2E /* olympus-wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "olympus-wrap.c"; path = "../../../../libgphoto2/camlibs/ptp2/olympus-wrap.c"; sourceTree = "<group>"; };
-		897992AD217CEEA700C72F2E /* chdk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = chdk.c; path = ../../../../libgphoto2/camlibs/ptp2/chdk.c; sourceTree = "<group>"; };
-		897992AF217CEEA700C72F2E /* library.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = library.c; path = ../../../../libgphoto2/camlibs/ptp2/library.c; sourceTree = "<group>"; };
+		893C066D217D113A005522E0 /* gphoto2-result.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-result.h"; sourceTree = "<group>"; };
+		893C066E217D113A005522E0 /* gphoto2-list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-list.h"; sourceTree = "<group>"; };
+		893C066F217D113A005522E0 /* gphoto2-setting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-setting.h"; sourceTree = "<group>"; };
+		893C0670217D113A005522E0 /* gphoto2-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-version.h"; sourceTree = "<group>"; };
+		893C0671217D113A005522E0 /* gphoto2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gphoto2.h; sourceTree = "<group>"; };
+		893C0672217D113A005522E0 /* gphoto2-abilities-list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-abilities-list.h"; sourceTree = "<group>"; };
+		893C0673217D113A005522E0 /* gphoto2-widget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-widget.h"; sourceTree = "<group>"; };
+		893C0674217D113A005522E0 /* gphoto2-filesys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-filesys.h"; sourceTree = "<group>"; };
+		893C0675217D113A005522E0 /* gphoto2-library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-library.h"; sourceTree = "<group>"; };
+		893C0676217D113A005522E0 /* gphoto2-camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-camera.h"; sourceTree = "<group>"; };
+		893C0677217D113A005522E0 /* gphoto2-context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-context.h"; sourceTree = "<group>"; };
+		893C0678217D113A005522E0 /* gphoto2-file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-file.h"; sourceTree = "<group>"; };
+		897992A5217CEEA600C72F2E /* ptp-pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ptp-pack.c"; sourceTree = "<group>"; };
+		897992A6217CEEA700C72F2E /* ptp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ptp.c; sourceTree = "<group>"; };
+		897992A8217CEEA700C72F2E /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = config.c; sourceTree = "<group>"; };
+		897992AA217CEEA700C72F2E /* olympus-wrap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "olympus-wrap.c"; sourceTree = "<group>"; };
+		897992AD217CEEA700C72F2E /* chdk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = chdk.c; sourceTree = "<group>"; };
+		897992AF217CEEA700C72F2E /* library.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = library.c; sourceTree = "<group>"; };
 		897992BD217CEEF400C72F2E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
-		897992DF217CEFFA00C72F2E /* libgphoto2 copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "libgphoto2 copy-Info.plist"; path = "/Users/hendrikh/Development/libraries/libgphoto2/GPhoto2Framework/libgphoto2 copy-Info.plist"; sourceTree = "<absolute>"; };
 		897992E1217CF09100C72F2E /* gphoto2-port-version.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-port-version.c"; path = "../../libgphoto2/libgphoto2_port/libgphoto2_port/gphoto2-port-version.c"; sourceTree = "<group>"; };
 		897992E2217CF09100C72F2E /* gphoto2-port-info.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "gphoto2-port-info.h"; path = "../../libgphoto2/libgphoto2_port/libgphoto2_port/gphoto2-port-info.h"; sourceTree = "<group>"; };
 		897992E3217CF09100C72F2E /* gphoto2-port-portability.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-port-portability.c"; path = "../../libgphoto2/libgphoto2_port/libgphoto2_port/gphoto2-port-portability.c"; sourceTree = "<group>"; };
@@ -126,7 +125,7 @@
 		897992E5217CF09200C72F2E /* gphoto2-port-info-list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-port-info-list.c"; path = "../../libgphoto2/libgphoto2_port/libgphoto2_port/gphoto2-port-info-list.c"; sourceTree = "<group>"; };
 		897992E6217CF09200C72F2E /* gphoto2-port.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-port.c"; path = "../../libgphoto2/libgphoto2_port/libgphoto2_port/gphoto2-port.c"; sourceTree = "<group>"; };
 		897992E7217CF09200C72F2E /* gphoto2-port-result.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-port-result.c"; path = "../../libgphoto2/libgphoto2_port/libgphoto2_port/gphoto2-port-result.c"; sourceTree = "<group>"; };
-		897992F4217CF39100C72F2E /* ptpip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ptpip.c; path = ../../../../libgphoto2/camlibs/ptp2/ptpip.c; sourceTree = "<group>"; };
+		897992F4217CF39100C72F2E /* ptpip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ptpip.c; sourceTree = "<group>"; };
 		897992F6217CF3A500C72F2E /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		897992FC217CF3EA00C72F2E /* GPhoto2Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPhoto2Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		897992FE217CF3EB00C72F2E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -138,7 +137,7 @@
 		8979930A217CF3EC00C72F2E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8979930C217CF3EC00C72F2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8979930D217CF3EC00C72F2E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		898D6A35222DD45800C2684B /* ptp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ptp.h; path = ../../../../libgphoto2/camlibs/ptp2/ptp.h; sourceTree = "<group>"; };
+		898D6A35222DD45800C2684B /* ptp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ptp.h; sourceTree = "<group>"; };
 		898D6A36222DE57300C2684B /* chdk_live_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chdk_live_view.h; sourceTree = "<group>"; };
 		898D6A59222DE57600C2684B /* device-flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "device-flags.h"; sourceTree = "<group>"; };
 		898D6A5A222DE57700C2684B /* chdk_ptp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chdk_ptp.h; sourceTree = "<group>"; };
@@ -148,24 +147,22 @@
 		89D2FD00217CE86500B2C9D4 /* GPhoto2Framework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPhoto2Framework.h; sourceTree = "<group>"; };
 		89D2FD01217CE86500B2C9D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		89D2FD0D217CE88100B2C9D4 /* gphoto2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gphoto2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		89D2FD0F217CE88100B2C9D4 /* libgphoto2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = libgphoto2.h; sourceTree = "<group>"; };
-		89D2FD10217CE88100B2C9D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		89D2FD15217CE8DB00B2C9D4 /* gphoto2-abilities-list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-abilities-list.c"; path = "../../libgphoto2/libgphoto2/gphoto2-abilities-list.c"; sourceTree = "<group>"; };
-		89D2FD16217CE8DB00B2C9D4 /* gphoto2-camera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-camera.c"; path = "../../libgphoto2/libgphoto2/gphoto2-camera.c"; sourceTree = "<group>"; };
-		89D2FD17217CE8DB00B2C9D4 /* exif.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = exif.c; path = ../../libgphoto2/libgphoto2/exif.c; sourceTree = "<group>"; };
-		89D2FD18217CE8DB00B2C9D4 /* gphoto2-setting.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-setting.c"; path = "../../libgphoto2/libgphoto2/gphoto2-setting.c"; sourceTree = "<group>"; };
-		89D2FD1D217CE90100B2C9D4 /* gphoto2-filesys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-filesys.c"; path = "../../libgphoto2/libgphoto2/gphoto2-filesys.c"; sourceTree = "<group>"; };
-		89D2FD1E217CE90100B2C9D4 /* gphoto2-library.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-library.c"; path = "../../libgphoto2/libgphoto2/gphoto2-library.c"; sourceTree = "<group>"; };
-		89D2FD1F217CE90100B2C9D4 /* gphoto2-file.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-file.c"; path = "../../libgphoto2/libgphoto2/gphoto2-file.c"; sourceTree = "<group>"; };
-		89D2FD20217CE90100B2C9D4 /* gamma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = gamma.c; path = ../../libgphoto2/libgphoto2/gamma.c; sourceTree = "<group>"; };
-		89D2FD21217CE90100B2C9D4 /* jpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jpeg.h; path = ../../libgphoto2/libgphoto2/jpeg.h; sourceTree = "<group>"; };
-		89D2FD22217CE90100B2C9D4 /* gphoto2-version.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-version.c"; path = "../../libgphoto2/libgphoto2/gphoto2-version.c"; sourceTree = "<group>"; };
-		89D2FD23217CE90100B2C9D4 /* gphoto2-list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-list.c"; path = "../../libgphoto2/libgphoto2/gphoto2-list.c"; sourceTree = "<group>"; };
-		89D2FD24217CE90100B2C9D4 /* gphoto2-context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-context.c"; path = "../../libgphoto2/libgphoto2/gphoto2-context.c"; sourceTree = "<group>"; };
-		89D2FD25217CE90100B2C9D4 /* gphoto2-result.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-result.c"; path = "../../libgphoto2/libgphoto2/gphoto2-result.c"; sourceTree = "<group>"; };
-		89D2FD26217CE90100B2C9D4 /* gphoto2-widget.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-widget.c"; path = "../../libgphoto2/libgphoto2/gphoto2-widget.c"; sourceTree = "<group>"; };
-		89D2FD27217CE90100B2C9D4 /* jpeg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jpeg.c; path = ../../libgphoto2/libgphoto2/jpeg.c; sourceTree = "<group>"; };
-		89D2FD28217CE90100B2C9D4 /* bayer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bayer.c; path = ../../libgphoto2/libgphoto2/bayer.c; sourceTree = "<group>"; };
+		89D2FD15217CE8DB00B2C9D4 /* gphoto2-abilities-list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-abilities-list.c"; path = "libgphoto2/gphoto2-abilities-list.c"; sourceTree = "<group>"; };
+		89D2FD16217CE8DB00B2C9D4 /* gphoto2-camera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-camera.c"; path = "libgphoto2/gphoto2-camera.c"; sourceTree = "<group>"; };
+		89D2FD17217CE8DB00B2C9D4 /* exif.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = exif.c; path = libgphoto2/exif.c; sourceTree = "<group>"; };
+		89D2FD18217CE8DB00B2C9D4 /* gphoto2-setting.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-setting.c"; path = "libgphoto2/gphoto2-setting.c"; sourceTree = "<group>"; };
+		89D2FD1D217CE90100B2C9D4 /* gphoto2-filesys.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-filesys.c"; path = "libgphoto2/gphoto2-filesys.c"; sourceTree = "<group>"; };
+		89D2FD1E217CE90100B2C9D4 /* gphoto2-library.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-library.c"; path = "libgphoto2/gphoto2-library.c"; sourceTree = "<group>"; };
+		89D2FD1F217CE90100B2C9D4 /* gphoto2-file.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-file.c"; path = "libgphoto2/gphoto2-file.c"; sourceTree = "<group>"; };
+		89D2FD20217CE90100B2C9D4 /* gamma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = gamma.c; path = libgphoto2/gamma.c; sourceTree = "<group>"; };
+		89D2FD21217CE90100B2C9D4 /* jpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jpeg.h; path = libgphoto2/jpeg.h; sourceTree = "<group>"; };
+		89D2FD22217CE90100B2C9D4 /* gphoto2-version.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-version.c"; path = "libgphoto2/gphoto2-version.c"; sourceTree = "<group>"; };
+		89D2FD23217CE90100B2C9D4 /* gphoto2-list.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-list.c"; path = "libgphoto2/gphoto2-list.c"; sourceTree = "<group>"; };
+		89D2FD24217CE90100B2C9D4 /* gphoto2-context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-context.c"; path = "libgphoto2/gphoto2-context.c"; sourceTree = "<group>"; };
+		89D2FD25217CE90100B2C9D4 /* gphoto2-result.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-result.c"; path = "libgphoto2/gphoto2-result.c"; sourceTree = "<group>"; };
+		89D2FD26217CE90100B2C9D4 /* gphoto2-widget.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "gphoto2-widget.c"; path = "libgphoto2/gphoto2-widget.c"; sourceTree = "<group>"; };
+		89D2FD27217CE90100B2C9D4 /* jpeg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jpeg.c; path = libgphoto2/jpeg.c; sourceTree = "<group>"; };
+		89D2FD28217CE90100B2C9D4 /* bayer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bayer.c; path = libgphoto2/bayer.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,7 +264,8 @@
 				897992E1217CF09100C72F2E /* gphoto2-port-version.c */,
 				897992E6217CF09200C72F2E /* gphoto2-port.c */,
 			);
-			path = libgphoto2_port;
+			name = libgphoto2_port;
+			path = ../libgphoto2/libgphoto2_port;
 			sourceTree = "<group>";
 		};
 		897992EF217CF0DC00C72F2E /* ptpip */ = {
@@ -309,7 +307,6 @@
 				897992FD217CF3EB00C72F2E /* GPhoto2Example */,
 				89D2FCFE217CE86500B2C9D4 /* Products */,
 				897992BC217CEEF400C72F2E /* Frameworks */,
-				897992DF217CEFFA00C72F2E /* libgphoto2 copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -353,10 +350,9 @@
 				89D2FD15217CE8DB00B2C9D4 /* gphoto2-abilities-list.c */,
 				89D2FD16217CE8DB00B2C9D4 /* gphoto2-camera.c */,
 				89D2FD18217CE8DB00B2C9D4 /* gphoto2-setting.c */,
-				89D2FD0F217CE88100B2C9D4 /* libgphoto2.h */,
-				89D2FD10217CE88100B2C9D4 /* Info.plist */,
 			);
-			path = libgphoto2;
+			name = libgphoto2;
+			path = ../libgphoto2;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -765,7 +761,7 @@
 					"$(SRCROOT)/../libgphoto2/libgphoto2",
 					"$(SRCROOT)/../libgphoto2",
 				);
-				INFOPLIST_FILE = libgphoto2/Info.plist;
+				INFOPLIST_FILE = GPhoto2Framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -817,7 +813,7 @@
 					"$(SRCROOT)/../libgphoto2/libgphoto2",
 					"$(SRCROOT)/../libgphoto2",
 				);
-				INFOPLIST_FILE = libgphoto2/Info.plist;
+				INFOPLIST_FILE = GPhoto2Framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
