@@ -1,16 +1,13 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.10)
 project(gphoto2)
 
-add_compile_definitions(_C99_SOURCE)
-add_compile_definitions(_XOPEN_SOURCE=600)
-add_compile_definitions(_GPHOTO2_INTERNAL_CODE)
-add_compile_definitions(IOS_BUILD)
-add_compile_definitions(CAMLIBS)
-add_compile_definitions(IOLIBS)
-add_compile_definitions(HAVE_REGEX)
-
-##Replace with syspath
-include_directories(/usr/include)
+add_definitions(-D_C99_SOURCE)
+add_definitions(-D_XOPEN_SOURCE=600)
+add_definitions(-D_GPHOTO2_INTERNAL_CODE)
+add_definitions(-DIOS_BUILD)
+add_definitions(-DCAMLIBS)
+add_definitions(-DIOLIBS)
+add_definitions(-DHAVE_REGEX)
 
 include_directories(libgphoto2_port)
 include_directories(libgphoto2)
