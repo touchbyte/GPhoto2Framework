@@ -21,14 +21,14 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 2cdc99369c338a84"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 35474b174e8aead9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "camera_prepare_canon_eos_capture"
                   moduleName = "gphoto2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
+                  urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "397"
@@ -36,14 +36,14 @@
                   offsetFromSymbolStart = "746">
                </Location>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 2cdc99369c338a84"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 35474b174e8aead9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "camera_prepare_canon_eos_capture"
                   moduleName = "gphoto2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
+                  urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "397"
@@ -51,14 +51,14 @@
                   offsetFromSymbolStart = "751">
                </Location>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 2cdc99369c338a84"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 35474b174e8aead9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "camera_prepare_canon_eos_capture"
                   moduleName = "gphoto2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
+                  urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "397"
@@ -85,14 +85,14 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 2cdc99369c338a84"
+                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 35474b174e8aead9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "camera_prepare_canon_eos_capture"
                   moduleName = "gphoto2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
+                  urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
@@ -100,14 +100,14 @@
                   offsetFromSymbolStart = "2936">
                </Location>
                <Location
-                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 2cdc99369c338a84"
+                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 35474b174e8aead9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "camera_prepare_canon_eos_capture"
                   moduleName = "gphoto2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
+                  urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
@@ -115,14 +115,14 @@
                   offsetFromSymbolStart = "2941">
                </Location>
                <Location
-                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 2cdc99369c338a84"
+                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 35474b174e8aead9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "camera_prepare_canon_eos_capture"
                   moduleName = "gphoto2"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/libgphoto2/libgphoto2/camlibs/ptp2/config.c"
+                  urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"

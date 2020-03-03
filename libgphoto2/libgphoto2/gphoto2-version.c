@@ -26,6 +26,7 @@
 #include <stdlib.h>
 
 #include <gphoto2/gphoto2-version.h>
+#define GP_CAMLIB_SET "ptp2"
 
 const char **gp_library_version(GPVersionVerbosity verbose)
 {

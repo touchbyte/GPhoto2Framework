@@ -124,5 +124,9 @@ tests/test-gphoto2
 +.vscode/
 
 *.xcuserstate
+*.xcbkptlist
 
-*.xcuserstate
+
+cmake
+.DS_Store
+
