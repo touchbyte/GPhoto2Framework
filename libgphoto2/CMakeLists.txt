@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 project(gphoto2)
 
+add_compile_definitions(_C99_SOURCE)
+add_compile_definitions(_XOPEN_SOURCE=600)
 add_compile_definitions(_GPHOTO2_INTERNAL_CODE)
 add_compile_definitions(IOS_BUILD)
 add_compile_definitions(CAMLIBS)
@@ -44,4 +46,4 @@ set(SOURCES libgphoto2_port/ptpip/ptpip.c
 
 )
 
-add_library(gphoto2 ${SOURCES})
+add_library(gphoto2 SHARED ${SOURCES})
