@@ -19,6 +19,7 @@ include_directories(libgphoto2_port)
 include_directories(libgphoto2)
 include_directories(.)
 
+
 set(SOURCES libgphoto2_port/ptpip/ptpip.c 
             libgphoto2/gphoto2-result.c
        #     camlibs/ptp2/olympus-wrap.c
@@ -49,4 +50,11 @@ set(SOURCES libgphoto2_port/ptpip/ptpip.c
 
 )
 
+set( DEPENDENCIES
+)
+
 add_library(gphoto2 SHARED ${SOURCES})
+
+target_link_libraries( gphoto2
+${DEPENDENCIES}
+)

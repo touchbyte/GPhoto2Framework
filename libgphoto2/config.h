@@ -50,7 +50,7 @@
 #define HAVE_GMTIME_R 1
 
 /* Define if you have the iconv() function. */
-#define HAVE_ICONV 1
+/* #define HAVE_ICONV 1 */
 
 /* Define to 1 if you have the `inet_aton' function. */
 #define HAVE_INET_ATON 1
