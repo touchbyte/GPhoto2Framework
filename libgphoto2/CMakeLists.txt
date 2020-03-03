@@ -9,6 +9,12 @@ add_definitions(-DCAMLIBS)
 add_definitions(-DIOLIBS)
 add_definitions(-DHAVE_REGEX)
 
+#NDK specific
+add_definitions(-DHAVE_SYS_USER_H=1)
+add_definitions(-DHAVE_SYS_VFS_H=1)
+add_definitions(-DHAVE_SYS_STATFS_H )
+
+
 include_directories(libgphoto2_port)
 include_directories(libgphoto2)
 include_directories(.)
