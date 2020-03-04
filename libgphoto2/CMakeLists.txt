@@ -10,10 +10,15 @@ add_definitions(-DIOLIBS)
 add_definitions(-DHAVE_REGEX)
 
 #NDK specific
+add_definitions(-DANDROID_BUILD)
 add_definitions(-DHAVE_SYS_USER_H=1)
 add_definitions(-DHAVE_SYS_VFS_H=1)
-add_definitions(-DHAVE_SYS_STATFS_H )
-
+add_definitions(-DHAVE_SYS_STATFS_H)
+add_definitions(-DHAVE_INET_ATON=1)
+add_definitions(-DHAVE_INTTYPES_H=1)
+add_definitions(-DHAVE_LANGINFO_H=1)
+add_definitions(-DHAVE_LANGINFO_H=1)
+add_definitions(-DHAVE_MEMORY_H=1)
 
 include_directories(libgphoto2_port)
 include_directories(libgphoto2)
@@ -47,10 +52,13 @@ set(SOURCES libgphoto2_port/ptpip/ptpip.c
             camlibs/ptp2/config.c
             libgphoto2/gphoto2-version.c
             libgphoto2/gphoto2-abilities-list.c
+            jni/gphoto-jni.c
 
 )
 
 set( DEPENDENCIES
+     android
+     log
 )
 
 add_library(gphoto2 SHARED ${SOURCES})

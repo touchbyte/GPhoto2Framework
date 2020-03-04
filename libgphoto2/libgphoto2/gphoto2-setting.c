@@ -182,7 +182,11 @@ load_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf (buf, sizeof(buf), "%s/.gphoto", getenv ("HOME"));
 #else
-    snprintf (buf, sizeof(buf), "%s/Library/.gphoto", getenv ("HOME"));
+    #if defined(ANDROID_BUILD)
+        snprintf (buf, sizeof(buf), ".gphoto");
+    #else
+        snprintf (buf, sizeof(buf), "%s/Library/.gphoto", getenv ("HOME"));
+    #endif
 #endif
 #endif
 	GP_LOG_D ("Creating gphoto config directory ('%s')", buf);
@@ -196,7 +200,11 @@ load_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf(buf, sizeof(buf), "%s/.gphoto/settings", getenv("HOME"));
 #else
-    snprintf(buf, sizeof(buf), "%s/Library/.gphoto/settings", getenv("HOME"));
+    #if defined(ANDROID_BUILD)
+        snprintf(buf, sizeof(buf), ".gphoto/settings");
+    #else
+        snprintf(buf, sizeof(buf), "%s/Library/.gphoto/settings", getenv("HOME"));
+    #endif
 #endif
 #endif
 
@@ -247,7 +255,11 @@ save_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf (buf, sizeof(buf), "%s/.gphoto/settings", getenv ("HOME"));
 #else
-    snprintf (buf, sizeof(buf), "%s/Library/.gphoto/settings", getenv ("HOME"));
+    #if defined(ANDROID_BUILD)
+        snprintf (buf, sizeof(buf), ".gphoto/settings");
+    #else
+        snprintf (buf, sizeof(buf), "%s/Library/.gphoto/settings", getenv ("HOME"));
+    #endif
 #endif
 #endif
 
