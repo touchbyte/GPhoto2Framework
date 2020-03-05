@@ -17,8 +17,8 @@ add_definitions(-DHAVE_SYS_STATFS_H)
 add_definitions(-DHAVE_INET_ATON=1)
 add_definitions(-DHAVE_INTTYPES_H=1)
 add_definitions(-DHAVE_LANGINFO_H=1)
-add_definitions(-DHAVE_LANGINFO_H=1)
 add_definitions(-DHAVE_MEMORY_H=1)
+
 
 include_directories(libgphoto2_port)
 include_directories(libgphoto2)

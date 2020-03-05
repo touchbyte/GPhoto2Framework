@@ -41,6 +41,8 @@
 #undef interface
 #endif
 
+#define STRING2(x) #x
+#define STRING(x) STRING2(x)
 /**
  * Internal struct to store settings.
  */
@@ -182,8 +184,8 @@ load_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf (buf, sizeof(buf), "%s/.gphoto", getenv ("HOME"));
 #else
-    #if defined(ANDROID_BUILD)
-        snprintf (buf, sizeof(buf), ".gphoto");
+    #if defined(SETTINGS_PATH)
+        snprintf (buf, sizeof(buf), "%s/.gphoto",STRING(SETTINGS_PATH));
     #else
         snprintf (buf, sizeof(buf), "%s/Library/.gphoto", getenv ("HOME"));
     #endif
@@ -200,8 +202,8 @@ load_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf(buf, sizeof(buf), "%s/.gphoto/settings", getenv("HOME"));
 #else
-    #if defined(ANDROID_BUILD)
-        snprintf(buf, sizeof(buf), ".gphoto/settings");
+    #if defined(SETTINGS_PATH)
+        snprintf(buf, sizeof(buf), "%s/.gphoto/settings",STRING(SETTINGS_PATH));
     #else
         snprintf(buf, sizeof(buf), "%s/Library/.gphoto/settings", getenv("HOME"));
     #endif
@@ -255,14 +257,13 @@ save_settings (void)
 #if !defined(IOS_BUILD)
 	snprintf (buf, sizeof(buf), "%s/.gphoto/settings", getenv ("HOME"));
 #else
-    #if defined(ANDROID_BUILD)
-        snprintf (buf, sizeof(buf), ".gphoto/settings");
+    #if defined(SETTINGS_PATH)
+        snprintf (buf, sizeof(buf), "%s/.gphoto/settings",STRING(SETTINGS_PATH));
     #else
         snprintf (buf, sizeof(buf), "%s/Library/.gphoto/settings", getenv ("HOME"));
     #endif
 #endif
 #endif
-
 
 	GP_LOG_D ("Saving %i setting(s) to file \"%s\"", glob_setting_count, buf);
 
