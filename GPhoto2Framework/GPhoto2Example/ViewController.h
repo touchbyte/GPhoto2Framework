@@ -10,10 +10,12 @@
 
 @interface ViewController : UIViewController
 
-- (IBAction)connectTouched:(id)sender;
+- (IBAction)connectTouchedPTP:(id)sender;
+- (IBAction)connectLumixTouched:(id)sender;
 - (IBAction)listTouched:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UIButton *connectButton;
+@property (weak, nonatomic) IBOutlet UIButton *connectButtonPTP;
+@property (weak, nonatomic) IBOutlet UIButton *connectButtonLumix;
 @property (weak, nonatomic) IBOutlet UIButton *listButton;
 
 @property (weak, nonatomic) IBOutlet UITextField *ipTextField;

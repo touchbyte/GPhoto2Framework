@@ -1821,7 +1821,7 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename, C
 }
 
 
-int camera_abilities (CameraAbilitiesList *list) {
+int lumix_camera_abilities (CameraAbilitiesList *list) {
 	CameraAbilities a;
 
 	memset(&a, 0, sizeof(a));
@@ -1865,7 +1865,7 @@ CameraFilesystemFuncs fsfuncs = {
 * This is a camlib API function.
 */
 int
-camera_init (Camera *camera, GPContext *context) 
+lumix_camera_init (Camera *camera, GPContext *context)
 {
 	GPPortInfo      info;
 	int		ret;
@@ -1916,7 +1916,7 @@ camera_init (Camera *camera, GPContext *context)
 
 
 int
-camera_id (CameraText *id) 
+lumix_camera_id (CameraText *id)
 {
 	strcpy(id->text, "Lumix Wifi");
 

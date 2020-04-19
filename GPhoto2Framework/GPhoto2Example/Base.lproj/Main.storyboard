@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,13 +17,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="hXu-Vb-kE5">
-                                <rect key="frame" x="40" y="50" width="295" height="532"/>
+                                <rect key="frame" x="40" y="30" width="295" height="566"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xxc-ka-7lu">
-                                        <rect key="frame" x="0.0" y="0.0" width="295" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="295" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera IP:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NJl-tq-nRC">
-                                                <rect key="frame" x="0.0" y="0.0" width="150" height="30"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="34"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="aeH-GP-Rbe"/>
                                                 </constraints>
@@ -34,35 +32,46 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="192.168.1.2" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uuM-j7-K53">
-                                                <rect key="frame" x="150" y="0.0" width="145" height="30"/>
-                                                <nil key="textColor"/>
+                                                <rect key="frame" x="150" y="0.0" width="145" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5e-ni-gaM">
-                                        <rect key="frame" x="0.0" y="36" width="295" height="30"/>
-                                        <state key="normal" title="Connect"/>
-                                        <connections>
-                                            <action selector="connectTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qSl-lA-Kc9"/>
-                                        </connections>
-                                    </button>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fb4-XA-X4M">
+                                        <rect key="frame" x="0.0" y="40" width="295" height="60"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5e-ni-gaM">
+                                                <rect key="frame" x="0.0" y="0.0" width="295" height="30"/>
+                                                <state key="normal" title="Connect PTP/IP"/>
+                                                <connections>
+                                                    <action selector="connectTouchedPTP:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qSl-lA-Kc9"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3K-pW-zZr">
+                                                <rect key="frame" x="0.0" y="30" width="295" height="30"/>
+                                                <state key="normal" title="Connect Lumix"/>
+                                                <connections>
+                                                    <action selector="connectLumixTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6e2-7n-H53"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTL-10-yoG">
-                                        <rect key="frame" x="0.0" y="72" width="295" height="30"/>
+                                        <rect key="frame" x="0.0" y="106" width="295" height="30"/>
                                         <state key="normal" title="List Content"/>
                                         <connections>
                                             <action selector="listTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jRC-Vy-eql"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Console output:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Kl-Wn-uUu">
-                                        <rect key="frame" x="0.0" y="108" width="295" height="18"/>
+                                        <rect key="frame" x="0.0" y="142" width="295" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="Touch &quot;Connect&quot;" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Iw-lU-Wtu">
-                                        <rect key="frame" x="0.0" y="132" width="295" height="400"/>
+                                        <rect key="frame" x="0.0" y="166" width="295" height="400"/>
                                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <color key="textColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -81,7 +90,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="connectButton" destination="Z5e-ni-gaM" id="dLm-26-jcg"/>
+                        <outlet property="connectButtonLumix" destination="J3K-pW-zZr" id="IYP-5h-Fsa"/>
+                        <outlet property="connectButtonPTP" destination="Z5e-ni-gaM" id="dLm-26-jcg"/>
                         <outlet property="consoleTextView" destination="0Iw-lU-Wtu" id="jOI-qv-iBW"/>
                         <outlet property="ipTextField" destination="uuM-j7-K53" id="FNo-s1-ucm"/>
                         <outlet property="listButton" destination="xTL-10-yoG" id="DEf-VD-z06"/>

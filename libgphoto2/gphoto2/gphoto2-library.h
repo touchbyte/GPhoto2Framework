@@ -73,6 +73,11 @@ int camera_id		(CameraText *id);
 int camera_abilities 	(CameraAbilitiesList *list);
 int camera_init 	(Camera *camera, GPContext *context);
 
+int lumix_camera_id        (CameraText *id);
+int lumix_camera_abilities     (CameraAbilitiesList *list);
+int lumix_camera_init     (Camera *camera, GPContext *context);
+
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

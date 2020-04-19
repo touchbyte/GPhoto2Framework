@@ -293,6 +293,9 @@ gp_port_info_list_load (GPPortInfoList *list)
     result = gp_port_library_list(list);
     list->iolib_count = 1;
     list->info[1]->library_filename = strdup("ptpip");
+    list->info[2]->library_filename = strdup("ptpip");
+    list->info[3]->library_filename = strdup("ptpip");
+
 #endif
     
 	if (result < 0)

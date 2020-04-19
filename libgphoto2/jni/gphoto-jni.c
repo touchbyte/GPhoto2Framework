@@ -36,7 +36,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str, voi
     return context;
 }
 
-JNIEXPORT jstring JNICALL Java_com_example_ctest_MainActivity_gphoto2CameraInit( JNIEnv* env,jobject thiz ){
+JNIEXPORT jstring JNICALL Java_com_example_gphototest_MainActivity_gphoto2CameraInit( JNIEnv* env,jobject thiz ){
     Camera  *camera;
     GPContext *context;
     int   ret,indexCamera,indexPort;

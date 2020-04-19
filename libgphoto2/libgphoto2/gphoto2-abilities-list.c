@@ -309,6 +309,24 @@ gp_abilities_list_load_dir (CameraAbilitiesList *list, const char *dir,
         return (GP_ERROR_CANCEL);
     }
     gp_context_progress_stop (context, p);
+    
+    filename = strdup("lumix");
+    p = gp_context_progress_start (context, count, _("Loading interal camera driver '%s'..."), filename);
+    i = 2;
+    lumix_camera_id (&text);
+    old_count = gp_abilities_list_count (list);
+    lumix_camera_abilities (list);
+    new_count = gp_abilities_list_count (list);
+    for (x = old_count; x < new_count; x++) {
+        strcpy (list->abilities[x].id, text.text);
+        strcpy (list->abilities[x].library, filename);
+    }
+    gp_context_progress_update (context, p, i);
+    if (gp_context_cancel (context) == GP_CONTEXT_FEEDBACK_CANCEL) {
+        return (GP_ERROR_CANCEL);
+    }
+    gp_context_progress_stop (context, p);
+    
 #endif
     
 	return (GP_OK);
