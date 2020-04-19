@@ -130,3 +130,4 @@ tests/test-gphoto2
 cmake
 .DS_Store
 
+GPhoto2Framework/GPhoto2Framework.xcodeproj/project.xcworkspace/xcuserdata/hendrikh.xcuserdatad/UserInterfaceState.xcuserstate
