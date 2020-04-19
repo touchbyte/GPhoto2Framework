@@ -869,7 +869,12 @@ gp_camera_init (Camera *camera, GPContext *context)
 		return (result);
 	}
 #else
-    init_func = camera_init;
+    
+    if (strcmp(camera->pc->a.model, "Panasonic LumixGSeries") == 0) {
+        init_func = lumix_camera_init;
+    } else {
+        init_func = camera_init;
+    }
     camera->pc->lh = 1;
     if (!init_func) {
         gp_context_error (context, _("Camera driver '%s' is "

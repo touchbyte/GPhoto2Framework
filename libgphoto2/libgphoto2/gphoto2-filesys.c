@@ -1131,7 +1131,7 @@ gp_filesystem_delete_file (CameraFilesystem *fs, const char *folder,
 
 	/* Search the folder and the file */
 	CR (lookup_folder_file (fs, folder, filename, &f, &file, context));
-
+ 
 	GP_LOG_D ("Deleting '%s' from folder '%s'...", filename, folder);
 
 	/* Delete the file */

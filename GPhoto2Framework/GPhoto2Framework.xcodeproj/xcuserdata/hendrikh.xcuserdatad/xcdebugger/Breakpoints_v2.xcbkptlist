@@ -33,7 +33,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "397"
                   endingLineNumber = "397"
-                  offsetFromSymbolStart = "746">
+                  offsetFromSymbolStart = "734">
                </Location>
                <Location
                   uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 35474b174e8aead9"
@@ -48,7 +48,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "397"
                   endingLineNumber = "397"
-                  offsetFromSymbolStart = "751">
+                  offsetFromSymbolStart = "739">
                </Location>
                <Location
                   uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 35474b174e8aead9"
@@ -63,7 +63,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "397"
                   endingLineNumber = "397"
-                  offsetFromSymbolStart = "797">
+                  offsetFromSymbolStart = "785">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -97,7 +97,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
                   endingLineNumber = "443"
-                  offsetFromSymbolStart = "2936">
+                  offsetFromSymbolStart = "2886">
                </Location>
                <Location
                   uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 35474b174e8aead9"
@@ -112,7 +112,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
                   endingLineNumber = "443"
-                  offsetFromSymbolStart = "2941">
+                  offsetFromSymbolStart = "2891">
                </Location>
                <Location
                   uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 35474b174e8aead9"
@@ -127,9 +127,41 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
                   endingLineNumber = "443"
-                  offsetFromSymbolStart = "2980">
+                  offsetFromSymbolStart = "2930">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AECF79CC-4CCB-431C-8F35-9F4517E80231"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/lumix/lumix.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
+            landmarkName = "delete_file_func(fs, folder, filename, data, context)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D26D5182-77CD-457B-AEA9-047BFE526B4F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/libgphoto2/gphoto2-filesys.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1138"
+            endingLineNumber = "1138"
+            landmarkName = "gp_filesystem_delete_file(fs, folder, filename, context)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

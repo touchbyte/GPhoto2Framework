@@ -18,7 +18,10 @@
 
 }
     @property(nonatomic, assign) BOOL connected;
-@property(nonatomic, assign) PTPDeviceInfo deviceInfo;
+    @property(nonatomic, assign) PTPDeviceInfo deviceInfo;
+    @property(nonatomic, strong) NSString *cameraModel;
+    @property(nonatomic, strong) NSString *protocol;
+
 @end
 
 @implementation ViewController
@@ -64,7 +67,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     GPPortInfoList        *portinfolist = NULL;
     GPPortInfo    pi;
     
-    NSString *connectionStr = [NSString stringWithFormat:@"ptpip:%@",cameraIP];
+    NSString *connectionStr = [NSString stringWithFormat:@"%@:%@",self.protocol,cameraIP];
     
     gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
     gp_log_add_func(GP_LOG_DEBUG, logdumper, NULL);
@@ -73,7 +76,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     
     gp_abilities_list_new (&abilities);
     ret = gp_abilities_list_load (abilities, context);
-    indexCamera = gp_abilities_list_lookup_model (abilities, "Canon EOS (WLAN)");
+    indexCamera = gp_abilities_list_lookup_model (abilities, [self.cameraModel UTF8String]);
     
     if (indexCamera>=0) {
         gp_abilities_list_get_abilities (abilities, indexCamera, &a);
@@ -160,29 +163,43 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     return GP_OK;
 }
 
-- (IBAction)connectTouched:(id)sender {
+-(void)doConnect
+{
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
-    NSString *ip = self.ipTextField.text;
-    if (ip != nil && ![ip isEqualToString:@""]) {
-        if (!_connected) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                int ret = [self connectCamera:ip];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (ret == GP_OK) {
-                        self.listButton.enabled = YES;
-                        self.connected = YES;
-                        self.consoleTextView.text = @"Connection to Camera successful";
-                        self.connectButton.enabled = NO;
-                    } else {
-                        self.consoleTextView.text = @"Failed to connect";
-                    }
-                    UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
-                });
-            });
-        }
-    }
+       NSString *ip = self.ipTextField.text;
+       if (ip != nil && ![ip isEqualToString:@""]) {
+           if (!_connected) {
+               dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                   int ret = [self connectCamera:ip];
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                       if (ret == GP_OK) {
+                           self.listButton.enabled = YES;
+                           self.connected = YES;
+                           self.consoleTextView.text = @"Connection to Camera successful";
+                           self.connectButtonPTP.enabled = NO;
+                           self.connectButtonLumix.enabled = NO;
+                       } else {
+                           self.consoleTextView.text = @"Failed to connect";
+                       }
+                       UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
+                   });
+               });
+           }
+       }
 }
 
+- (IBAction)connectTouchedPTP:(id)sender {
+    self.protocol = @"ptpip";
+    self.cameraModel = @"Canon EOS (WLAN)";
+    [self doConnect];
+}
+
+
+- (IBAction)connectLumixTouched:(id)sender {
+    self.protocol = @"ip";
+    self.cameraModel = @"Panasonic LumixGSeries";
+    [self doConnect];
+}
 
 - (IBAction)listTouched:(id)sender {
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;

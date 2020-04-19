@@ -119,6 +119,27 @@ struct _CameraPrivateLibrary {
 };
 
 
+static size_t
+write_callback(char *contents, size_t size, size_t nmemb, void *userp)
+{
+    size_t             realsize = size * nmemb;
+    size_t             oldsize;
+    LumixMemoryBuffer    *lmb = userp;
+
+    oldsize = lmb->size;
+    /* 1 additionaly byte for 0x00 */
+    lmb->data = realloc(lmb->data, lmb->size+realsize+1);
+    lmb->size += realsize;
+    lmb->data[lmb->size] = 0x00;
+
+    GP_LOG_DATA(contents, realsize, "lumix read from url");
+
+    memcpy(lmb->data+oldsize,contents,realsize);
+    return realsize;
+}
+
+
+
 static int
 camera_exit (Camera *camera, GPContext *context) 
 {
@@ -228,15 +249,95 @@ put_file_func (CameraFilesystem *fs, const char *folder, const char *name,
 int
 delete_file_func (CameraFilesystem *fs, const char *folder,
 		  const char *filename, void *data, GPContext *context);
+
+
+
 int
 delete_file_func (CameraFilesystem *fs, const char *folder,
 		  const char *filename, void *data, GPContext *context)
 {
-	/*Camera *camera = data;*/
+    Camera        *camera = data;
+    int        i;
+    CURLcode    res;
+    CURL        *curl;
+    long        http_response;
+    int        ret_val = 0;
+    long            nRead;
+    LumixMemoryBuffer    lmb;
+    const char    *url;
+    const char *id;
+    char  *xpath;
+    GPPortInfo info;
+    char  URL[1000];
 
-	/* Delete the file from the camera. */
+    struct curl_slist *list = NULL;
 
-	return GP_OK;
+    for (i=0;i<camera->pl->numpics;i++) {
+        char *s;
+
+        if (camera->pl->pics[i].url_movie) {
+            s = strrchr(camera->pl->pics[i].url_movie,'/')+1;
+            if (!strcmp(s,filename)) {
+                url = camera->pl->pics[i].url_movie;
+                id = camera->pl->pics[i].id;
+                break;
+            }
+        }
+        if (camera->pl->pics[i].url_raw) {
+            s = strrchr(camera->pl->pics[i].url_raw,'/')+1;
+            if (!strcmp(s,filename)) {
+                url = camera->pl->pics[i].url_raw;
+                id = camera->pl->pics[i].id;
+                break;
+            }
+        }
+        if (camera->pl->pics[i].url_large) {
+            s = strrchr(camera->pl->pics[i].url_large,'/')+1;
+            if (!strcmp(s,filename)) {
+                url = camera->pl->pics[i].url_large;
+                id = camera->pl->pics[i].id;
+                break;
+            }
+        }
+    }
+    if (i == camera->pl->numpics) /* not found */
+        return GP_ERROR;
+    
+    curl = curl_easy_init();
+
+    list = curl_slist_append(list, "SOAPaction: urn:schemas-upnp-org:service:ContentDirectory:1#DestroyObject");
+    list = curl_slist_append(list, "Content-Type: text/xml; charset=\"utf-8\"");
+    list = curl_slist_append(list, "Accept: text/xml");
+    gp_port_get_info (camera->port, &info);
+    gp_port_info_get_path (info, &xpath); /* xpath now contains ip:192.168.1.1 */
+    snprintf( URL, 1000, "http://%s%s",xpath+strlen("ip:"), CDS_Control);
+    curl_easy_setopt(curl, CURLOPT_URL, URL);
+    
+    lmb.size = 0;
+    lmb.data = malloc(0);
+    
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &lmb);
+    
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
+    curl_easy_setopt(curl, CURLOPT_POST,1);
+    
+    char deleteStr[1000];
+    sprintf(deleteStr,"<?xml version=\"1.0\" encoding=\"utf-8\"?><s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"><s:Body><u:DestroyObject xmlns:u=\"urn:schemas-upnp-org:service:ContentDirectory:1\"><ObjectID>%s</ObjectID></u:DestroyObject></s:Body></s:Envelope>",id);
+    
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long) strlen(deleteStr));
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, deleteStr);
+    
+    res = curl_easy_perform(curl);    curl_easy_cleanup(curl);
+
+    if(res != CURLE_OK) {
+        fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        return GP_ERROR;
+    } else {
+        /* read the XML that is now in Buffer*/
+        GP_LOG_D("result %s\n", lmb.data);
+        return GP_OK;
+    }
 }
 
 
@@ -370,26 +471,6 @@ storage_info_func (CameraFilesystem *fs,
  * @{
  */
 /**********************************************************************/
-
-
-static size_t
-write_callback(char *contents, size_t size, size_t nmemb, void *userp)
-{
-	size_t 			realsize = size * nmemb;
-	size_t 			oldsize;
-	LumixMemoryBuffer	*lmb = userp;
-
-	oldsize = lmb->size;
-	/* 1 additionaly byte for 0x00 */
-	lmb->data = realloc(lmb->data, lmb->size+realsize+1);
-	lmb->size += realsize;
-	lmb->data[lmb->size] = 0x00;
-
-	GP_LOG_DATA(contents, realsize, "lumix read from url");
-
-	memcpy(lmb->data+oldsize,contents,realsize);
-	return realsize;
-}
 
 
 static char*
@@ -1821,7 +1902,7 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename, C
 }
 
 
-int camera_abilities (CameraAbilitiesList *list) {
+int lumix_camera_abilities (CameraAbilitiesList *list) {
 	CameraAbilities a;
 
 	memset(&a, 0, sizeof(a));
@@ -1849,7 +1930,7 @@ CameraFilesystemFuncs fsfuncs = {
 //	.get_info_func = get_info_func,
 //	.set_info_func = set_info_func,
 	.get_file_func = get_file_func,
-//	.del_file_func = delete_file_func,
+	.del_file_func = delete_file_func,
 //	.put_file_func = put_file_func,
 //	.delete_all_func = delete_all_func,
 //	.storage_info_func = storage_info_func
@@ -1865,7 +1946,7 @@ CameraFilesystemFuncs fsfuncs = {
 * This is a camlib API function.
 */
 int
-camera_init (Camera *camera, GPContext *context) 
+lumix_camera_init (Camera *camera, GPContext *context)
 {
 	GPPortInfo      info;
 	int		ret;
@@ -1916,7 +1997,7 @@ camera_init (Camera *camera, GPContext *context)
 
 
 int
-camera_id (CameraText *id) 
+lumix_camera_id (CameraText *id)
 {
 	strcpy(id->text, "Lumix Wifi");
 
