@@ -48,14 +48,12 @@
 		8979930E217CF3EC00C72F2E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8979930D217CF3EC00C72F2E /* main.m */; };
 		89799312217CF40100C72F2E /* gphoto2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89D2FD0D217CE88100B2C9D4 /* gphoto2.framework */; };
 		89799313217CF40100C72F2E /* gphoto2.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 89D2FD0D217CE88100B2C9D4 /* gphoto2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		89C85E90244CACFA004C3938 /* lumix.c in Sources */ = {isa = PBXBuildFile; fileRef = 89C85E8C244CACFA004C3938 /* lumix.c */; };
 		89C85EA4244CAD4F004C3938 /* curlrules.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85E95244CAD4F004C3938 /* curlrules.h */; };
 		89C85EA5244CAD4F004C3938 /* stdcheaders.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85E96244CAD4F004C3938 /* stdcheaders.h */; };
 		89C85EA9244CAD4F004C3938 /* mprintf.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85E9A244CAD4F004C3938 /* mprintf.h */; };
 		89C85EAA244CAD4F004C3938 /* easy.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85E9B244CAD4F004C3938 /* easy.h */; };
 		89C85EAC244CAD4F004C3938 /* curl.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85E9D244CAD4F004C3938 /* curl.h */; };
 		89C85EAD244CAD4F004C3938 /* curlver.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85E9E244CAD4F004C3938 /* curlver.h */; };
-		89C85EAE244CAD4F004C3938 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C85E9F244CAD4F004C3938 /* libcurl.a */; };
 		89C85EAF244CAD4F004C3938 /* typecheck-gcc.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85EA0244CAD4F004C3938 /* typecheck-gcc.h */; };
 		89C85EB0244CAD4F004C3938 /* multi.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85EA1244CAD4F004C3938 /* multi.h */; };
 		89C85EB2244CAD4F004C3938 /* curlbuild.h in Headers */ = {isa = PBXBuildFile; fileRef = 89C85EA3244CAD4F004C3938 /* curlbuild.h */; };
@@ -211,7 +209,6 @@
 				897992F7217CF3A600C72F2E /* libiconv.tbd in Frameworks */,
 				897992BE217CEEF400C72F2E /* libxml2.tbd in Frameworks */,
 				89C85EBB244CAEB7004C3938 /* Security.framework in Frameworks */,
-				89C85EAE244CAD4F004C3938 /* libcurl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,7 +590,6 @@
 				897992B4217CEEA700C72F2E /* config.c in Sources */,
 				89D2FD2E217CE90100B2C9D4 /* gphoto2-version.c in Sources */,
 				89D2FD19217CE8DB00B2C9D4 /* gphoto2-abilities-list.c in Sources */,
-				89C85E90244CACFA004C3938 /* lumix.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

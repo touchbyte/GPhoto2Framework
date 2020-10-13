@@ -309,7 +309,8 @@ gp_abilities_list_load_dir (CameraAbilitiesList *list, const char *dir,
         return (GP_ERROR_CANCEL);
     }
     gp_context_progress_stop (context, p);
-    
+#if defined(LUMIX_ENABLED)
+
     filename = strdup("lumix");
     p = gp_context_progress_start (context, count, _("Loading interal camera driver '%s'..."), filename);
     i = 2;
@@ -326,7 +327,7 @@ gp_abilities_list_load_dir (CameraAbilitiesList *list, const char *dir,
         return (GP_ERROR_CANCEL);
     }
     gp_context_progress_stop (context, p);
-    
+#endif
 #endif
     
 	return (GP_OK);

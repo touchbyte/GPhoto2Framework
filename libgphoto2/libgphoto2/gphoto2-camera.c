@@ -871,7 +871,10 @@ gp_camera_init (Camera *camera, GPContext *context)
 #else
     
     if (strcmp(camera->pc->a.model, "Panasonic LumixGSeries") == 0) {
+#if defined(LUMIX_ENABLED)
+
         init_func = lumix_camera_init;
+#endif
     } else {
         init_func = camera_init;
     }
