@@ -21,7 +21,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 35474b174e8aead9"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965ea"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -36,7 +36,7 @@
                   offsetFromSymbolStart = "734">
                </Location>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 35474b174e8aead9"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965ea"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -51,7 +51,7 @@
                   offsetFromSymbolStart = "739">
                </Location>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 35474b174e8aead9"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965ea"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -85,7 +85,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 35474b174e8aead9"
+                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 982e3f73ff497bfc"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -100,7 +100,7 @@
                   offsetFromSymbolStart = "2886">
                </Location>
                <Location
-                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 35474b174e8aead9"
+                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 982e3f73ff497bfc"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -115,7 +115,7 @@
                   offsetFromSymbolStart = "2891">
                </Location>
                <Location
-                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 35474b174e8aead9"
+                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 982e3f73ff497bfc"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -161,6 +161,54 @@
             startingLineNumber = "1138"
             endingLineNumber = "1138"
             landmarkName = "gp_filesystem_delete_file(fs, folder, filename, context)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4E85DEB1-73F3-4387-8E00-ACA81F569997"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/lumix/lumix.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1970"
+            endingLineNumber = "1970"
+            landmarkName = "lumix_camera_init(camera, context)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D6A9F352-A7D0-4686-8AC3-58CB783BDC22"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/lumix/lumix.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1984"
+            endingLineNumber = "1984"
+            landmarkName = "lumix_camera_init(camera, context)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0A29C194-2BF3-433D-831C-25A3F5D39EDA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/lumix/lumix.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "486"
+            endingLineNumber = "486"
+            landmarkName = "loadCmd(camera, cmd)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

@@ -80,11 +80,11 @@
  * (64 bytes).
  *
  * This behaviour is most probably a workaround due to the fact
- * that the hardware USB slave controller in the device cannot
- * handle zero writes at all, and the usage of the USB 1.1
- * endpoint size is due to the fact that the device will "gear
- * down" on a USB 1.1 hub, and since 64 bytes is a multiple of
- * 512 bytes, it will work with USB 1.1 and USB 2.0 alike.
+ * that the USB controller in the device cannot handle zero writes
+ * at all, and the usage of the USB 1.1 endpoint size is due to the
+ * fact that the device will "gear down" on a USB 1.1 hub, and since
+ * 64 bytes is a multiple of 512 bytes, it will work with USB 1.1 and
+ * USB 2.0 alike.
  */
 #define DEVICE_FLAG_NO_ZERO_READS 0x00000008
 /**
@@ -171,7 +171,7 @@
  */
 #define DEVICE_FLAG_ALWAYS_PROBE_DESCRIPTOR 0x00000800
 /**
- * Samsung has implimented its own playlist format as a .spl file
+ * Samsung has implemented its own playlist format as a .spl file
  * stored in the normal file system, rather than a proper mtp
  * playlist. There are multiple versions of the .spl format
  * identified by a line in the file: VERSION X.XX
@@ -179,7 +179,7 @@
  */
 #define DEVICE_FLAG_PLAYLIST_SPL_V1 0x00001000
 /**
- * Samsung has implimented its own playlist format as a .spl file
+ * Samsung has implemented its own playlist format as a .spl file
  * stored in the normal file system, rather than a proper mtp
  * playlist. There are multiple versions of the .spl format
  * identified by a line in the file: VERSION X.XX
