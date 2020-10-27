@@ -21,7 +21,7 @@
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965ea"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965cb"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -31,12 +31,12 @@
                   urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "397"
-                  endingLineNumber = "397"
-                  offsetFromSymbolStart = "734">
+                  startingLineNumber = "398"
+                  endingLineNumber = "398"
+                  offsetFromSymbolStart = "602">
                </Location>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965ea"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965cb"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -46,12 +46,12 @@
                   urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "397"
-                  endingLineNumber = "397"
-                  offsetFromSymbolStart = "739">
+                  startingLineNumber = "398"
+                  endingLineNumber = "398"
+                  offsetFromSymbolStart = "607">
                </Location>
                <Location
-                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965ea"
+                  uuid = "30B26409-FEA4-455F-9C2A-960E9E2F4147 - 982e3f73ff4965cb"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -61,9 +61,9 @@
                   urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "397"
-                  endingLineNumber = "397"
-                  offsetFromSymbolStart = "785">
+                  startingLineNumber = "398"
+                  endingLineNumber = "398"
+                  offsetFromSymbolStart = "652">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -97,7 +97,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
                   endingLineNumber = "443"
-                  offsetFromSymbolStart = "2886">
+                  offsetFromSymbolStart = "2471">
                </Location>
                <Location
                   uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 982e3f73ff497bfc"
@@ -112,22 +112,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "443"
                   endingLineNumber = "443"
-                  offsetFromSymbolStart = "2891">
-               </Location>
-               <Location
-                  uuid = "63DE5D9A-4FEC-4953-868F-060AF46349C2 - 982e3f73ff497bfc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "camera_prepare_canon_eos_capture"
-                  moduleName = "gphoto2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Development/libraries/GPhoto2Framework/libgphoto2/camlibs/ptp2/config.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "443"
-                  endingLineNumber = "443"
-                  offsetFromSymbolStart = "2930">
+                  offsetFromSymbolStart = "2476">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -209,6 +194,22 @@
             startingLineNumber = "486"
             endingLineNumber = "486"
             landmarkName = "loadCmd(camera, cmd)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CDD75FE3-8611-4956-948E-EE70D5483EE0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/ptp2/library.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "9283"
+            endingLineNumber = "9283"
+            landmarkName = "camera_init(camera, context)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

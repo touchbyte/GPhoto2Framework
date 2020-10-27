@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="hXu-Vb-kE5">
-                                <rect key="frame" x="40" y="30" width="295" height="566"/>
+                                <rect key="frame" x="40" y="30" width="295" height="612"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xxc-ka-7lu">
                                         <rect key="frame" x="0.0" y="0.0" width="295" height="34"/>
@@ -38,18 +38,25 @@
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Fb4-XA-X4M">
-                                        <rect key="frame" x="0.0" y="40" width="295" height="60"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Fb4-XA-X4M">
+                                        <rect key="frame" x="0.0" y="40" width="295" height="106"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5e-ni-gaM">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z5e-ni-gaM">
                                                 <rect key="frame" x="0.0" y="0.0" width="295" height="30"/>
                                                 <state key="normal" title="Connect PTP/IP"/>
                                                 <connections>
                                                     <action selector="connectTouchedPTP:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qSl-lA-Kc9"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3K-pW-zZr">
-                                                <rect key="frame" x="0.0" y="30" width="295" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pn7-kc-baq">
+                                                <rect key="frame" x="0.0" y="38" width="295" height="30"/>
+                                                <state key="normal" title="Connect Fuji"/>
+                                                <connections>
+                                                    <action selector="connectFujiTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="E6b-u6-WCD"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J3K-pW-zZr">
+                                                <rect key="frame" x="0.0" y="76" width="295" height="30"/>
                                                 <state key="normal" title="Connect Lumix"/>
                                                 <connections>
                                                     <action selector="connectLumixTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6e2-7n-H53"/>
@@ -57,22 +64,22 @@
                                             </button>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTL-10-yoG">
-                                        <rect key="frame" x="0.0" y="106" width="295" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xTL-10-yoG">
+                                        <rect key="frame" x="0.0" y="152" width="295" height="30"/>
                                         <state key="normal" title="List Content"/>
                                         <connections>
                                             <action selector="listTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jRC-Vy-eql"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Console output:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Kl-Wn-uUu">
-                                        <rect key="frame" x="0.0" y="142" width="295" height="18"/>
+                                        <rect key="frame" x="0.0" y="188" width="295" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="Touch &quot;Connect&quot;" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Iw-lU-Wtu">
-                                        <rect key="frame" x="0.0" y="166" width="295" height="400"/>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <rect key="frame" x="0.0" y="212" width="295" height="400"/>
+                                        <color key="backgroundColor" systemColor="darkTextColor"/>
                                         <color key="textColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -80,6 +87,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="0Iw-lU-Wtu" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.6" id="0WT-Ba-J33"/>
@@ -87,7 +95,6 @@
                             <constraint firstItem="hXu-Vb-kE5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="pSC-eY-YbN"/>
                             <constraint firstItem="hXu-Vb-kE5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="rJb-Nu-Te7"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="connectButtonLumix" destination="J3K-pW-zZr" id="IYP-5h-Fsa"/>
@@ -102,4 +109,9 @@
             <point key="canvasLocation" x="56.799999999999997" y="26.53673163418291"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="darkTextColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

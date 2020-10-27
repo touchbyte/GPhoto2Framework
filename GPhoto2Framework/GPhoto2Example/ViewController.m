@@ -67,7 +67,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     GPPortInfoList        *portinfolist = NULL;
     GPPortInfo    pi;
     
-    NSString *connectionStr = [NSString stringWithFormat:@"%@:%@:55740",self.protocol,cameraIP];
+    NSString *connectionStr = [NSString stringWithFormat:@"%@:%@",self.protocol,cameraIP];
     
     gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
     gp_log_add_func(GP_LOG_DEBUG, logdumper, NULL);
@@ -193,7 +193,11 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     self.cameraModel = @"Canon EOS (WLAN)";
     [self doConnect];
 }
-
+- (IBAction)connectFujiTouched:(id)sender {
+    self.protocol = @"ptpip";
+    self.cameraModel = @"Fuji X (WLAN)";
+    [self doConnect];
+}
 
 - (IBAction)connectLumixTouched:(id)sender {
     self.protocol = @"ip";

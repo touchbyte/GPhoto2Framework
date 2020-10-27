@@ -32,6 +32,7 @@
 		893C0682217D113B005522E0 /* gphoto2-camera.h in Headers */ = {isa = PBXBuildFile; fileRef = 893C0676217D113A005522E0 /* gphoto2-camera.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		893C0683217D113B005522E0 /* gphoto2-context.h in Headers */ = {isa = PBXBuildFile; fileRef = 893C0677217D113A005522E0 /* gphoto2-context.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		893C0684217D113B005522E0 /* gphoto2-file.h in Headers */ = {isa = PBXBuildFile; fileRef = 893C0678217D113A005522E0 /* gphoto2-file.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		893E440C2548D399004EC3C1 /* fujiptpip.c in Sources */ = {isa = PBXBuildFile; fileRef = 893E440B2548D399004EC3C1 /* fujiptpip.c */; };
 		897992B2217CEEA700C72F2E /* ptp.c in Sources */ = {isa = PBXBuildFile; fileRef = 897992A6217CEEA700C72F2E /* ptp.c */; };
 		897992B4217CEEA700C72F2E /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = 897992A8217CEEA700C72F2E /* config.c */; };
 		897992B6217CEEA700C72F2E /* olympus-wrap.c in Sources */ = {isa = PBXBuildFile; fileRef = 897992AA217CEEA700C72F2E /* olympus-wrap.c */; };
@@ -123,6 +124,7 @@
 		893C0676217D113A005522E0 /* gphoto2-camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-camera.h"; sourceTree = "<group>"; };
 		893C0677217D113A005522E0 /* gphoto2-context.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-context.h"; sourceTree = "<group>"; };
 		893C0678217D113A005522E0 /* gphoto2-file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-file.h"; sourceTree = "<group>"; };
+		893E440B2548D399004EC3C1 /* fujiptpip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fujiptpip.c; sourceTree = "<group>"; };
 		897992A5217CEEA600C72F2E /* ptp-pack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ptp-pack.c"; sourceTree = "<group>"; };
 		897992A6217CEEA700C72F2E /* ptp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ptp.c; sourceTree = "<group>"; };
 		897992A8217CEEA700C72F2E /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = config.c; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 		897992A3217CEE7C00C72F2E /* ptp2 */ = {
 			isa = PBXGroup;
 			children = (
+				893E440B2548D399004EC3C1 /* fujiptpip.c */,
 				898D6A35222DD45800C2684B /* ptp.h */,
 				897992F4217CF39100C72F2E /* ptpip.c */,
 				897992AD217CEEA700C72F2E /* chdk.c */,
@@ -582,6 +585,7 @@
 				897992B2217CEEA700C72F2E /* ptp.c in Sources */,
 				89D2FD29217CE90100B2C9D4 /* gphoto2-filesys.c in Sources */,
 				897992B9217CEEA700C72F2E /* chdk.c in Sources */,
+				893E440C2548D399004EC3C1 /* fujiptpip.c in Sources */,
 				8922357D217D185300199AD2 /* gphoto2-port-info-list.c in Sources */,
 				89D2FD1B217CE8DB00B2C9D4 /* exif.c in Sources */,
 				8922357F217D185300199AD2 /* gphoto2-port-log.c in Sources */,
