@@ -114,7 +114,7 @@ static unsigned char *
 dc240_packet_new_path (const char *folder, const char *filename) {
     unsigned char *p;
     char buf[1024];
-    int x;
+    size_t x;
     unsigned char cs = 0;
 
     p = malloc(sizeof(char)*60);
@@ -241,7 +241,7 @@ static int dc240_wait_for_completion (Camera *camera) {
 	    break;
 	case GP_ERROR_TIMEOUT:
 	    GP_DEBUG ("GP_ERROR_TIMEOUT\n");
-	    /* in busy state, GP_ERROR_IO_READ can happend */
+	    /* in busy state, GP_ERROR_IO_READ can happened */
 	    break;
 	default:
 	    done = 1;
@@ -277,7 +277,7 @@ static int dc240_wait_for_busy_completion (Camera *camera)
 	    break;
 	case GP_ERROR_IO_READ:
 	case GP_ERROR_TIMEOUT:
-	    /* in busy state, GP_ERROR_IO_READ can happend */
+	    /* in busy state, GP_ERROR_IO_READ can happened */
 	    break;
 	default:
 	    if (*p != DC240_SC_BUSY) {
@@ -625,7 +625,7 @@ const char * dc240_get_memcard_status_str(uint8_t status)
 
 
 /*
-  Feed manually the stucture from data.
+  Feed manually the structure from data.
  */
 static int dc240_load_status_data_to_table (const unsigned char *fdata, DC240StatusTable *table)
 {
@@ -709,7 +709,7 @@ int dc240_get_status (Camera *camera, DC240StatusTable *table, GPContext *contex
 
     if (retval == GP_OK) {
 	retval = gp_file_get_data_and_size (file, &fdata, &fsize);
-	if (retval != GP_OK) goto exit; 
+	if (retval != GP_OK) goto exit;
 	if (fsize != 256) {
 	    GP_DEBUG ("wrong status packet size ! Size is %ld", fsize);
 	    retval = GP_ERROR;
@@ -733,7 +733,8 @@ int dc240_get_directory_list (Camera *camera, CameraList *list, const char *fold
                              unsigned char attrib, GPContext *context) {
 
     CameraFile *file;
-    int x, y=0, z, size=256;
+    unsigned int x, y=0, z;
+    int size=256;
     char buf[64];
     unsigned char *p1 = dc240_packet_new(0x99);
     unsigned char *p2 = dc240_packet_new_path(folder, NULL);
@@ -741,7 +742,7 @@ int dc240_get_directory_list (Camera *camera, CameraList *list, const char *fold
     unsigned long int fsize;
     int ret;
     int num_of_entries = 0; /* number of entries in the listing */
-    int total_size = 0; /* total useful size of the listing */
+    unsigned int total_size = 0; /* total useful size of the listing */
 
     gp_file_new(&file);
     ret = dc240_packet_exchange(camera, file, p1, p2, &size, 256, context);
@@ -811,7 +812,7 @@ int dc240_file_action (Camera *camera, int action, CameraFile *file,
     case DC240_ACTION_PREVIEW:
         cmd_packet[4] = 0x02;
         thumb = 1;
-        /* no break on purpose */
+	/* fallthrough */
     case DC240_ACTION_IMAGE:
         if ((size = dc240_get_file_size(camera, folder, filename, thumb, context)) < GP_OK) {
             retval = GP_ERROR;

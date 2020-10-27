@@ -63,8 +63,8 @@
 
 /* Include the rlibs.lua lua libs or try do it on our own? */
 
-/* capture: 
- * send LUA: 
+/* capture:
+ * send LUA:
  * init_usb_capture(0); is exiting capture
 
  * init_usb_capture(1,0,0)  1 = jpeg, 2 = raw, 4 = switch raw to dng
@@ -76,7 +76,7 @@
  * return ff_download(srcpaths[,ropts])
  *
  * return ff_mdelete(paths)
- * 
+ *
  * return os.stat(path)
  * return os.utime(path)
  * return os.mkdir(path)
@@ -135,7 +135,7 @@ chdk_generic_script_run (
 					if (*table) {
 						*table = realloc(*table,strlen(*table)+strlen(msg->data)+1);
 						strcat(*table,msg->data);
-					} else { 
+					} else {
 						*table = strdup(msg->data);
 					}
 					break;
@@ -144,7 +144,7 @@ chdk_generic_script_run (
 					if (*table) {
 						*table = realloc(*table,strlen(*table)+strlen(msg->data)+1);
 						strcat(*table,msg->data);
-					} else { 
+					} else {
 						*table = strdup(msg->data);
 					}
 					break;
@@ -528,7 +528,7 @@ chdk_camera_summary (Camera *camera, CameraText *text, GPContext *context)
 	ret = chdk_generic_script_run (params, "return get_flash_mode()", NULL, &retint, context);
 	sprintf (s, _("Flash Mode: %d\n"), retint); s += strlen(s);
         return ret;
-/* 
+/*
 Mode: 256
 SV96: 603, ISO: 243
 TV96: 478, Shutterspeed: 0
@@ -881,7 +881,7 @@ static int
 chdk_get_capmode(CONFIG_GET_ARGS) {
 	char *s , *table = NULL;
 	int retint = 0;
-	const char *lua = 
+	const char *lua =
 PTP_CHDK_LUA_SERIALIZE \
 "capmode=require'capmode'\n"
 "str=''\n"
@@ -923,7 +923,7 @@ static int
 chdk_put_capmode(CONFIG_PUT_ARGS) {
 	char *val;
 	char lua[200];
-	const char *luastr = 
+	const char *luastr =
 "capmode=require'capmode'\n"
 "str='%s'\n"
 "for id,name in ipairs(capmode.mode_to_name) do\n"
@@ -1005,8 +1005,8 @@ static struct {
 
 static int
 chdk_get_onoff(CONFIG_GET_ARGS) {
-        int i;
-        char buf[1024];
+        unsigned int	i;
+        char		buf[1024];
 
         gp_widget_new (GP_WIDGET_RADIO, _(menu->label), widget);
         gp_widget_set_name (*widget, menu->name);
@@ -1022,8 +1022,8 @@ chdk_get_onoff(CONFIG_GET_ARGS) {
 
 static int
 chdk_put_onoff(CONFIG_PUT_ARGS) {
-        int i;
-        char *val;
+        unsigned int	i;
+        char		*val;
 
         CR (gp_widget_get_value(widget, &val));
         for (i=0;i<sizeof(chdkonoff)/sizeof(chdkonoff[i]);i++) {
@@ -1109,7 +1109,7 @@ chdk_camera_set_config (Camera *camera, CameraWidget *window, GPContext *context
 }
 
 static int
-chdk_camera_exit (Camera *camera, GPContext *context) 
+chdk_camera_exit (Camera *camera, GPContext *context)
 {
 	camera_unprepare_chdk_capture(camera, context);
         return GP_OK;
@@ -1158,7 +1158,7 @@ chdk_camera_capture (Camera *camera, CameraCaptureType type, CameraFilePath *pat
 
 #ifdef HAVE_LIBJPEG
 static void yuv_live_to_jpeg(unsigned char *p_yuv,
-			     int buf_width, int width, int height,
+			     unsigned int buf_width, unsigned int width, unsigned int height,
 			     int fb_type, CameraFile *file
 ) {
 	struct		jpeg_compress_struct cinfo;

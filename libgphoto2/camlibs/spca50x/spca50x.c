@@ -78,7 +78,7 @@ spca50x_detect_storage_type (CameraPrivateLibrary *lib)
 	for (i=0;i<3;i++)
 	{
 		buf[i] = 0;  /* if no data returned, assume no capability */
-		CHECK (gp_port_usb_msg_read (lib->gpdev, 0x28, 0x0000, 
+		CHECK (gp_port_usb_msg_read (lib->gpdev, 0x28, 0x0000,
 					i, (char *)&buf[i], 0x01));
 	}
 
@@ -202,8 +202,8 @@ spca50x_capture (CameraPrivateLibrary * lib)
 	return GP_OK;
 }
 
-void
-create_jpeg_from_data (uint8_t * dst, uint8_t * src, int qIndex, int w,
+int
+create_jpeg_from_data (uint8_t * dst, uint8_t * src, unsigned int qIndex, int w,
 		       int h, uint8_t format, int o_size, int *size,
 		       int omit_huffman_table, int omit_escape)
 {
@@ -217,6 +217,10 @@ create_jpeg_from_data (uint8_t * dst, uint8_t * src, int qIndex, int w,
 			SPCA50X_JPG_DEFAULT_HEADER_PART1_LENGTH);
 
 	/* modify quantization table */
+	if (qIndex >= sizeof(SPCA50xQTable)/sizeof(SPCA50xQTable[0])/2) {
+		gp_log(GP_LOG_ERROR,"create_jpeg_from_data","qIndex %d too large", qIndex);
+		return GP_ERROR;
+	}
 	memcpy (dst + 7, SPCA50xQTable[qIndex * 2], 64);
 	memcpy (dst + 72, SPCA50xQTable[qIndex * 2 + 1], 64);
 
@@ -244,18 +248,22 @@ create_jpeg_from_data (uint8_t * dst, uint8_t * src, int qIndex, int w,
 	dst += SPCA50X_JPG_DEFAULT_HEADER_PART3_LENGTH;
 
 	for (i = 0; i < o_size; i++) {
+		if (dst - start >= *size) return GP_ERROR;
 		value = *(src + i) & 0xFF;
 		*(dst) = value;
 		dst++;
 
 		if (value == 0xFF && !omit_escape) {
+			if (dst - start >= *size) return GP_ERROR;
 			*(dst) = 0x00;
 			dst++;
 		}
 	}
+	if (dst + 2 - start >= *size) return GP_ERROR;
 	/* Add end of image marker */
 	*(dst++) = 0xFF;
 	*(dst++) = 0xD9;
 
 	*size = dst - start;
+	return GP_OK;
 }

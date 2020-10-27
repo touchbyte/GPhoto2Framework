@@ -241,20 +241,16 @@ int dc3200_get_data(Camera *camera, unsigned char **data, unsigned long *data_le
 				return GP_ERROR;
 
 			/* concatenate the folder + filename */
-			strncpy(file, folder, strlen(folder));
-			file[strlen(folder)] = 0;
+			strcpy(file, folder);
 			/* append the filename */
 			if(folder[strlen(folder)-1] != '\\')
-			strcat(file, "\\");
-			strncat(file, filename, strlen(filename));
+				strcat(file, "\\");
+			strcat(file, filename);
 
 		} else {
-			file = malloc(strlen(folder) + 2);
+			file = strdup(folder);
 			if(!file)
 				return GP_ERROR;
-
-			strncpy(file, folder, strlen(folder));
-			file[strlen(folder)] = 0;
 		}
 	} else {
 		return GP_ERROR;
@@ -545,7 +541,7 @@ int dc3200_send_command(Camera *camera, unsigned char *cmd, int cmd_len, unsigne
 
 	while(sends > 0) {
 		reads = READ_RETRIES;
-		/* check that we are acutally sending a command
+		/* check that we are actually sending a command
 		 * and not just waiting for data
 		 */
 		if(cmd != NULL && cmd_len > 0) {

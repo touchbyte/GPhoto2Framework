@@ -13,7 +13,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the 
+ * along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
@@ -45,69 +45,69 @@ static const struct eeprom_info {
 	int has_4k_sectors;
 	int pp_64k;
 } ax203_eeprom_info[] = {
-	{ "AMIC A25L040", 0x37133037,  524288, 1 },
-	{ "AMIC A25L080", 0x37143037, 1048576, 1 },
-	{ "AMIC A25L40P", 0x1320377f,  524288, 0 },
-	{ "AMIC A25L80P", 0x1420377f, 1048576, 0 },
-	{ "AMIC A25L16P", 0x1520377f, 2097152, 0 },
+	{ "AMIC A25L040", 0x37133037,  524288, 1, 0 },
+	{ "AMIC A25L080", 0x37143037, 1048576, 1, 0 },
+	{ "AMIC A25L40P", 0x1320377f,  524288, 0, 0 },
+	{ "AMIC A25L80P", 0x1420377f, 1048576, 0, 0 },
+	{ "AMIC A25L16P", 0x1520377f, 2097152, 0, 0 },
 
 	/* Note the ATmel AT26DF041 id:0x0000441f is fsck-ed up. It doesn't
 	   support ERASE_64K, (only 4K) and SPI_EEPROM_PP is 0x11 rather then
 	   0x02 (0x02 only programs a single byte). */
 	/* I cannot find a datasheet for the ATmel AT26DF081 id:0x0000451f */
-	{ "ATmel AT26DF161",  0x0000461f, 2097152, 1 },
-	{ "ATmel AT26DF081A", 0x0001451f, 1048576, 1 },
-	{ "ATmel AT26DF161A", 0x0001461f, 2097152, 1 },
-	{ "ATmel AT25DF081",  0x0002451f, 1048576, 1 },
-	{ "ATmel AT25DF161",  0x0002461f, 2097152, 1 },
+	{ "ATmel AT26DF161",  0x0000461f, 2097152, 1, 0 },
+	{ "ATmel AT26DF081A", 0x0001451f, 1048576, 1, 0 },
+	{ "ATmel AT26DF161A", 0x0001461f, 2097152, 1, 0 },
+	{ "ATmel AT25DF081",  0x0002451f, 1048576, 1, 0 },
+	{ "ATmel AT25DF161",  0x0002461f, 2097152, 1, 0 },
 
-	{ "EON EN25B16", 0x1c15201c, 2097152, 0 },
-	{ "EON EN25B32", 0x1c16201c, 4194304, 0 },
-	{ "EON EN25F80", 0x1c14311c, 1048576, 1 },
-	{ "EON EN25F16", 0x1c15311c, 2097152, 1 },
+	{ "EON EN25B16", 0x1c15201c, 2097152, 0, 0 },
+	{ "EON EN25B32", 0x1c16201c, 4194304, 0, 0 },
+	{ "EON EN25F80", 0x1c14311c, 1048576, 1, 0 },
+	{ "EON EN25F16", 0x1c15311c, 2097152, 1, 0 },
 
-	{ "ESI ES25P80", 0x0014204a, 1048576, 0 },
-	{ "ESI ES25P16", 0x0015204a, 2097152, 0 },
+	{ "ESI ES25P80", 0x0014204a, 1048576, 0, 0 },
+	{ "ESI ES25P16", 0x0015204a, 2097152, 0, 0 },
 
-	{ "ESMT F25L008 (top)",    0x8c14208c, 1048576, 1 },
-	{ "ESMT F25L008 (bottom)", 0x8c14218c, 1048576, 1 },
+	{ "ESMT F25L008 (top)",    0x8c14208c, 1048576, 1, 0 },
+	{ "ESMT F25L008 (bottom)", 0x8c14218c, 1048576, 1, 0 },
 
-	{ "GigaDevice GD25Q40", 0xc81340c8,  524288, 1 },
-	{ "GigaDevice GD25Q80", 0xc81440c8, 1048576, 1 },
-	{ "GigaDevice GD25Q16", 0xc81540c8, 2097152, 1 },
+	{ "GigaDevice GD25Q40", 0xc81340c8,  524288, 1, 0 },
+	{ "GigaDevice GD25Q80", 0xc81440c8, 1048576, 1, 0 },
+	{ "GigaDevice GD25Q16", 0xc81540c8, 2097152, 1, 0 },
 
-	{ "MXIC MX25L4005A", 0xc21320c2,  524288, 1 },
-	{ "MXIC MX25L8005A", 0xc21420c2, 1048576, 1 },
-	{ "MXIC MX25L1605A", 0xc21520c2, 2097152, 1 },
+	{ "MXIC MX25L4005A", 0xc21320c2,  524288, 1, 0 },
+	{ "MXIC MX25L8005A", 0xc21420c2, 1048576, 1, 0 },
+	{ "MXIC MX25L1605A", 0xc21520c2, 2097152, 1, 0 },
 
-	{ "Nantronics N25S80", 0xd51430d5, 1048576, 1 },                                                                                                                                     
+	{ "Nantronics N25S80", 0xd51430d5, 1048576, 1, 0 },
 
-	{ "PMC Pm25LV010", 0x007e9d7f, 524288, 0 },
+	{ "PMC Pm25LV010", 0x007e9d7f, 524288, 0, 0 },
 
-	{ "Spansion S25FL004A", 0x00120201,  524288, 0 },
-	{ "Spansion S25FL008A", 0x00130201, 1048576, 0 },
-	{ "Spansion S25FL016A", 0x00140201, 2097152, 0 },
+	{ "Spansion S25FL004A", 0x00120201,  524288, 0, 0 },
+	{ "Spansion S25FL008A", 0x00130201, 1048576, 0, 0 },
+	{ "Spansion S25FL016A", 0x00140201, 2097152, 0, 0 },
 
 	{ "SST25VF080", 0xbf8e25bf, 1048576, 0, 1 },
 	{ "SST25VF016", 0xbf4125bf, 2097152, 0, 1 },
 
-	{ "ST M25P08", 0x7f142020, 1048576, 0 },
-	{ "ST M25P16", 0x7f152020, 2097152, 0 },
-	{ "ST M25P32", 0x7f162020, 4194304, 0 },
-	{ "ST M25P64", 0x7f172020, 8388608, 0 },
+	{ "ST M25P08", 0x7f142020, 1048576, 0, 0 },
+	{ "ST M25P16", 0x7f152020, 2097152, 0, 0 },
+	{ "ST M25P32", 0x7f162020, 4194304, 0, 0 },
+	{ "ST M25P64", 0x7f172020, 8388608, 0, 0 },
 
-	{ "Winbond W25P80", 0x001420ef, 1048576, 0 },
-	{ "Winbond W25P16", 0x001520ef, 2097152, 0 },
+	{ "Winbond W25P80", 0x001420ef, 1048576, 0, 0 },
+	{ "Winbond W25P16", 0x001520ef, 2097152, 0, 0 },
 
-	{ "Winbond W25X40", 0x001330ef,  524288, 1 },
-	{ "Winbond W25X80", 0x001430ef, 1048576, 1 },
-	{ "Winbond W25X16", 0x001530ef, 2097152, 1 },
-	{ "Winbond W25X32", 0x001630ef, 4194304, 1 },
-	{ "Winbond W25X64", 0x001730ef, 8388608, 1 },
+	{ "Winbond W25X40", 0x001330ef,  524288, 1, 0 },
+	{ "Winbond W25X80", 0x001430ef, 1048576, 1, 0 },
+	{ "Winbond W25X16", 0x001530ef, 2097152, 1, 0 },
+	{ "Winbond W25X32", 0x001630ef, 4194304, 1, 0 },
+	{ "Winbond W25X64", 0x001730ef, 8388608, 1, 0 },
 
-	{ "Winbond W25Q80", 0x001440ef, 1048576, 1 },
-	{ "Winbond W25Q16", 0x001540ef, 2097152, 1 },
-	{ "Winbond W25Q32", 0x001640ef, 4194304, 1 },
+	{ "Winbond W25Q80", 0x001440ef, 1048576, 1, 0 },
+	{ "Winbond W25Q16", 0x001540ef, 2097152, 1, 0 },
+	{ "Winbond W25Q32", 0x001640ef, 4194304, 1, 0 },
 
 	{ }
 };
@@ -268,9 +268,9 @@ ax203_set_time_and_date(Camera *camera, struct tm *t)
 	char cmd_buffer[16];
 
 	memset (cmd_buffer, 0, sizeof (cmd_buffer));
-	
+
 	cmd_buffer[0] = AX203_SET_TIME;
-	
+
 	cmd_buffer[5] = t->tm_year % 100;
 
 	switch (camera->pl->frame_version) {
@@ -319,12 +319,12 @@ static int
 ax203_eeprom_read(Camera *camera, int address, char *buf, int buf_size)
 {
 	char cmd[4];
-    
+
 	cmd[0] = SPI_EEPROM_READ;
 	cmd[1] = (address >> 16) & 0xff;
 	cmd[2] = (address >> 8) & 0xff;
 	cmd[3] = (address) & 0xff;
-		    
+
 	return ax203_send_eeprom_cmd (camera, 0, cmd, sizeof(cmd), buf,
 				      buf_size, 0);
 }
@@ -339,7 +339,7 @@ ax203_eeprom_program_page(Camera *camera, int address, char *buf, int buf_size,
 	cmd[1] = (address >> 16) & 0xff;
 	cmd[2] = (address >> 8) & 0xff;
 	cmd[3] = (address) & 0xff;
-		    
+
 	return ax203_send_eeprom_cmd (camera, 1, cmd, sizeof(cmd), buf,
 				      buf_size, extra_arg);
 }
@@ -372,7 +372,7 @@ ax203_eeprom_erase_4k_sector(Camera *camera, int address)
 	cmd[1] = (address >> 16) & 0xff;
 	cmd[2] = (address >> 8) & 0xff;
 	cmd[3] = (address) & 0xff;
-		    
+
 	return ax203_send_eeprom_cmd (camera, 1, cmd, sizeof(cmd), NULL, 0, 0);
 }
 
@@ -385,7 +385,7 @@ ax203_eeprom_erase_64k_sector(Camera *camera, int address)
 	cmd[1] = (address >> 16) & 0xff;
 	cmd[2] = (address >> 8) & 0xff;
 	cmd[3] = (address) & 0xff;
-		    
+
 	return ax203_send_eeprom_cmd (camera, 1, cmd, sizeof(cmd), NULL, 0, 0);
 }
 
@@ -405,7 +405,7 @@ ax203_eeprom_wait_ready(Camera *camera)
 		count = 64;
 		break;
 	case AX3003_FIRMWARE_3_5_x:
-		/* On the ax3003 contineously reading the status word
+		/* On the ax3003 continuously reading the status word
 		   does not work. */
 		count = 1;
 		break;
@@ -585,7 +585,7 @@ ax203_write_mem(Camera *camera, int offset,
 /* This function reads the parameter block from the eeprom and:
    1) checks some hopefully constant bytes to make sure it is not reading
       garbage
-   2) Gets the lcd size from the paramter block (ax203_get_lcd_size seems
+   2) Gets the lcd size from the parameter block (ax203_get_lcd_size seems
       to result in all frames being detected as being 128x128 pixels).
    3) Determines the compression type for v3.4.x frames
    4) Determines the start of the ABFS
@@ -595,7 +595,7 @@ static int ax203_read_parameter_block(Camera *camera)
 	uint8_t buf[32], expect[32];
 	int i, param_offset = 0, resolution_offset = 0;
 	int compression_offset = -1, abfs_start_offset = 0, expect_size = 0;
-	const int valid_resolutions[][2] = {
+	const unsigned int valid_resolutions[][2] = {
 		{  96,  64 },
 		{ 120, 160 },
 		{ 128, 128 },
@@ -782,7 +782,7 @@ ax203_filesize(Camera *camera)
 		return 0;
 	}
 	/* Never reached */
-	return GP_ERROR_NOT_SUPPORTED;	
+	return GP_ERROR_NOT_SUPPORTED;
 }
 
 static int
@@ -800,7 +800,7 @@ ax203_max_filecount(Camera *camera)
 			sizeof(struct ax3003_v3_5_x_raw_fileinfo);
 	}
 	/* Never reached */
-	return GP_ERROR_NOT_SUPPORTED;	
+	return GP_ERROR_NOT_SUPPORTED;
 }
 
 static int
@@ -905,7 +905,7 @@ int ax206_read_v3_5_x_fileinfo(Camera *camera, int idx,
 	fileinfo->address = le32toh (raw.address);
 	fileinfo->size    = le16toh (raw.size);
 
-	return GP_OK;	
+	return GP_OK;
 }
 
 static
@@ -1039,7 +1039,7 @@ int ax203_read_fileinfo(Camera *camera, int idx,
 		return ax3003_read_v3_5_x_fileinfo (camera, idx, fileinfo);
 	}
 	/* Never reached */
-	return GP_ERROR_NOT_SUPPORTED;	
+	return GP_ERROR_NOT_SUPPORTED;
 }
 
 static
@@ -1057,14 +1057,14 @@ int ax203_write_fileinfo(Camera *camera, int idx,
 		return ax3003_write_v3_5_x_fileinfo (camera, idx, fileinfo);
 	}
 	/* Never reached */
-	return GP_ERROR_NOT_SUPPORTED;	
+	return GP_ERROR_NOT_SUPPORTED;
 }
 
 int
 ax203_file_present(Camera *camera, int idx)
 {
 	struct ax203_fileinfo fileinfo;
-	
+
 	CHECK (ax203_read_fileinfo (camera, idx, &fileinfo))
 
 	return fileinfo.present;
@@ -1102,7 +1102,7 @@ ax203_decode_image(Camera *camera, char *src, int src_size, int **dest)
 			if (!camera->pl->jdec)
 				return GP_ERROR_NO_MEMORY;
 		}
-		
+
 		/* Hack for width / heights which are not a multiple of 16 */
 		if (camera->pl->width % 16 || camera->pl->height % 16) {
 			width  = (camera->pl->width  + 15) & ~15;
@@ -1121,8 +1121,8 @@ ax203_decode_image(Camera *camera, char *src, int src_size, int **dest)
 		}
 		if (!row_skip) {
 			tinyjpeg_get_size (camera->pl->jdec, &width, &height);
-			if ((int)width  != camera->pl->width ||
-			    (int)height != camera->pl->height) {
+			if (width  != camera->pl->width ||
+			    height != camera->pl->height) {
 				gp_log (GP_LOG_ERROR, "ax203",
 					"Hdr dimensions %ux%u don't match lcd %dx%d",
 					width, height,
@@ -1193,12 +1193,12 @@ ax203_decode_image(Camera *camera, char *src, int src_size, int **dest)
 
 /* Returns the number of bytes of dest used or a negative error code */
 static int
-ax203_encode_image(Camera *camera, int **src, char *dest, int dest_size)
+ax203_encode_image(Camera *camera, int **src, char *dest, unsigned int dest_size)
 {
 #ifdef HAVE_LIBGD
 	int size = ax203_filesize (camera);
 #ifdef HAVE_LIBJPEG
-	int x, y;
+	unsigned int x, y;
 	struct jpeg_compress_struct cinfo;
 	struct jpeg_error_mgr jcerr;
 	JOCTET *jpeg_dest = NULL;
@@ -1207,7 +1207,10 @@ ax203_encode_image(Camera *camera, int **src, char *dest, int dest_size)
 	JSAMPROW row_pointer[1] = { row };
 #endif
 
-	if (dest_size < size)
+	if (size < GP_OK)
+		return size;
+
+	if (dest_size < (unsigned int)size)
 		return GP_ERROR_FIXED_LIMIT_EXCEEDED;
 
 	switch (camera->pl->compression_version) {
@@ -1239,8 +1242,8 @@ ax203_encode_image(Camera *camera, int **src, char *dest, int dest_size)
 		cinfo.in_color_space = JCS_RGB;
 		jpeg_set_defaults (&cinfo);
 		jpeg_start_compress (&cinfo, TRUE);
-		for (y = 0; y < cinfo.image_height; y++) {
-			for (x = 0; x < cinfo.image_width; x++) {
+		for (y = 0; y < (unsigned int)cinfo.image_height; y++) {
+			for (x = 0; x < (unsigned int)cinfo.image_width; x++) {
 				int p = src[y][x];
 				row[x * 3 + 0] = gdTrueColorGetRed(p);
 				row[x * 3 + 1] = gdTrueColorGetGreen(p);
@@ -1305,8 +1308,8 @@ ax203_defrag_memory(Camera *camera)
 	/* Delete all pictures from the frame */
 	ret = ax203_delete_all (camera);
 	if (ret < 0) goto cleanup;
-	
-	/* An last write them back (in one contineous block) */
+
+	/* An last write them back (in one continuous block) */
 	for (i = 0; i < count; i++) {
 		if (!fileinfo[i].present)
 			continue;
@@ -1499,7 +1502,7 @@ retry:
 
 	if (free >= size) {
 		gp_log (GP_LOG_DEBUG, "ax203",
-			"not enough contineous freespace to add file, "
+			"not enough continuous freespace to add file, "
 			"defragmenting memory");
 		CHECK (ax203_defrag_memory (camera))
 		goto retry;
@@ -1771,7 +1774,7 @@ ax203_open_device(Camera *camera)
 		if (ax203_eeprom_info[i].id == id)
 			break;
 	}
-	
+
 	if (!ax203_eeprom_info[i].name) {
 		gp_log (GP_LOG_ERROR, "ax203", "unknown eeprom id: %08x", id);
 		return GP_ERROR_MODEL_NOT_FOUND;

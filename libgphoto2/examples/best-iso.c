@@ -1,4 +1,4 @@
-/* 
+/*
  * This program tries various ISOs for best ISO with a shutterspeed limit
  *
  * compile with: gcc -Wall -o best-iso best-iso.c -lgphoto2 -lgphoto2_port
@@ -319,9 +319,9 @@ main(int argc, char **argv) {
 	int	retval, iso, tries;
 	char	buf[20];
 	GPContext *context = sample_create_context();
-        int	fd;
+        /*int	fd;*/
         CameraFile *file;
-        CameraFilePath camera_file_path;
+        /*CameraFilePath camera_file_path;*/
 
 	gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
 	gp_camera_new(&camera);

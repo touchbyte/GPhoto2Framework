@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /** \file
- * 
+ *
  * \author Copyright 2001 Lutz Mueller <lutz@users.sf.net>
  * \author Copyright 1999 Scott Fritzinger <scottf@unr.edu>
  *
@@ -11,10 +11,10 @@
  * version 2 of the License, or (at your option) any later version.
  *
  * \par
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * \par
  * You should have received a copy of the GNU Lesser General Public
@@ -96,7 +96,7 @@ struct _GPPortPrivateCore {
  *
  * Allocate and initialize the memory for a new #GPPort.
  *
- * After you called this function, 
+ * After you called this function,
  * you probably want to call #gp_port_set_info in order to make the newly
  * created port functional.
  *
@@ -152,7 +152,7 @@ gp_port_exit (GPPort *port)
  * information (from the serial:/dev/ttyS0 or similar variables).
  * After calling this function, you can access the port using for
  * example gp_port_open().
- * 
+ *
  * \param port a GPPort
  * \param info the GPPortInfo to set
  *
@@ -285,7 +285,7 @@ gp_port_get_info (GPPort *port, GPPortInfo *info)
  * \brief Open a port.
  * \param port a #GPPort
  *
- * Opens a port which should have been created with #gp_port_new and 
+ * Opens a port which should have been created with #gp_port_new and
  * configured with #gp_port_set_info and #gp_port_set_settings
  *
  * \return a gphoto2 error code
@@ -543,7 +543,7 @@ gp_port_check_int_fast (GPPort *port, char *data, int size)
 
 
 /**
- * \brief Set timeout of port 
+ * \brief Set timeout of port
  * \param port a #GPPort
  * \param timeout the timeout
  *
@@ -618,7 +618,7 @@ gp_port_set_settings (GPPort *port, GPPortSettings settings)
 	CHECK_INIT (port);
 
         /*
-	 * We copy the settings to settings_pending and call update on the 
+	 * We copy the settings to settings_pending and call update on the
 	 * port.
 	 */
         memcpy (&port->settings_pending, &settings,
@@ -667,7 +667,7 @@ gp_port_get_settings (GPPort *port, GPPortSettings *settings)
  * \param port a GPPort
  * \param pin the serial pin to be retrieved
  * \param level the setting of the pin
- * 
+ *
  * \return a gphoto2 error code
  */
 int
@@ -938,8 +938,8 @@ gp_port_usb_msg_read (GPPort *port, int request, int value, int index,
         return (retval);
 }
 
-/* 
- * The next two functions handle the request types 0x41 for write 
+/*
+ * The next two functions handle the request types 0x41 for write
  * and 0xc1 for read.
  */
 /**
@@ -957,7 +957,7 @@ gp_port_usb_msg_read (GPPort *port, int request, int value, int index,
  * \return a gphoto2 error code
  */
 int
-gp_port_usb_msg_interface_write (GPPort *port, int request, 
+gp_port_usb_msg_interface_write (GPPort *port, int request,
 	int value, int index, char *bytes, int size)
 {
         int retval;
@@ -969,7 +969,7 @@ gp_port_usb_msg_interface_write (GPPort *port, int request,
 	CHECK_INIT (port);
 
 	CHECK_SUPP (port, "msg_build", port->pc->ops->msg_interface_write);
-        retval = port->pc->ops->msg_interface_write(port, request, 
+        retval = port->pc->ops->msg_interface_write(port, request,
         		value, index, bytes, size);
 	CHECK_RESULT (retval);
 
@@ -1004,7 +1004,7 @@ gp_port_usb_msg_interface_read (GPPort *port, int request, int value, int index,
 	CHECK_INIT (port);
 
 	CHECK_SUPP (port, "msg_read", port->pc->ops->msg_interface_read);
-        retval = port->pc->ops->msg_interface_read (port, request, 
+        retval = port->pc->ops->msg_interface_read (port, request,
         		value, index, bytes, size);
 	CHECK_RESULT (retval);
 
@@ -1015,8 +1015,8 @@ gp_port_usb_msg_interface_read (GPPort *port, int request, int value, int index,
 }
 
 
-/* 
- * The next two functions handle the request types 0x21 for write 
+/*
+ * The next two functions handle the request types 0x21 for write
  * and 0xa1 for read.
  */
 
@@ -1035,7 +1035,7 @@ gp_port_usb_msg_interface_read (GPPort *port, int request, int value, int index,
  * \return a gphoto2 error code
  */
 int
-gp_port_usb_msg_class_write (GPPort *port, int request, 
+gp_port_usb_msg_class_write (GPPort *port, int request,
 	int value, int index, char *bytes, int size)
 {
         int retval;
@@ -1047,7 +1047,7 @@ gp_port_usb_msg_class_write (GPPort *port, int request,
 	CHECK_INIT (port);
 
 	CHECK_SUPP (port, "msg_build", port->pc->ops->msg_class_write);
-        retval = port->pc->ops->msg_class_write(port, request, 
+        retval = port->pc->ops->msg_class_write(port, request,
         		value, index, bytes, size);
 	CHECK_RESULT (retval);
 
@@ -1082,7 +1082,7 @@ gp_port_usb_msg_class_read (GPPort *port, int request, int value, int index,
 	CHECK_INIT (port);
 
 	CHECK_SUPP (port, "msg_read", port->pc->ops->msg_class_read);
-        retval = port->pc->ops->msg_class_read (port, request, 
+        retval = port->pc->ops->msg_class_read (port, request,
         		value, index, bytes, size);
 	CHECK_RESULT (retval);
 

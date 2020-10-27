@@ -20,9 +20,9 @@ Overview
 Copyright
 ---------
 
-	Copyright © 2000 Mariusz Zynel <mariusz@mizar.org> (gPhoto port)
-	Copyright © 2000 Fredrik Roubert <roubert@df.lth.se> (idea)
-	Copyright © 1999 Galen Brooks <galen@nine.com> (DC1580 code)
+	Copyright Â© 2000 Mariusz Zynel <mariusz@mizar.org> (gPhoto port)
+	Copyright Â© 2000 Fredrik Roubert <roubert@df.lth.se> (idea)
+	Copyright Â© 1999 Galen Brooks <galen@nine.com> (DC1580 code)
 	
 Changes
 -------	
@@ -32,7 +32,7 @@ Changes
 
 	* 5 August, 2000
 		- filename based communication between library and core
-		- abilities accomodated to the new API
+		- abilities accommodated to the new API
 		
 	* 28 July, 2000
 		- added library for DC1000 series

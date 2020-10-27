@@ -1,13 +1,13 @@
-/* 
+/*
  * This code released into the public domain 21 July 2008
- * 
+ *
  * This program does the equivalent of:
  * gphoto2 --shell
  *   > set-config capture=1
  *   > capture-image-and-download
  * compile with gcc -Wall -o canon-capture -lgphoto2 canon-capture.c
  *
- * Taken from: http://credentiality2.blogspot.com/2008/07/linux-libgphoto2-image-capture-from.html 
+ * Taken from: http://credentiality2.blogspot.com/2008/07/linux-libgphoto2-image-capture-from.html
  *
  * and condensed into simple capture sample
  */
@@ -122,7 +122,7 @@ main(int argc, char **argv) {
 	f = fopen("foo2.jpg", "wb");
 	if (f) {
 		retval = fwrite (data, size, 1, f);
-		if (retval != size) {
+		if (retval != (int)size) {
 			printf("  fwrite size %ld, written %d\n", size, retval);
 		}
 		fclose(f);

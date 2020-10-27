@@ -13,7 +13,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the 
+ * along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
@@ -50,7 +50,7 @@ static char *st2205_malloc_page_aligned(int size)
 #ifdef HAVE_SYS_MMAN_H
 	int fd;
 	char *aligned;
-	
+
 	fd = open ("/dev/zero", O_RDWR);
 	aligned = mmap (0, size, PROT_READ|PROT_WRITE,MAP_PRIVATE, fd, 0);
 	close (fd);
@@ -236,12 +236,12 @@ st2205_detect_mem_size(Camera *camera)
 			break;
 	}
 
-	camera->pl->mem_size = 524288 << i;	
+	camera->pl->mem_size = 524288 << i;
 
 	st2205_free_page_aligned(buf0, ST2205_BLOCK_SIZE);
 	st2205_free_page_aligned(buf1, ST2205_BLOCK_SIZE);
 
-	return GP_OK;	
+	return GP_OK;
 }
 
 static int
@@ -619,7 +619,7 @@ st2205_real_write_file(Camera *camera,
 							      sizeof(header)))
 
 					BE16TOH(header.length);
-					end = start + sizeof(header) + 
+					end = start + sizeof(header) +
 					      header.length;
 				} else
 					end = start + size;
@@ -658,7 +658,7 @@ st2205_real_write_file(Camera *camera,
 			}
 		}
 	}
-	
+
 	/* No freespace found, try again with uv correction tables disabled */
 	if (camera->pl->compressed && allow_uv_corr)
 		return st2205_real_write_file (camera, filename, rgb24, buf,
@@ -825,7 +825,8 @@ st2205_init(Camera *camera)
 		  { 0xff, 0xff, 0x04, 0x04, 0x04, 0x04, 0x04 }, },
 		{ 96, 64, 7, 7,
 		  { 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00 }, },
-		{ 0, 0, 0 }
+		{ 0, 0, 0, 0,
+		  { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }, }
 	};
 	const int uncompressed_firmware_checksums[] = {
 	        0x00ab02fc, /* Frame 96x64 from blokker (Netherlands) */
@@ -870,7 +871,7 @@ st2205_init(Camera *camera)
 	 * -lookup tables directly followed by shuffle tables at 0x8477
 	 * -pictures starting at 0x10000
 	 * -64k of firmware at the end of memory
-	 * Version 2 devices show up as 2 disks, with the second second disk
+	 * Version 2 devices show up as 2 disks, with the second disk
 	 * containing a msdos filesystem with the windows software. These have:
 	 * -1 copy of the "FAT"
 	 * -lookup tables as part of the firmware at memory-end - 0x27b89 bytes

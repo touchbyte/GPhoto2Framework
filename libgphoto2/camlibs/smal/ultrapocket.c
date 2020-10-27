@@ -36,7 +36,7 @@
 #include "smal.h"
 
 #ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
-# define sleep(x) 
+# define sleep(x)
 #endif
 
 #define GP_MODULE "Smal Ultrapocket"
@@ -173,7 +173,7 @@ getpicture_logitech_pd(Camera *camera, GPContext *context, unsigned char **rd, c
     unsigned char *rawdata;
     int            ptc,pc,id;
 
-    strncpy(command+3, filename, 11); /* the id of the image to transfer */
+    strncpy((char*)(command+3), filename, 11); /* the id of the image to transfer */
 
     CHECK_RESULT(ultrapocket_command(port, 1, command, 0x10));
 
@@ -210,7 +210,7 @@ getpicture_logitech_pd(Camera *camera, GPContext *context, unsigned char **rd, c
  * use a different protocol - have to differetiate.
  */
 int
-ultrapocket_getrawpicture(Camera *camera, GPContext *context, 
+ultrapocket_getrawpicture(Camera *camera, GPContext *context,
    unsigned char **pdata, int *size, const char *filename)
 {
     char           ppmheader[200];
@@ -265,13 +265,13 @@ ultrapocket_getrawpicture(Camera *camera, GPContext *context,
 
    /* and chop the spare 4 pixels off the RHS */
    for (pc = 1; pc < height; pc++) {
-      memmove(outdata + pmmhdr_len + ((long)width * pc * 3), 
-              outdata + pmmhdr_len + (((long)width + 4) * pc * 3), 
+      memmove(outdata + pmmhdr_len + ((long)width * pc * 3),
+              outdata + pmmhdr_len + (((long)width + 4) * pc * 3),
               ((long)width) * 3);
    }
    /* modify outsize to reflect trim */
    outsize = ((long)width) * height * 3 + pmmhdr_len;
-   
+
    free(rawdata);
    if (result < 0) {
       free (outdata);
@@ -329,7 +329,7 @@ ultrapocket_getpicture(Camera *camera, GPContext *context, unsigned char **pdata
 	    ", gamma %.2f"
 #endif
 	    "\n%d %d\n"
-	    "255\n", BayerTileNames[tile], 
+	    "255\n", BayerTileNames[tile],
 #if DO_GAMMA
 	    GAMMA_NUMBER,
 #endif
@@ -354,8 +354,8 @@ ultrapocket_getpicture(Camera *camera, GPContext *context, unsigned char **pdata
 
    /* and chop the spare 4 pixels off the RHS */
    for (pc = 1; pc < height; pc++) {
-      memmove(outdata + pmmhdr_len + ((long)width * pc * 3), 
-              outdata + pmmhdr_len + (((long)width + 4) * pc * 3), 
+      memmove(outdata + pmmhdr_len + ((long)width * pc * 3),
+              outdata + pmmhdr_len + (((long)width + 4) * pc * 3),
               ((long)width) * 3);
    }
    /* modify outsize to reflect trim */
@@ -384,15 +384,19 @@ ultrapocket_getpicture(Camera *camera, GPContext *context, unsigned char **pdata
 static int
 ultrapocket_reset(Camera *camera)
 {
-   GPPortInfo oldpi;
-   GPPortInfo newpi;
-   GPPort *port = camera->port;
    CameraAbilities cab;
    unsigned char cmdbuf[0x10];
+   GPPort *port = camera->port;
+
    gp_camera_get_abilities(camera, &cab);
    GP_DEBUG ("First connect since camera was used - need to reset cam");
-   char *val;
+
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
    GPPortType porttype;
+   GPPortInfo oldpi;
+   GPPortInfo newpi;
+   char *val;
+#endif
 
    /*
     * this resets the ultrapocket.  Messy, but it's what the windows
@@ -404,6 +408,7 @@ ultrapocket_reset(Camera *camera)
    cmdbuf[1] = 0x01;
    CHECK_RESULT(ultrapocket_command(port, 1, cmdbuf, 0x10));
    /* -------------- */
+#ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
    sleep(4); /* This should do - _might_ need increasing */
    CHECK_RESULT(gp_port_get_info(port, &oldpi));
    gp_port_info_new(&newpi);
@@ -422,6 +427,7 @@ ultrapocket_reset(Camera *camera)
    CHECK_RESULT(gp_port_usb_find_device(port, cab.usb_vendor, cab.usb_product));
    CHECK_RESULT(gp_port_open(port));
    camera->port = port;
+#endif
    return GP_OK;
 }
 
@@ -505,7 +511,7 @@ static int getpicsoverview_generic(
    char fn[20];
    int picid;
    int reset_needed;
-   
+
    CHECK_RESULT(ultrapocket_sync(camera));
 
    memset(command, 0, 16);
@@ -579,7 +585,7 @@ static int getpicsoverview_logitech_pd(
  *
  * Fuji Slimshot + Axia etc
  * The camera responds with 8 * 0x1000 bytes
- * 
+ *
  * Creative CardCam
  * The camera responds with 8 * 0x1000 bytes
  *

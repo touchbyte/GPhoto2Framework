@@ -4,8 +4,8 @@ AC_PREREQ(2.62)
 dnl NOTE: Be version style _higher_ than the last release.
 dnl       So lastversion.X.trunk for instance. Bump X if necessary.
 
-dnl ******* THE NEXT RELEASE VERSION MUST BE 2.5.25 at least or higher!
-AC_INIT([libgphoto2 photo camera library], [2.5.24.1], [gphoto-devel@lists.sourceforge.net], [libgphoto2])
+dnl ******* THE NEXT RELEASE VERSION MUST BE 2.5.27 at least or higher!
+AC_INIT([libgphoto2 photo camera library], [2.5.26.1], [gphoto-devel@lists.sourceforge.net], [libgphoto2])
 
 AC_CONFIG_SRCDIR([libgphoto2/gphoto2-version.c])
 AC_CONFIG_HEADERS([config.h])
@@ -18,7 +18,7 @@ dnl The generated Makefile rule fails to remove the absolute part at
 dnl the beginning of the /path/to/buildroot/PACKAGE-VERSION/foo/bar
 dnl before determining the string length. However, the only relevant
 dnl string to determine the length of would be PACKAGE-VERSION/foo/bar
-AM_INIT_AUTOMAKE([-Wall foreign 1.9 dist-bzip2 check-news subdir-objects])
+AM_INIT_AUTOMAKE([-Wall foreign 1.9 dist-bzip2 dist-xz check-news subdir-objects])
 
 
 # Use the silent-rules feature when possible.
@@ -97,7 +97,7 @@ AM_CONDITIONAL([HAVE_CXX], [test "x$CXX" != "x" && test "x$CXX" != "xno"])
 
 
 dnl --------------------------------------------------------------------
-dnl Determine the most pedantic compiler flags we can can find for both
+dnl Determine the most pedantic compiler flags we can find for both
 dnl C and C++, so that we can test that the libgphoto2 headers compile
 dnl with those flags.
 dnl --------------------------------------------------------------------
@@ -110,6 +110,12 @@ GP_PEDANTIC_COMPILER_FLAGS([CXX11], [C++], [-std=c++11])
 GP_PEDANTIC_COMPILER_FLAGS([CXX14], [C++], [-std=c++14])
 GP_PEDANTIC_COMPILER_FLAGS([CXX17], [C++], [-std=c++17])
 
+GP_CONDITIONAL_COMPILE_FLAGS([CFLAGS],[-Wall])
+GP_CONDITIONAL_COMPILE_FLAGS([CFLAGS],[-Wextra])
+GP_CONDITIONAL_COMPILE_FLAGS([CFLAGS],[-Wno-unused-parameter])
+GP_CONDITIONAL_COMPILE_FLAGS([CFLAGS],[-Wno-format-overflow])
+GP_CONDITIONAL_COMPILE_FLAGS([CFLAGS],[-Wno-format-truncation])
+GP_CONDITIONAL_COMPILE_FLAGS([CFLAGS],[-Wno-stringop-truncation])
 
 dnl Every compile example after here will be using the C language
 AC_LANG([C])
@@ -259,13 +265,14 @@ AC_SYS_LARGEFILE
 
 AC_MSG_CHECKING([for asm .symver support])
 AC_COMPILE_IFELSE([dnl
-	AC_LANG_PROGRAM([[]],[[
-		int f1() { }
-		int f2() { }
+	AC_LANG_PROGRAM([[
+		void f1(void);
+		void f1() {}
+		void f2(void);
+		void f2() {}
 		asm(".symver f1, f@VER1");
 		asm(".symver f2, f@@VER2");
-		int main(int argc, char **argv) { }
-	]])dnl
+	]],[])dnl
 ],[
 	AC_DEFINE([HAVE_ASM_SYMVERS],1,[Define if there is asm .symver support.])
 	VERSIONMAPLDFLAGS="-Wl,--version-script=\$(srcdir)/libgphoto2.ver"
@@ -366,7 +373,7 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
 
 dnl Checks for library functions.
-AC_CHECK_FUNCS([getenv getopt getopt_long mkdir setenv strdup strncpy strcpy snprintf sprintf vsnprintf gmtime_r statfs localtime_r lstat inet_aton rand_r])
+AC_CHECK_FUNCS([getenv getopt getopt_long mkdir setenv strdup strncpy strcpy snprintf sprintf vsnprintf gmtime_r statvfs localtime_r lstat inet_aton rand_r])
 
 dnl Find out how to get struct tm
 AC_STRUCT_TM
@@ -388,27 +395,10 @@ AC_MSG_RESULT(yes)
 AC_MSG_RESULT(no)
 ])
 
-AC_CHECK_HEADERS([sys/mount.h sys/statfs.h sys/user.h sys/vfs.h],,,[
+AC_CHECK_HEADERS([sys/mount.h sys/statvfs.h sys/user.h sys/vfs.h],,,[
 #include <sys/types.h>
 #if HAVE_SYS_PARAM_H
 # include <sys/param.h>
-#endif
-])
-
-dnl Check for statfs members
-AC_CHECK_MEMBERS([struct statfs.f_bfree, struct statfs.f_bavail, struct statfs.f_favail],,,[
-#include <sys/types.h>
-#ifdef HAVE_SYS_PARAM_H
-# include <sys/param.h>
-#endif
-#ifdef HAVE_SYS_MOUNT_H
-# include <sys/mount.h>
-#endif
-#ifdef HAVE_SYS_VFS_H
-# include <sys/vfs.h>
-#endif
-#ifdef HAVE_SYS_STATFS_H
-# include <sys/statfs.h>
 #endif
 ])
 
@@ -540,6 +530,9 @@ GP_CAMLIB([digigr8])dnl
 GP_CAMLIB([digita],[outdated])dnl
 GP_CAMLIB([dimera3500],[outdated])dnl
 GP_CAMLIB([directory])dnl
+AM_COND_IF([HAVE_LIBGD], [dnl
+GP_CAMLIB([docupen])dnl
+])
 GP_CAMLIB([enigma13],[outdated])dnl
 GP_CAMLIB([fuji],[outdated])dnl
 GP_CAMLIB([gsmart300],[outdated])dnl

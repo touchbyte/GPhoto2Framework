@@ -165,13 +165,14 @@ AC_CHECK_LIB([regex],[regexec])
 
 AC_MSG_CHECKING([for asm .symver support])
 AC_COMPILE_IFELSE([dnl
-	AC_LANG_PROGRAM([[]],[[
-		int f1() { }
-		int f2() { }
+	AC_LANG_PROGRAM([[
+		void f1(void);
+		void f1() {}
+		void f2(void);
+		void f2() {}
 		asm(".symver f1, f@VER1");
 		asm(".symver f2, f@@VER2");
-		int main(int argc, char **argv) { }
-	]])dnl
+	]],[])dnl
 ],[
 	AC_DEFINE([HAVE_ASM_SYMVERS],1,[Define if there is asm .symver support.])
 	VERSIONMAPLDFLAGS="-Wl,--version-script=\$(srcdir)/libgphoto2_port.ver"
@@ -375,11 +376,11 @@ GP_CONFIG_MSG([USB ports])
 GP_CHECK_LIBRARY([LIBUSB1],[libusb-1.0],[>= 1.0.0],
 		[libusb.h],[libusb_init],[
         case "$host" in
-          *-*-mingw* | *-*-cygwin* | *-*-msvc* )
-	  IOLIB_LIST="$IOLIB_LIST usb1"
+          *-linux*)
+	  IOLIB_LIST="$IOLIB_LIST usb1 usbdiskdirect usbscsi"
           ;;
           *)
-	  IOLIB_LIST="$IOLIB_LIST usb1 usbdiskdirect usbscsi"
+	  IOLIB_LIST="$IOLIB_LIST usb1"
           ;;
         esac
 
@@ -404,9 +405,16 @@ GP_CHECK_LIBRARY([LIBUSB],[libusb],[>= 0.1.5],
 	  dnl Windows itself has usb.h we mis-detect, in that case remove access to the other usb.h
 	  IOLIB_LIST="$IOLIB_LIST usb"
 	  ;;
-	  *)
+          *-linux*)
 	  if test "x$have_LIBUSB1" != xyes; then
 		IOLIB_LIST="$IOLIB_LIST usb usbdiskdirect usbscsi"
+          else
+		GP_CONFIG_MSG([libusb0 support],[detected, but disabled (libusb1 support is enabled)])
+          fi
+	  ;;
+	  *)
+	  if test "x$have_LIBUSB1" != xyes; then
+		IOLIB_LIST="$IOLIB_LIST usb"
           else
 		GP_CONFIG_MSG([libusb0 support],[detected, but disabled (libusb1 support is enabled)])
           fi

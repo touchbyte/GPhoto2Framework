@@ -7,10 +7,10 @@
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
@@ -60,7 +60,7 @@ blink2_getnumpics(
 ) {
     unsigned char buf[2];
     int ret;
-    
+
     ret = gp_port_usb_msg_read(port, BLINK2_GET_NUMPICS, 0x03, 0, (char*)buf, 2);
     if (ret < GP_OK)
 	return ret;
@@ -95,8 +95,10 @@ file_list_func (CameraFilesystem *fs, const char *folder, CameraList *list,
 		void *data, GPContext *context)
 {
 	Camera		*camera = data;
-	int		i, ret;
-	unsigned int	bytes, numpics;
+	unsigned int	i;
+	int		ret;
+	int		bytes;
+	unsigned int	numpics;
 	unsigned char	*xbuf, buf[8];
 
 	ret = blink2_getnumpics( camera->port, context, &numpics );
@@ -134,9 +136,10 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 	       GPContext *context)
 {
 	Camera *camera = data;
-        int image_no, result;
-	int	i, ret;
-	unsigned int numpics, bytes;
+	int image_no, result;
+	unsigned int i;
+	int ret, bytes;
+	unsigned int numpics;
 	unsigned char	*xbuf, buf[8];
 
 	struct xaddr {
@@ -194,7 +197,7 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 		free(addrs);
                 return image_no;
 	}
-	if (image_no >= numpics) {
+	if (image_no < 0 || (unsigned int)image_no >= numpics) {
 		free(addrs);
 		gp_log(GP_LOG_DEBUG, "blink2","image %d requested, but only %d pics on camera?", image_no, numpics);
                 return GP_ERROR;
@@ -284,7 +287,7 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 			gp_file_append (file, foo, strlen(foo));
 		}
 		for (i = 0; i < dinfo.output_height ; i++ ) {
-			int j;
+			unsigned int j;
 			JSAMPROW row[1];
 			JSAMPARRAY arr = row;
 
@@ -319,9 +322,9 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
         case GP_FILE_TYPE_RAW: {
 		char buf2[4096];
 		unsigned int start, len;
-		int curread;
+		unsigned int curread;
 		memset( buf, 0, sizeof(buf));
-		
+
 		if (addrs[image_no].type)
         		gp_file_set_mime_type (file, GP_MIME_AVI);
 		else
@@ -342,15 +345,17 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 			break;
 		len = len*8;
 		do {
+			int ret;
+
 			curread = 4096;
 			if (curread > len) curread = len;
-			curread = gp_port_read( camera->port, buf2, curread);
-			if (curread < GP_OK) {
+			ret = gp_port_read( camera->port, buf2, curread);
+			if (ret < GP_OK) {
 				result = GP_OK;
 				break;
 			}
-			len -= curread;
-			result = gp_file_append( file, buf2, curread);
+			len -= ret;
+			result = gp_file_append( file, buf2, ret);
 			if (result < GP_OK)
 				break;
 		} while (len>0);
@@ -388,7 +393,7 @@ camera_capture (Camera *camera, CameraCaptureType type, CameraFilePath *path,
 	int ret;
 	unsigned int oldnumpics, numpics;
 	char buf[1];
-	
+
 	ret = blink2_getnumpics (camera->port, context, &oldnumpics);
 	if (ret < GP_OK)
 		return ret;
@@ -417,7 +422,7 @@ camera_capture (Camera *camera, CameraCaptureType type, CameraFilePath *path,
 
 
 int
-camera_abilities (CameraAbilitiesList *list) 
+camera_abilities (CameraAbilitiesList *list)
 {
 	CameraAbilities a;
 
@@ -445,7 +450,7 @@ camera_abilities (CameraAbilitiesList *list)
 }
 
 int
-camera_id (CameraText *id) 
+camera_id (CameraText *id)
 {
 	strcpy(id->text, "SiPix Blink2");
 	return (GP_OK);
@@ -458,7 +463,7 @@ static CameraFilesystemFuncs fsfuncs = {
 };
 
 int
-camera_init (Camera *camera, GPContext *context) 
+camera_init (Camera *camera, GPContext *context)
 {
 	char buf[6];
 	int ret;

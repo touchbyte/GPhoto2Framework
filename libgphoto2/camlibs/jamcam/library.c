@@ -55,7 +55,7 @@
 #define GP_MODULE
 
 static struct jamcam_file jamcam_files[1024];
-static int jamcam_count = 0;
+static unsigned int jamcam_count = 0;
 static int jamcam_mmc_card_size = 0;
 
 static int jamcam_read_packet (Camera *camera, unsigned char *packet, int length);
@@ -148,7 +148,7 @@ static int jamcam_mmc_card_file_count (Camera *camera) {
 
 				jamcam_set_int_at_pos( buf, 4, position );
 				jamcam_write_packet( camera, buf, 8 );
-			
+
 				jamcam_read_packet( camera, reply, 16 );
 			}
 			break;
@@ -219,7 +219,7 @@ static int jamcam_mmc_card_file_count (Camera *camera) {
 			break;
 	}
 
-	GP_DEBUG (		"*** returning with jamcam_count = %d", jamcam_count);
+	GP_DEBUG (		"*** returning with jamcam_count = %u", jamcam_count);
 	return( 0 );
 }
 
@@ -268,7 +268,7 @@ int jamcam_file_count (Camera *camera) {
 
 				jamcam_set_int_at_pos( buf, 4, position );
 				jamcam_write_packet( camera, buf, 8 );
-			
+
 				jamcam_read_packet( camera, reply, 16 );
 			}
 
@@ -321,7 +321,7 @@ int jamcam_file_count (Camera *camera) {
 		jamcam_count += jamcam_mmc_card_file_count( camera );
 	}
 
-	GP_DEBUG (		"*** returning jamcam_count = %d", jamcam_count);
+	GP_DEBUG (		"*** returning jamcam_count = %u", jamcam_count);
 	return( jamcam_count );
 }
 
@@ -385,7 +385,7 @@ static int jamcam_fetch_memory( Camera *camera, CameraFile *file,
 
 				break;
 		}
-				
+
 		bytes_left -= bytes_to_read;
 		bytes_read += bytes_to_read;
 

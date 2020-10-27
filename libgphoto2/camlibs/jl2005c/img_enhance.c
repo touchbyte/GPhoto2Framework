@@ -63,7 +63,7 @@ int
 histogram (unsigned char *data, unsigned int size, int *htable_r,
 						int *htable_g, int *htable_b)
 {
-	int x;
+	unsigned int x;
 	/* Initializations */
 	for (x = 0; x < 0x100; x++) {
 		htable_r[x] = 0;
@@ -84,7 +84,8 @@ histogram (unsigned char *data, unsigned int size, int *htable_r,
 int
 white_balance (unsigned char *data, unsigned int size, float saturation)
 {
-	int x, r, g, b, max, d;
+	unsigned int x, max;
+	int r, g, b, d;
 	double r_factor, g_factor, b_factor, max_factor;
 	int htable_r[0x100], htable_g[0x100], htable_b[0x100];
 	unsigned char gtable[0x100];
@@ -159,17 +160,17 @@ white_balance (unsigned char *data, unsigned int size, float saturation)
 		{
 			d = (data[x + 0] << 8) * r_factor + 8;
 			d >>= 8;
-			if (d > 0xff) 
+			if (d > 0xff)
 				d = 0xff;
 			data[x + 0] = d;
 			d = (data[x + 1] << 8) * g_factor + 8;
 			d >>= 8;
-			if (d > 0xff) 
+			if (d > 0xff)
 				d = 0xff;
 			data[x + 1] = d;
 			d = (data[x + 2] << 8) * b_factor + 8;
 			d >>= 8;
-			if (d > 0xff) 
+			if (d > 0xff)
 				d = 0xff;
 			data[x + 2] = d;
 		}

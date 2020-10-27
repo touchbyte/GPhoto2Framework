@@ -16,7 +16,7 @@
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with puppy; if not, write to the 
+  along with puppy; if not, write to the
   Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   Boston, MA  02110-1301  USA
 
@@ -106,11 +106,11 @@ strdup_to_latin1 (const char *str) {
 		dst = dest = calloc (dstlen,1);
 		if (!dst) return NULL;
 		ret = iconv (cd_locale_to_latin1, &src, &srclen, &dst, &dstlen);
-		if ((ret == -1) && (errno == E2BIG)) {
+		if ((ret == (size_t)(-1)) && (errno == E2BIG)) {
 			ndstlen *= 2;
 			continue;
 		}
-		if (ret == -1) {
+		if (ret == (size_t)(-1)) {
 			perror("iconv");
 			free (dest);
 			dest = NULL;
@@ -136,11 +136,11 @@ strdup_to_locale (char *str) {
 		dst = dest = malloc (dstlen);
 		if (!dst) return NULL;
 		ret = iconv (cd_latin1_to_locale, &src, &srclen, &dst, &dstlen);
-		if ((ret == -1) && (errno == E2BIG)) {
+		if ((ret == (size_t)(-1)) && (errno == E2BIG)) {
 			ndstlen *= 2;
 			continue;
 		}
-		if (ret == -1) {
+		if (ret == (size_t)(-1)) {
 			perror("iconv");
 			free (dest);
 			return NULL;
@@ -540,7 +540,7 @@ static void finalStats(uint64_t bytes, time_t startTime)
 #endif
 
 static int
-camera_config_get (Camera *camera, CameraWidget **window, GPContext *context) 
+camera_config_get (Camera *camera, CameraWidget **window, GPContext *context)
 {
         CameraWidget *section, *turbo;
 	char buf[1024];
@@ -573,7 +573,7 @@ camera_config_get (Camera *camera, CameraWidget **window, GPContext *context)
 
 
 static int
-camera_config_set (Camera *camera, CameraWidget *window, GPContext *context) 
+camera_config_set (Camera *camera, CameraWidget *window, GPContext *context)
 {
 	int ret;
 	CameraWidget *turbo;
@@ -769,7 +769,7 @@ put_file_func (CameraFilesystem *fs, const char *folder, const char *filename, C
 	fileSize = srcStat.st_size;
 	if(fileSize == 0)
 	{
-		gp_log (GP_LOG_ERROR, "topfield", "ERROR: Source file is empty - not transfering.\n");
+		gp_log (GP_LOG_ERROR, "topfield", "ERROR: Source file is empty - not transferring.\n");
 		result = -ENODATA;
 		goto out;
 	}
@@ -1065,7 +1065,7 @@ static int
 storage_info_func (CameraFilesystem *fs,
 		CameraStorageInformation **storageinformations,
 		int *nrofstorageinformations, void *data,
-		GPContext *context) 
+		GPContext *context)
 {
 	Camera *camera = data;
 	int r;
@@ -1154,7 +1154,7 @@ make_dir_func (CameraFilesystem *fs, const char *folder, const char *foldername,
 
 /**********************************************************************/
 int
-camera_id (CameraText *id) 
+camera_id (CameraText *id)
 {
 	strcpy(id->text, "Topfield 5000 PVR");
 	return GP_OK;
@@ -1162,7 +1162,7 @@ camera_id (CameraText *id)
 
 
 int
-camera_abilities (CameraAbilitiesList *list) 
+camera_abilities (CameraAbilitiesList *list)
 {
 	CameraAbilities a;
 
@@ -1208,7 +1208,7 @@ camera_exit (Camera *camera, GPContext *context)
 }
 
 int
-camera_init (Camera *camera, GPContext *context) 
+camera_init (Camera *camera, GPContext *context)
 {
 	char *curloc;
 	/* First, set up all the function pointers */

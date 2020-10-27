@@ -9,10 +9,10 @@
  * version 2 of the License, or (at your option) any later version.
  *
  * \par
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * \par
  * You should have received a copy of the GNU Lesser General Public
@@ -21,6 +21,7 @@
  * Boston, MA  02110-1301  USA
  */
 #define _GNU_SOURCE
+#define _DARWIN_C_SOURCE
 
 #include "config.h"
 
@@ -55,7 +56,7 @@
 #    define N_(String) gettext_noop (String)
 #  else
 #    define N_(String) (String)
-#  endif 
+#  endif
 #else
 #  define textdomain(String) (String)
 #  define gettext(String) (String)
@@ -90,7 +91,7 @@ struct _GPPortInfoList {
  *
  * This function is called by the gp_message_codeset() function, there is
  * no need to call it yourself.
- * 
+ *
  * \param codeset new codeset to use
  * \return the previous codeset
  */
@@ -169,7 +170,7 @@ gp_port_info_list_free (GPPortInfoList *list)
  * Appends an entry to the list. This function is typically called by
  * an io-driver during #gp_port_library_list. If you leave info.name blank,
  * #gp_port_info_list_lookup_path will try to match non-existent paths
- * against info.path and - if successfull - will append this entry to the 
+ * against info.path and - if successful - will append this entry to the
  * list.
  *
  * \return A gphoto2 error code, or an index into the port list (excluding generic entries).
@@ -178,7 +179,7 @@ gp_port_info_list_free (GPPortInfoList *list)
 int
 gp_port_info_list_append (GPPortInfoList *list, GPPortInfo info)
 {
-	int generic, i;
+	unsigned int generic, i;
 
 	C_PARAMS (list);
 
@@ -263,7 +264,7 @@ foreach_func (const char *filename, lt_ptr data)
 
 /**
  * \brief Load system ports
- * 
+ *
  * \param list a #GPPortInfoList
  *
  * Searches the system for io-drivers and appends them to the list. You would
@@ -479,13 +480,13 @@ gp_port_info_list_get_info (GPPortInfoList *list, int n, GPPortInfo *info)
 
 	GP_LOG_D ("Getting info of entry %i (%i available)...", n, list->count);
 
-	C_PARAMS (n >= 0 && n < list->count);
+	C_PARAMS ((n >= 0) && (unsigned int)n < list->count);
 
 	/* Ignore generic entries */
 	for (i = 0; i <= n; i++)
 		if (!strlen (list->info[i]->name)) {
 			n++;
-			C_PARAMS (n < list->count);
+			C_PARAMS ((unsigned int)n < list->count);
 		}
 
 	*info = list->info[n];

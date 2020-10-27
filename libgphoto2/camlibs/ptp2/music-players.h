@@ -637,6 +637,9 @@
   /* https://sourceforge.net/p/libmtp/support-requests/279/ */
   { "Acer", 0x0502, "B3-A20", 0x3841,
       DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/feature-requests/298/ */
+  { "Acer", 0x0502, "A3-A40", 0x387a,
+      DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/bugs/1733/ */
   { "Acer", 0x0502, "Liquid Zest 4G", 0x38a5,
       DEVICE_FLAGS_ANDROID_BUGS },
@@ -868,6 +871,10 @@
   /* https://sourceforge.net/p/libmtp/bugs/1634/ 
    * copying flags from above */
   { "iRiver", 0x4102, "AK70", 0x1200,
+    DEVICE_FLAG_BROKEN_MTPGETOBJPROPLIST | DEVICE_FLAG_NO_ZERO_READS |
+    DEVICE_FLAG_OGG_IS_UNKNOWN },
+  /* https://bugzilla.suse.com/show_bug.cgi?id=1176588  ... */
+  { "A&K", 0x4102, "SR15", 0x1213,
     DEVICE_FLAG_BROKEN_MTPGETOBJPROPLIST | DEVICE_FLAG_NO_ZERO_READS |
     DEVICE_FLAG_OGG_IS_UNKNOWN },
   // Reported by Scott Call
@@ -1243,6 +1250,8 @@
   { "Nokia", 0x0421, "N9", 0x051a, DEVICE_FLAG_NONE },
   /* https://sourceforge.net/p/libmtp/bugs/1308/ */
   { "Nokia", 0x0421, "N300", 0x0524, DEVICE_FLAG_NONE },
+  /* https://sourceforge.net/p/libmtp/bugs/1885/ */
+  { "Nokia", 0x0421, "701", 0x0530, DEVICE_FLAG_NONE },
   { "Nokia", 0x0421, "C5-00", 0x0592, DEVICE_FLAG_NONE },
   /* https://sourceforge.net/p/libmtp/bugs/1457/ */
   { "Nokia", 0x0421, "C5-00 (ID2)", 0x0595, DEVICE_FLAG_NONE },
@@ -1293,8 +1302,9 @@
       0x6765, DEVICE_FLAGS_ANDROID_BUGS },
 
   /* https://sourceforge.net/p/libmtp/bugs/1377/ */
-  { "Qualcomm (for Xolo)", 0x901b, "Xolo Black (MTP)",
-      0x9039, DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://github.com/libmtp/libmtp/issues/44 */
+  { "Qualcomm (for Xolo)", 0x05c6, "Xolo Black (MTP)",
+      0x901b, DEVICE_FLAGS_ANDROID_BUGS },
 
   { "Qualcomm (for PhiComm)", 0x05c6, "C230w (MTP)",
       0x9039, DEVICE_FLAGS_ANDROID_BUGS },
@@ -1398,7 +1408,7 @@
   // DEVICE_FLAG_UNLOAD_DRIVER },
   // Reported by Anonymous SourceForge user
   {"TrekStor", 0x1e68, "i.Beat Organix 2.0", 0x0002,
-    DEVICE_FLAG_UNLOAD_DRIVER },
+    DEVICE_FLAG_UNLOAD_DRIVER | DEVICE_FLAG_BROKEN_MTPGETOBJPROPLIST },
 
   /* Also Thalia Toline. https://sourceforge.net/p/libmtp/bugs/1156/ */
   {"iRiver", 0x1e68, "Tolino Tab 7", 0x1002,
@@ -1677,6 +1687,8 @@
       DEVICE_FLAGS_SONY_NWZ_BUGS },
   /* https://sourceforge.net/p/libmtp/bugs/1540/ */
   { "Sony", 0x054c, "NWZ-E474", 0x06a9,
+      DEVICE_FLAGS_SONY_NWZ_BUGS },
+  { "Sony", 0x054c, "Xperia Tablet S - SGPT12", 0x06ac,
       DEVICE_FLAGS_SONY_NWZ_BUGS },
   /* https://sourceforge.net/p/libmtp/bugs/1688/ */
   { "Sony", 0x054c, "NWZ-E384", 0x0882,
@@ -2251,7 +2263,7 @@
       DEVICE_FLAG_NONE },
   { "SONY", 0x0fce, "Xperia E3 MTP+ADB", 0x51bc,
       DEVICE_FLAG_NONE },
-  { "SONY", 0x0fce, "Xperia Z3 Tablet MTP+ADB", 0x41c0,
+  { "SONY", 0x0fce, "Xperia Z3 Tablet MTP+ADB", 0x51c0,
       DEVICE_FLAG_NONE },
   { "SONY", 0x0fce, "XPeria M4 Aqua Dual MTP+ADB", 0x51c4,
       DEVICE_FLAG_NONE },
@@ -3069,8 +3081,14 @@
   /* https://sourceforge.net/p/libmtp/support-requests/262/ */
   { "Lenovo", 0x17ef, "Tab4 10", 0x7ac5,
       DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/feature-requests/296/ */
+  { "Lenovo", 0x17ef, "TB-7304I", 0x7b3c,
+      DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/bugs/1831/ */
   { "Lenovo", 0x17ef, "Tab4 10 (2nd ID)", 0x7bc7,
+      DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/bugs/1873/ */
+  { "Lenovo", 0x17ef, "Tab P10", 0x7bd3,
       DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/bugs/1736/ */
   { "Lenovo", 0x17ef, "P1060X", 0x9039,
@@ -3385,6 +3403,9 @@
   /* https://sourceforge.net/p/libmtp/bugs/1447/ */
   { "nVidia", 0x0955, "Shield (MTP)", 0xb401,
       DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/feature-requests/297/ */
+  { "nVidia", 0x0955, "Shield Android TV pro (MTP)", 0xb42a,
+      DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/bugs/1087/ */
   { "nVidia", 0x0955, "Tegra Note", 0xcf02,
       DEVICE_FLAGS_ANDROID_BUGS },
@@ -3471,10 +3492,19 @@
   /* https://github.com/libmtp/libmtp/issues/21 */
   { "Amazon", 0x1949, "Kindle Fire 8 HD (2nd ID)", 0x0331,
       DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/feature-requests/300/ */
+  { "Amazon", 0x1949, "Kindle Fire 8 HD (3rd ID)", 0x0332,
+      DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/support-requests/293/ */
   { "Amazon", 0x1949, "Kindle Fire Tablet 10 HD (2nd ID)", 0x03f1,
       DEVICE_FLAGS_ANDROID_BUGS },
+
+  { "Amazon", 0x1949, "Kindle Fire HD8 Plus", 0x0581,
+      DEVICE_FLAGS_ANDROID_BUGS },
   { "Amazon", 0x1949, "Fire Phone", 0x0800,
+      DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/bugs/1876/ */
+  { "Amazon", 0x1949, "Kindle Fire (ID 8)", 0x0c31,
       DEVICE_FLAGS_ANDROID_BUGS },
 
   /*
@@ -3619,7 +3649,10 @@
   { "SHARP Corporation", 0x04dd, "SH-06E", 0x96ca,
       DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/feature-requests/192/ */
-  { "SHARP Corporation", 0x04dd, "SHV35 AQUOS U ", 0x99d2,
+  { "SHARP Corporation", 0x04dd, "SHV35 AQUOS U", 0x99d2,
+      DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/bugs/1883/ */
+  { "SHARP Corporation", 0x04dd, "AndroidOne S5", 0x9c90,
       DEVICE_FLAGS_ANDROID_BUGS },
 
   /*
@@ -3753,11 +3786,18 @@
   { "Garmin", 0x091e, "Fenix 5/5S/5X Plus", 0x4b54, DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/feature-requests/271/ */
   { "Garmin", 0x091e, "Vivoactive 3", 0x4bac, DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/bugs/1884/ */
+  { "Garmin", 0x091e, "Forerunner 245 Music ", 0x4c05, DEVICE_FLAGS_ANDROID_BUGS },
+  { "Garmin", 0x091e, "Vivoactive 4S", 0x4c98, DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://github.com/libmtp/libmtp/issues/51 */
+  { "Garmin", 0x091e, "Vivoactive 4", 0x4c99, DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/bugs/1864/ */
   { "Garmin", 0x091e, "Venu", 0x4c9a, DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/bugs/1852/ */
   { "Garmin", 0x091e, "Fenix 6", 0x4cda, DEVICE_FLAGS_ANDROID_BUGS },
   { "Garmin", 0x091e, "Fenix 6 Sapphire", 0x4cdb, DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/bugs/1887/ */
+  { "Garmin", 0x091e, "Zumo XT", 0x4d9c, DEVICE_FLAGS_ANDROID_BUGS },
 
   /*
    * Wacom
@@ -3808,6 +3848,9 @@
       DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/support-requests/269/ */
   { "bq", 0x2a47, "Aquarius U", 0x9039,
+      DEVICE_FLAGS_ANDROID_BUGS },
+  /* https://sourceforge.net/p/libmtp/bugs/1874/ */
+  { "bq", 0x2a47, "Aquarius U (2nd id)", 0x903a,
       DEVICE_FLAGS_ANDROID_BUGS },
   /* https://sourceforge.net/p/libmtp/feature-requests/231/ */
   { "bq", 0x2a47, "U Plus", 0xf003, DEVICE_FLAGS_ANDROID_BUGS },
@@ -4063,6 +4106,9 @@
 
   /* https://sourceforge.net/p/libmtp/bugs/1822/ */
   { "vtevch" , 0x0f88, "Storio Max XL 2.0", 0x0684, DEVICE_FLAGS_ANDROID_BUGS },
+
+  /* https://sourceforge.net/p/libmtp/bugs/1889/ */
+  { "Tolino" , 0x1f85, "Vision 4 HD", 0x6056 , DEVICE_FLAGS_ANDROID_BUGS },
 
   /* https://sourceforge.net/p/libmtp/bugs/1846/ */
   { "Netronix" , 0x1f85, "E60QH2", 0x6a12 , DEVICE_FLAGS_ANDROID_BUGS },

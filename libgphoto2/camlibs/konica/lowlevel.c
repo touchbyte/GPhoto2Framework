@@ -7,10 +7,10 @@
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
@@ -38,7 +38,7 @@
 #    define N_(String) gettext_noop (String)
 #  else
 #    define N_(String) (String)
-#  endif 
+#  endif
 #else
 #  define textdomain(String) (String)
 #  define gettext(String) (String)
@@ -96,7 +96,7 @@ l_ping_rec (GPPort *p, unsigned int level)
 		else
 			return (GP_ERROR_CORRUPTED_DATA);
 	case ENQ:
-		
+
 		/*
 		 * ENQ received. It seems that the camera would like
 		 * to send us data, but we do not want it and
@@ -152,7 +152,7 @@ l_ping (GPPort *p, GPContext *c)
 	return (l_ping_rec (p, 0));
 }
 
-int 
+int
 l_init (GPPort *p, GPContext *c)
 {
 	unsigned int i;
@@ -168,7 +168,7 @@ l_init (GPPort *p, GPContext *c)
 	return (result);
 }
 
-static int 
+static int
 l_esc_read (GPPort *p, unsigned char *c)
 {
 	CHECK_NULL (p && c);
@@ -223,9 +223,9 @@ l_send (GPPort *p, GPContext *context, unsigned char *send_buffer,
 	/*  sb: A pointer to the buffer that we will send.                    */
 	/* sbs: Its size.		                                      */
 	/**********************************************************************/
-	unsigned char *sb; 	
+	unsigned char *sb;
 	unsigned int sbs;
-	int i = 0;
+	unsigned int i = 0;
 
 	CHECK_NULL (p && send_buffer);
 
@@ -253,10 +253,10 @@ l_send (GPPort *p, GPContext *context, unsigned char *send_buffer,
 	checksum += sb[2];
 	for (i = 3; i < (sbs - 2); i++) {
 		checksum += *send_buffer;
-		if (	(*send_buffer == STX ) || 
+		if (	(*send_buffer == STX ) ||
 			(*send_buffer == ETX ) ||
 			(*send_buffer == ENQ ) ||
-			(*send_buffer == ACK ) ||	
+			(*send_buffer == ACK ) ||
 			(*send_buffer == XOFF) ||
 			(*send_buffer == XON ) ||
 			(*send_buffer == NACK) ||
@@ -270,13 +270,13 @@ l_send (GPPort *p, GPContext *context, unsigned char *send_buffer,
 	}
 	sb[sbs - 2] = ETX;
 	checksum += ETX;
-	if (	(checksum == STX ) || 
-		(checksum == ETX ) || 
-		(checksum == ENQ ) || 
-		(checksum == ACK ) || 
+	if (	(checksum == STX ) ||
+		(checksum == ETX ) ||
+		(checksum == ENQ ) ||
+		(checksum == ACK ) ||
 		(checksum == XOFF) ||
-		(checksum == XON ) || 
-		(checksum == NACK) || 
+		(checksum == XON ) ||
+		(checksum == NACK) ||
 		(checksum == ETB ) ||
 		(checksum == ESC )) {
 		sb = realloc (sb, ++sbs * sizeof (char));
@@ -315,7 +315,7 @@ l_send (GPPort *p, GPContext *context, unsigned char *send_buffer,
 }
 
 
-static int 
+static int
 l_receive (GPPort *p, GPContext *context,
 	   unsigned char **rb, unsigned int *rbs,
 	   unsigned int timeout)
@@ -426,7 +426,7 @@ while (read < rbs_internal) {
 	 * Read the specified amount of bytes. We will probably read more
 	 * because some bytes will be quoted.
 	 */
-	GP_DEBUG ("Reading %i bytes (%i of %i already read)...", 
+	GP_DEBUG ("Reading %i bytes (%i of %i already read)...",
 		  rbs_internal - read, read, rbs_internal);
 	result = gp_port_read (p, (char *)&((*rb)[*rbs + read]),
 			       rbs_internal - read);
@@ -438,34 +438,34 @@ while (read < rbs_internal) {
 
 	/* Unescape the data we just read */
 	for (i = read; i < read + r; i++) {
-		unsigned char *c = &(*rb)[*rbs + i];
+		unsigned char *buf = &(*rb)[*rbs + i];
 
 		 /* The HP PhotoSmart does not escape every special code, only
 		  * some and it gets confused if we do this checks. By relaxing
 		  * these, it now downloads images etc.
 		  */
 #ifndef LESSER_ESCAPES
-	        if ((*c == STX) || (*c == ETX) || (*c == ENQ ) ||
-		    (*c == ACK) || (*c == XOFF) || (*c == XON) ||
-		    (*c == NACK) || (*c == ETB)) {
+	        if ((*buf == STX) || (*buf == ETX) || (*buf == ENQ ) ||
+		    (*buf == ACK) || (*buf == XOFF) || (*buf == XON) ||
+		    (*buf == NACK) || (*buf == ETB)) {
 #else /* LESSER_ESCAPES */
-	        if ((*c == STX) ||  (*c == XOFF) || (*c == XON)) {
+	        if ((*buf == STX) ||  (*buf == XOFF) || (*buf == XON)) {
 #endif /* LESSER_ESCAPES */
 			GP_DEBUG ("Wrong ESC masking!");
 			error_flag = 1;
 			break;
-		} else if (*c == ESC) {
+		} else if (*buf == ESC) {
 			if (i == read + r - 1) {
 				/* ESC is last char of packet */
-				CHECK (gp_port_read (p, (char *)c, 1));
+				CHECK (gp_port_read (p, (char *)buf, 1));
 			} else {
-				memmove (c, c + 1, read + r - i - 1);
+				memmove (buf, buf + 1, read + r - i - 1);
 				r--;
 			}
-			*c = ~*c & 0xff;
-			if ((*c != STX ) && (*c != ETX ) && (*c != ENQ) &&
-			    (*c != ACK ) && (*c != XOFF) && (*c != XON) &&
-			    (*c != NACK) && (*c != ETB ) && (*c != ESC)) {
+			*buf = ~*buf & 0xff;
+			if ((*buf != STX ) && (*buf != ETX ) && (*buf != ENQ) &&
+			    (*buf != ACK ) && (*buf != XOFF) && (*buf != XON) &&
+			    (*buf != NACK) && (*buf != ETB ) && (*buf != ESC)) {
 				GP_DEBUG ("Wrong ESC masking!");
 				error_flag = 1;
 				break;
@@ -560,7 +560,7 @@ while (read < rbs_internal) {
 		/*
 		 * Depending on d, we will either continue to receive data or
 		 * stop.
-		 * 
+		 *
 		 *  - ETX:  We are all done.
 		 *  - ETB:  We expect more data.
 		 *  - else: Should not happen.
@@ -612,10 +612,10 @@ while (read < rbs_internal) {
 	}
 }
 
-int 
+int
 l_send_receive (
 	GPPort *p, GPContext *c,
-	unsigned char *send_buffer, unsigned int send_buffer_size, 
+	unsigned char *send_buffer, unsigned int send_buffer_size,
 	unsigned char **receive_buffer, unsigned int *receive_buffer_size,
 	unsigned int timeout,
 	unsigned char **image_buffer, unsigned int *image_buffer_size)
@@ -639,10 +639,10 @@ l_send_receive (
 	    return (GP_OK);
 
 	/* We didn't receive control data yet. */
-	*image_buffer = *receive_buffer; 
+	*image_buffer = *receive_buffer;
 	*image_buffer_size = *receive_buffer_size;
 	*receive_buffer = NULL;
-	
+
 	/* Receive control data. */
 	CHECK (l_receive (p, c, receive_buffer, receive_buffer_size,
 			  DEFAULT_TIMEOUT));
@@ -651,6 +651,6 @@ l_send_receive (
 	if (((*receive_buffer)[0] != send_buffer[0]) ||
 	    ((*receive_buffer)[1] != send_buffer[1]))
 		return (GP_ERROR_CORRUPTED_DATA);
-	
+
 	return (GP_OK);
 }

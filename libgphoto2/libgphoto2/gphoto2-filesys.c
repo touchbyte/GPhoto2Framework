@@ -97,7 +97,7 @@ typedef struct _CameraFilesystemFolder {
 
 /**
  * The default number of pictures to keep in the internal cache,
- * can be overriden by settings.
+ * can be overridden by settings.
  */
 #define PICTURES_TO_KEEP	2
 /**
@@ -390,7 +390,7 @@ lookup_folder (
 			char		*copy = strdup (foldername);
 			int		ret;
 			/*
-			 * The parent folder is dirty. List the folders in the parent 
+			 * The parent folder is dirty. List the folders in the parent
 			 * folder to make it clean.
 			 */
 			/* the character _before_ curpt is a /, overwrite it temporary with \0 */
@@ -411,7 +411,7 @@ lookup_folder (
 		while (f) {
 			if (s) {
 				if (!strncmp(f->name,curpt, (s-curpt)) &&
-				    (strlen(f->name) == (s-curpt))
+				    ((ssize_t)strlen(f->name) == (s-curpt))
 				) {
 					folder = f;
 					curpt = s;
@@ -553,7 +553,7 @@ append_to_folder (CameraFilesystemFolder *folder,
 	while (f) {
 		if (s) {
 			if (!strncmp(f->name,foldername, (s-foldername)) &&
-			    (strlen(f->name) == (s-foldername))
+			    ((ssize_t)strlen(f->name) == (s-foldername))
 			)
 				return append_to_folder (f, s+1, newfolder);
 		} else {
@@ -788,7 +788,7 @@ recursive_fs_dump (CameraFilesystemFolder *folder, int depth) {
 		GP_LOG_D ("%*s    %s", depth, " ", xfile->name);
 		xfile = xfile->next;
 	}
-	
+
 	f = folder->folders;
 	while (f) {
 		recursive_fs_dump (f, depth+4);
@@ -1239,7 +1239,7 @@ gp_filesystem_remove_dir (CameraFilesystem *fs, const char *folder,
 		CameraList	*list;
 		int		ret;
 		/*
-		 * The owning folder is dirty. List the folders in it 
+		 * The owning folder is dirty. List the folders in it
 		 * to make it clean.
 		 */
 		GP_LOG_D ("Folder %s is dirty. "
@@ -1750,18 +1750,18 @@ gp_filesystem_get_file (CameraFilesystem *fs, const char *folder,
  * \param type the type of the file
  * \param offset the offset where the data starts
  * \param buf the targetbuffer where the data will be put
- * \param size the size to read and that was read into the buffer 
+ * \param size the size to read and that was read into the buffer
  * \param context a #GPContext
  *
  * Downloads the file called filename from the folder using the
  * read_file_func if such a function has been previously supplied. If the
  * file has been previously downloaded, the file is retrieved from cache.
- * 
+ *
  * The file is read partially into the passed buffer. The read starts
  * at offset on the device and goes for at most size bytes.
  * Reading over the end of the file might give errors, so get the maximum
  * file size via an info function before.
- * 
+ *
  * \return a gphoto2 error code.
  **/
 int

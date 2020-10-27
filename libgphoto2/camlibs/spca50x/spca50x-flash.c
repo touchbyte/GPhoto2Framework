@@ -324,7 +324,7 @@ spca500_flash_capture (CameraPrivateLibrary *pl)
 #ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
 		sleep(3);
 #endif
-		
+
 		/* invalidate TOC/info cache */
 		pl->dirty_flash = 1;
 		return GP_OK;
@@ -738,7 +738,7 @@ spca500_flash_84D_get_file (CameraPrivateLibrary * pl,
 	sz = (blks * 256) - 1;
 	/* look for the last non-zero byte in the file...
 	 * I hope the file never *really* ends with a zero!*/
-	while (buf[sz] == 0) {
+	while ((buf[sz] == 0)  && (sz>0)) {
 		sz -= 1;
 	}
 	true_len = sz + 1;

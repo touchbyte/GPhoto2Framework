@@ -1,16 +1,16 @@
 /*
  * Jenoptik JD11 Camera Driver
  * Copyright 1999-2001 Marcus Meissner <marcus@jet.franken.de>
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
@@ -61,7 +61,7 @@ decomp_1byte(struct compstate *cs) {
     int	xbit;
 
     while ((cs->cl[xcs].left>=0) && (cs->cl[xcs].right>=0)) {
-	xbit = jd11_getbit(cs); 
+	xbit = jd11_getbit(cs);
 	if (xbit)
 	    xcs = cs->cl[xcs].left;
 	else
@@ -73,7 +73,8 @@ decomp_1byte(struct compstate *cs) {
 static void
 build_huffmann_tree(struct compstate *cs) {
 	int	xstack[200];
-	int	i,curcl=0,curstack=0;
+	unsigned int	i;
+	int	curcl=0,curstack=0;
 	const int df[] = {
 	    -180,180,1000,-90,1000,90,1000,-45,1000,45,1000,-20,1000,
 	     20,1000,-11,1000,11,1000,-6,1000,2,1000,6,-2,1000,1000

@@ -72,8 +72,9 @@ unsigned char *dimagev_ycbcr_to_ppm(unsigned char *ycbcr) {
 	unsigned char *rgb_data, *ycrcb_current, *rgb_current;
 	int count=0;
 	unsigned int magic_r, magic_g, magic_b;
+	const unsigned int size = 14413;
 
-	if ( ( rgb_data = malloc( 14413 ) ) == NULL ) {
+	if ( ( rgb_data = malloc( size ) ) == NULL ) {
 		GP_DEBUG( "dimagev_ycbcr_to_ppm::unable to allocate buffer for Y:Cb:Cr conversion");
 		return NULL;
 	}
@@ -82,14 +83,14 @@ unsigned char *dimagev_ycbcr_to_ppm(unsigned char *ycbcr) {
 	rgb_current = &(rgb_data[13]);
 
 	/* This is the header for a PPM "rawbits" bitmap of size 80x60. */
-	strncpy((char *)rgb_data, "P6\n80 60\n255\n", 13);
+	strncpy((char *)rgb_data, "P6\n80 60\n255\n", size);
 
 	for ( count = 0 ; count < 9600 ; count+=4, ycrcb_current+=4, rgb_current+=6 ) {
 		magic_b = ( ( ycrcb_current[2] > (unsigned char) 128 ? 128 : ycrcb_current[2] ) - 128 ) * ( 2 - ( 2 * CR_COEFF ) ) + ycrcb_current[0];
 		rgb_current[2] = (unsigned char) ( magic_b > 255 ? 0 : magic_b );
 		magic_r = ( ( ycrcb_current[3] > (unsigned char) 128 ? 128 : ycrcb_current[3] ) - 128 ) * ( 2 - ( 2 * Y_COEFF ) ) + ycrcb_current[0];
 		rgb_current[0] = (unsigned char) ( magic_r > 255 ? 0 : magic_r );
-		magic_g = (( ycrcb_current[0] - ( CR_COEFF * rgb_current[2] ) ) - ( Y_COEFF * rgb_current[0])) / CB_COEFF ; 
+		magic_g = (( ycrcb_current[0] - ( CR_COEFF * rgb_current[2] ) ) - ( Y_COEFF * rgb_current[0])) / CB_COEFF ;
 		rgb_current[1] = (unsigned char) ( magic_g > 255 ? 0 : magic_g );
 
 		/* Wipe everything clean. */
@@ -99,7 +100,7 @@ unsigned char *dimagev_ycbcr_to_ppm(unsigned char *ycbcr) {
 		rgb_current[5] = (unsigned char) ( magic_b > 255 ? 0 : magic_b );
 		magic_r = ( ( ycrcb_current[3] > (unsigned char) 128 ? 128 : ycrcb_current[3] ) - 128 ) * ( 2 - ( 2 * Y_COEFF ) ) + ycrcb_current[1];
 		rgb_current[3] = (unsigned char) ( magic_r > 255 ? 0 : magic_r );
-		magic_g = (( ycrcb_current[1] - ( CR_COEFF * rgb_current[5] ) ) - ( Y_COEFF * rgb_current[3])) / CB_COEFF ; 
+		magic_g = (( ycrcb_current[1] - ( CR_COEFF * rgb_current[5] ) ) - ( Y_COEFF * rgb_current[3])) / CB_COEFF ;
 		rgb_current[4] = (unsigned char) ( magic_g > 255 ? 0 : magic_g );
 
 		/* Wipe everything clean. */

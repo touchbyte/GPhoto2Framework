@@ -114,7 +114,7 @@ mesa_flush( GPPort *port, int timeout )
 }
 
 /* Read exactly this number of bytes from the port within the given timeouts */
-int
+unsigned int
 mesa_read( GPPort *port, uint8_t *b, int s, int timeout2, int timeout1 )
 {
 	int		n = 0;
@@ -204,7 +204,7 @@ mesa_set_speed( GPPort *port, int speed )
 	if (speed == 0)
 		speed = 115200;		/* use default speed */
 
-	GP_DEBUG( 
+	GP_DEBUG(
 	 "mesa_set_speed: speed %d", speed);
 
 	b[0] = SET_SPEED;
@@ -266,7 +266,7 @@ mesa_version( GPPort *port, char *version_string)
 		return GP_ERROR_TIMEOUT;
 	}
 
-	GP_DEBUG( 
+	GP_DEBUG(
 	 "mesa_version: %02x:%02x:%02x\n", r[0], r[1], r[2] );
 	sprintf(v, "%2x.%02x%c", r[1], r[0], r[2]);
 	/* highest byte must be < MESA_VERSION_SZ */
@@ -323,7 +323,7 @@ mesa_ram_test( GPPort *port )
  * *   The following contradicted by traces from my Win98 twain driver*	  GDB
  * ********************************************************************   GDB
  * The image is stored in the camera as 504 row (0 - 503), the first 8 and the
- * last 2 are blank. 
+ * last 2 are blank.
  * The rows are 18 dummy pixels, 2 blanks, 646 pixels, 13 bytes garbage,
  * 2 bytes blanks
  *
@@ -436,11 +436,11 @@ mesa_black_levels( GPPort *port, uint8_t r[2] )
  * the image can be full scale, 0, zoom 2x 1, zoom 4x, 2, and for
  * low res images, 8x, 3.
  *
- * row and column may be offset 0-197 and 0-223 for zoom. 
+ * row and column may be offset 0-197 and 0-223 for zoom.
  *
  * exposure is * 1/50000 seconds.
  *
- * download specifies how, of if thge image is downloaded.
+ * download specifies how, of if the image is downloaded.
  * 0-47		returns one 32 byte (64 pixel) row.
  * 128-223	returns on 64 byte row.
  * 249		returns all odd rows of a hi-res image 1536 bytes.
@@ -471,7 +471,7 @@ mesa_snap_view( GPPort *port, uint8_t *r, unsigned int hi_res,
 		return GP_ERROR_BAD_PARAMETERS;
 	else if ( download == 249 || download == 250 )
 		bytes = 1536;
-	else if ( download == 251 ) 
+	else if ( download == 251 )
 		bytes = 6144;
 	else if ( download == 252 )
 		bytes = 0;
@@ -520,7 +520,7 @@ mesa_snap_view( GPPort *port, uint8_t *r, unsigned int hi_res,
 			return GP_ERROR_CORRUPTED_DATA;
 		}
 	}
-	
+
 	return bytes;
 }
 
@@ -556,7 +556,7 @@ mesa_download_view( GPPort *port, uint8_t *r, uint8_t download )
 		return GP_ERROR_BAD_PARAMETERS;
 	else if ( download == 249 )
 		bytes = 1536;
-	else if ( download == 250 || download == 251 ) 
+	else if ( download == 250 || download == 251 )
 		bytes = 768;
 	else if ( download == 252 )
 		bytes = 0;
@@ -594,7 +594,7 @@ mesa_download_view( GPPort *port, uint8_t *r, uint8_t download )
 		if ( cksum != b[0] )
 			return GP_ERROR_CORRUPTED_DATA;
 	}
-	
+
 	return bytes;
 }
 
@@ -753,7 +753,7 @@ mesa_recv_test( GPPort *port, uint8_t r[6] )
 {
 	uint8_t		b[7];
 	int		i;
-	
+
 	b[0] = RCV_TEST;
 	memcpy( &b[1], r, 6 );
 

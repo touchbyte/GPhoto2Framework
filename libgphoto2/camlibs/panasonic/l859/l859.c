@@ -494,6 +494,7 @@ static int get_file_func (CameraFilesystem *fs, const char *folder,
 		break;
 	case GP_FILE_TYPE_PREVIEW:
 		size = l859_selectimage_preview(camera, index);
+		break;
 	default:
 		return (GP_ERROR_NOT_SUPPORTED);
 	}
@@ -527,7 +528,7 @@ static int get_file_func (CameraFilesystem *fs, const char *folder,
 		}
 	}
 
-	gp_file_set_mime_type (file, GP_MIME_JPEG); 
+	gp_file_set_mime_type (file, GP_MIME_JPEG);
 	GP_DEBUG ("Camera Get File Done");
 	return (GP_OK);
 }

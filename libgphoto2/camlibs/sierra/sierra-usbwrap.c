@@ -8,29 +8,29 @@
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
- * 
+ *
  *
  * Olympus C-3040Z (and possibly also the C-2040Z and others) have
  * a USB PC Control mode in which "Sierra" protocol packets are tunneled
  * inside another protocol.  This file implements the wrapper protocol.
  * The (ab)use of USB clear halt is not needed for this protocol.
- * 
+ *
  * The other protocol is "SCSI via USB Mass Storage", so we can also use
  * the Linux SCSI APIs. Interesting is also that the header looks a bit
  * like a PTP header.
  *
  * IMPORTANT: In order to use this mode, the camera must be switched
  * _out_ of "USB Mass Storage" mode and into "USB PC control mode".
- * The images will not be accessable as a mass-storage/disk device in
+ * The images will not be accessible as a mass-storage/disk device in
  * this mode, but you can control the camera, tell it to take pictures
  * and download images using the protocol implemented in sierra.c.
  *
@@ -138,7 +138,7 @@ typedef struct
       unsigned char flags;      /* in / out flag mostly */
       unsigned char lun;        /* 0 here */
       unsigned char length;     /* of the CDB... but 0x0c is used here in the traces */
-      unsigned char cdb[16];    
+      unsigned char cdb[16];
 } uw_header_t;
 
 /*
@@ -373,7 +373,7 @@ usb_wrap_CMND(gp_port* dev, unsigned int type, char* sierra_msg, int sierra_len)
    int ret, msg_len = sizeof(*msg) + sierra_len;
    char sense_buffer[32];
    uw_scsicmd_t cmd;
-   
+
    GP_DEBUG( "usb_wrap_CMND" );
 
    memset(&cmd,  0, sizeof(cmd));
@@ -387,7 +387,7 @@ usb_wrap_CMND(gp_port* dev, unsigned int type, char* sierra_msg, int sierra_len)
    memcpy((char*)msg + sizeof(*msg), sierra_msg, sierra_len);
 
    GP_DEBUG( "usb_wrap_CMND writing %i", msg_len);
-   
+
    ret = gp_port_send_scsi_cmd (dev, 1, (char*)&cmd, sizeof(cmd),
    	 sense_buffer, sizeof(sense_buffer), (char*)msg, msg_len);
    free(msg);
@@ -408,7 +408,7 @@ usb_wrap_SIZE(gp_port* dev, unsigned int type, uw32_t* size)
    int ret;
    char sense_buffer[32];
    uw_scsicmd_t cmd;
-  
+
    GP_DEBUG( "usb_wrap_SIZE" );
 
    memset(&cmd,  0, sizeof(cmd));
@@ -459,7 +459,7 @@ usb_wrap_DATA (GPPort *dev, unsigned int type, char *sierra_response, int *sierr
    msg_len = msg_len * 256 + (unsigned int)(size.c2);
    msg_len = msg_len * 256 + (unsigned int)(size.c1);
 
-   if (*sierra_len < msg_len - sizeof(*msg))
+   if ((unsigned int)*sierra_len < msg_len - sizeof(*msg))
    {
       GP_DEBUG( "usb_wrap_read_packet buffer too small! (%i < %i) *** FAILED", *sierra_len, msg_len);
       return GP_ERROR;
@@ -499,7 +499,7 @@ usb_wrap_write_packet (GPPort *dev, unsigned int type, char *sierra_msg, int sie
 	CR (usb_wrap_RDY (dev, type));
 	CR (usb_wrap_CMND (dev, type, sierra_msg, sierra_len));
 	CR (usb_wrap_STAT (dev, type));
-	
+
 	return GP_OK;
 }
 
@@ -514,6 +514,6 @@ usb_wrap_read_packet (GPPort *dev, unsigned int type, char *sierra_response, int
 	CR (usb_wrap_SIZE (dev, type, &uw_size));
 	CR (usb_wrap_DATA (dev, type, sierra_response, &sierra_len, uw_size));
 	CR (usb_wrap_STAT (dev, type));
-	
+
 	return sierra_len;
 }

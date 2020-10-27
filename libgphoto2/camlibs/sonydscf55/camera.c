@@ -53,7 +53,7 @@ camera_id(CameraText * id)
 int
 camera_abilities(CameraAbilitiesList * list)
 {
-	int i;
+	unsigned int i;
 	CameraAbilities a;
 
 	for (i = 0; i < sizeof(models) / sizeof(models[i]); i++) {
@@ -283,10 +283,10 @@ get_camera_model(Camera *camera, SonyModel *model)
 {
 	CameraAbilities a;
 	int rc;
-	
+
 	rc = gp_camera_get_abilities (camera, &a);
 	if (rc == GP_OK) {
-		int i;
+		unsigned int i;
 		rc = GP_ERROR;
 		for (i = 0; i < sizeof(models) / sizeof(models[i]); i++) {
 			if (model_compare(models[i].model_str,
@@ -314,7 +314,7 @@ int
 camera_init(Camera * camera, GPContext *context)
 {
 	int rc;
-	SonyModel model; 
+	SonyModel model;
 
 	rc = get_camera_model(camera, &model);
 	if (rc != GP_OK)

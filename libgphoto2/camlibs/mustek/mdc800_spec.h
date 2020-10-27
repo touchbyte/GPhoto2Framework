@@ -17,9 +17,9 @@
  */
 
 /*
- * Definition of Commands and usefull structs.
+ * Definition of Commands and useful structs.
  */
- 
+
 #ifndef DEFINE_MDC800_SPEC_H
 #define DEFINE_MDC800_SPEC_H
 

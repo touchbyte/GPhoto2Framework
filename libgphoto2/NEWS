@@ -1,4 +1,91 @@
-libgphoto2 2.5.24.1 development
+libgphoto2 2.5.26.1 development release
+
+------------------------------------------------------------------------------
+libgphoto2 2.5.26 release
+
+ptp2:
+* Olympus OMD: fixed the 65 second wait after capture.
+* Canon EOS:
+  * bugfixes
+* Nikon 
+  * D3000, D3100, and D3200 "static opcode list" reduced after reports what works and what not
+  * Nikon 1 series cameras had some commands listed too much.
+  * Nikon 1 J5 improvements
+  * "liveviewsize" can change liveviewsize
+* Sony:
+  * Modern Sony cameras seem to require a 3 second wait on startup. Seems needed on ZV-1, A7 R4, RX100 M7 so far... Unsure why.
+  * correct shutterspeed, iso and exposurebias decoding for Sony A7r4 and other new models
+  * some bugfixes in property settings, trying to speed it up
+  * ZV-1 support, some additional startup wait hack to make it work.
+  * partial Sony QX support added, can do preview... close to having capture (but not there yet) (also added "liveviewsize")
+  * report read/write and read/only of properties correctly
+* Fuji X:
+  * stabilized normal capture code
+  * added bulb capture, added autofocusdrive
+  * lots of properties listed now, some also decoded
+  * added "liveviewsize", "shuttercounter", "colortemperature",
+    "lensname", "devicename", "imagecomment", "filmsimulation", "colorspace"
+  * Added very experimental Wifi support.
+* synced new libmtp device ids
+* Cameras added to id list: 
+  * Sony QX30U, ZV-1, DSC-RX100M7
+  * Nikon D780, Z5, Coolpix B700
+  * Panasonic GMC-GX8
+  * Canon EOS 1D X Mark III, R5, R6
+  * Canon PowerShot SX70HS
+  * Fuji FinePix X-E1
+  * Sigma fp
+
+pentax:
+* small changes synced from pktriggercord, added Pentax 645Z
+
+docupen:
+* new experimental driver, supports the docupen scanner pen.
+
+all:
+* more fuzzing related stability fixes, largely to "outdated" driver set.
+* lots of compiler warnings fixes across the codebase
+
+translations:
+
+* update pl, sv, uk, zh_CN, fr
+
+------------------------------------------------------------------------------
+libgphoto2 2.5.25 release
+
+ptp2:
+* Liveview support for Leica SL
+* PTP 1.1 Streaming parameters added. 
+* Olympus OMD capture fixes
+* Nikon DSLR/Z:
+  * various improvements to liveview error reporting.
+  * much more properties added, some values added
+  * allow downloading of "large thumbnails" instead of "regular thumbnails",
+    can be selected by "thumbsize" gphoto2 local setting.
+  * fixes for D3000, D3100 methods
+  * maximum capture wait extended to 1000 seconds (as the D870 has 900 seconds max now)
+* Canon EOS
+  * initialization fixes (if it breaks your EOS M or PowerShot, please report)
+  * liveview enablement fixed
+  * maximum capture wait extended to 90seconds
+  * EOS R shutterspeed , aperture reporting fixed
+* various bugfixes
+* Cameras added to id list:
+  * Sony NEX 5
+  * Canon EOS 90D
+  * Fuji XT-4
+  * Sanyo VPC-FH1
+  * Leica SL Typ 601
+
+lumix:
+* fixed initialisation, might help capture
+
+all:
+* ongoing stability fixes from AFL fuzzing
+
+translation updates:
+* sv
+
 ------------------------------------------------------------------------------
 libgphoto2 2.5.24 release
 
@@ -1305,7 +1392,7 @@ This is a 2.4 release branch update.
 
 PTP2 driver:
    * Increased timeout for Canon Viewfinder enable.
-   * Fixed intial Canon timeout (0.5 -> 1.5 seconds), was too small
+   * Fixed initial Canon timeout (0.5 -> 1.5 seconds), was too small
      for some Canons.
    * Canon EOS capture mode and tethered mode bugfixes.
    * Nikon DSLR LiveView support, with Autofocus and ManualFocus Drive possibility.

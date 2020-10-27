@@ -9,10 +9,10 @@
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
@@ -42,9 +42,6 @@
 #ifdef HAVE_SYS_MOUNT_H
 # include <sys/mount.h>
 #endif
-#ifdef HAVE_SYS_STATFS_H
-# include <sys/statfs.h>
-#endif
 #include <fcntl.h>
 
 /* will happen only on Win32 */
@@ -73,7 +70,7 @@
 #  endif
 #else
 #  define textdomain(String) (String)
-#  define gettext(String) (String) 
+#  define gettext(String) (String)
 #  define dgettext(Domain,Message) (Message)
 #  define dcgettext(Domain,Message,Type) (Message)
 #  define bindtextdomain(Domain,Directory) (Domain)
@@ -86,8 +83,8 @@ static const struct {
 	const char *mime_type;
 } mime_table[] = {
 	{"jpeg", GP_MIME_JPEG},
-	{"jpg",  GP_MIME_JPEG}, 
-	{"thm",  GP_MIME_JPEG}, 
+	{"jpg",  GP_MIME_JPEG},
+	{"thm",  GP_MIME_JPEG},
 	{"tif",  GP_MIME_TIFF},
 	{"ppm",  GP_MIME_PPM},
 	{"pgm",  GP_MIME_PGM},
@@ -109,6 +106,7 @@ static const struct {
 	{"crw",  GP_MIME_CRW},
 	{"rw2",  GP_MIME_RW2},
 	{"cr2",  GP_MIME_RAW},
+	{"cr3",  GP_MIME_RAW},
 	{"nef",  GP_MIME_RAW},
 	{"mrw",  GP_MIME_RAW},
 	{"dng",  GP_MIME_RAW},
@@ -182,7 +180,7 @@ int camera_abilities (CameraAbilitiesList *list)
 
 #ifdef DEBUG
         a.file_operations = GP_FILE_OPERATION_PREVIEW |
-			    GP_FILE_OPERATION_DELETE | 
+			    GP_FILE_OPERATION_DELETE |
 			    GP_FILE_OPERATION_EXIF;
 #else
 	a.file_operations = GP_FILE_OPERATION_DELETE |
@@ -271,7 +269,7 @@ file_list_func (CameraFilesystem *fs, const char *folder, CameraList *list,
 	dir = gp_system_opendir ((char*) f);
 	if (!dir)
 		return (GP_ERROR);
-	
+
 	/* Make sure we have 1 delimiter */
 
 	/* Count the files */
@@ -373,7 +371,7 @@ folder_list_func (CameraFilesystem *fs, const char *folder, CameraList *list,
 		filename = gp_system_filename (de);
 		if (*filename != '.') {
 			snprintf (buf, sizeof(buf), "%s%s", f, filename);
-			
+
 			/* lstat ... do not follow symlinks */
 			if (lstat (buf, &st) != 0) {
 				int saved_errno = errno;
@@ -417,7 +415,7 @@ get_info_func (CameraFilesystem *fs, const char *folder, const char *file,
 	}
 
         info->preview.fields = GP_FILE_INFO_NONE;
-        info->file.fields = GP_FILE_INFO_SIZE | 
+        info->file.fields = GP_FILE_INFO_SIZE |
                             GP_FILE_INFO_TYPE | GP_FILE_INFO_PERMISSIONS |
 			    GP_FILE_INFO_MTIME;
 
@@ -719,7 +717,7 @@ camera_capture_preview (Camera *camera, CameraFile *file, GPContext *context)
 	r = gp_file_open (file, "/usr/share/pixmaps/gnome-logo-large.png");
 	if (r < 0)
 		return (r);
-	
+
 	return (GP_OK);
 }
 
@@ -745,15 +743,15 @@ storage_info_func (CameraFilesystem *fs,
 	Camera 				*camera = data;
 	CameraStorageInformation	*sfs;
 
-#if defined(linux) && defined(HAVE_STATFS)
-	struct	statfs		stfs;
+#if defined(HAVE_STATVFS)
+	struct	statvfs		stfs;
 	char *xpath;
 	int ret;
 
 	ret = _get_mountpoint (camera->port, &xpath);
 	if (ret < GP_OK)
 		return ret;
-	if (-1 == statfs (xpath, &stfs))
+	if (-1 == statvfs (xpath, &stfs))
 		return GP_ERROR_NOT_SUPPORTED;
 
 	sfs = malloc (sizeof (CameraStorageInformation));
@@ -786,7 +784,7 @@ storage_info_func (CameraFilesystem *fs,
 #endif
 
 	return GP_ERROR_NOT_SUPPORTED;
-} 
+}
 
 static CameraFilesystemFuncs fsfuncs = {
 	.file_list_func = file_list_func,

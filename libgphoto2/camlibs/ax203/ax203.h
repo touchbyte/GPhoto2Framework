@@ -13,7 +13,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, write to the 
+ * along with this program; if not, write to the
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301  USA
  */
@@ -95,8 +95,8 @@ struct _CameraPrivateLibrary {
 	int sector_dirty[4194304 / SPI_EEPROM_SECTOR_SIZE];
 	int fs_start;
 	/* LCD display attributes */
-	int width;
-	int height;
+	unsigned int width;
+	unsigned int height;
 	/* USB "bridge" / firmware attributes */
 	enum ax203_version frame_version;
 	enum ax203_compression compression_version;
@@ -200,7 +200,7 @@ ax203_encode_yuv_delta(int **src, char *dest, int width, int height);
 
 int
 ax206_compress_jpeg(Camera *camera, int **in, uint8_t *outbuf, int out_size,
-	int width, int height);
+	unsigned int width, unsigned int height);
 
 #endif
 

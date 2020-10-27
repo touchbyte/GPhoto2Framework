@@ -7,10 +7,10 @@
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
@@ -20,7 +20,7 @@
 /*
  * This is working, but unfinished!
  * - Event handling not finished.
- * - Some configure checking magic missing for the special header files 
+ * - Some configure checking magic missing for the special header files
  *   and functions.
  * - Not everything implementation correctly cross checked.
  * - Coolpix P3 does not give transfer status (image 000x/000y), and reports an
@@ -136,11 +136,11 @@ ptp_ptpip_sendreq (PTPParams* params, PTPContainer* req, int dataphase)
 	htod32a(&request[ptpip_cmd_transid],req->Transaction_ID);
 
 	switch (req->Nparam) {
-	case 5: htod32a(&request[ptpip_cmd_param5],req->Param5);
-	case 4: htod32a(&request[ptpip_cmd_param4],req->Param4);
-	case 3: htod32a(&request[ptpip_cmd_param3],req->Param3);
-	case 2: htod32a(&request[ptpip_cmd_param2],req->Param2);
-	case 1: htod32a(&request[ptpip_cmd_param1],req->Param1);
+	case 5: htod32a(&request[ptpip_cmd_param5],req->Param5);/* fallthrough */
+	case 4: htod32a(&request[ptpip_cmd_param4],req->Param4);/* fallthrough */
+	case 3: htod32a(&request[ptpip_cmd_param3],req->Param3);/* fallthrough */
+	case 2: htod32a(&request[ptpip_cmd_param2],req->Param2);/* fallthrough */
+	case 1: htod32a(&request[ptpip_cmd_param1],req->Param1);/* fallthrough */
 	case 0:
 	default:
 		break;
@@ -413,11 +413,11 @@ retry:
 		resp->Transaction_ID	= dtoh32a(&data[ptpip_resp_transid]);
 		n = (dtoh32(hdr.length) - sizeof(hdr) - ptpip_resp_param1)/sizeof(uint32_t);
 		switch (n) {
-		case 5: resp->Param5 = dtoh32a(&data[ptpip_resp_param5]);
-		case 4: resp->Param4 = dtoh32a(&data[ptpip_resp_param4]);
-		case 3: resp->Param3 = dtoh32a(&data[ptpip_resp_param3]);
-		case 2: resp->Param2 = dtoh32a(&data[ptpip_resp_param2]);
-		case 1: resp->Param1 = dtoh32a(&data[ptpip_resp_param1]);
+		case 5: resp->Param5 = dtoh32a(&data[ptpip_resp_param5]);/* fallthrough */
+		case 4: resp->Param4 = dtoh32a(&data[ptpip_resp_param4]);/* fallthrough */
+		case 3: resp->Param3 = dtoh32a(&data[ptpip_resp_param3]);/* fallthrough */
+		case 2: resp->Param2 = dtoh32a(&data[ptpip_resp_param2]);/* fallthrough */
+		case 1: resp->Param1 = dtoh32a(&data[ptpip_resp_param1]);/* fallthrough */
 		case 0: break;
 		default:
 			GP_LOG_E ("response got %d parameters?", n);
@@ -456,7 +456,7 @@ ptp_ptpip_init_command_request (PTPParams* params)
 	unsigned int	i;
 	int 		len, ret;
 	unsigned char	guid[16];
-	
+
 	ptp_nikon_getptpipguid(guid);
 #if !defined (WIN32)
 	if (gethostname (hostname, sizeof(hostname)))
@@ -637,9 +637,9 @@ ptp_ptpip_event (PTPParams* params, PTPContainer* event, int wait)
 	event->Transaction_ID	= dtoh32a(&data[ptpip_event_transid]);
 	n = (dtoh32(hdr.length) - sizeof(hdr) - ptpip_event_param1)/sizeof(uint32_t);
 	switch (n) {
-	case 3: event->Param3 = dtoh32a(&data[ptpip_event_param3]);
-	case 2: event->Param2 = dtoh32a(&data[ptpip_event_param2]);
-	case 1: event->Param1 = dtoh32a(&data[ptpip_event_param1]);
+	case 3: event->Param3 = dtoh32a(&data[ptpip_event_param3]);/* fallthrough */
+	case 2: event->Param2 = dtoh32a(&data[ptpip_event_param2]);/* fallthrough */
+	case 1: event->Param1 = dtoh32a(&data[ptpip_event_param1]);/* fallthrough */
 	case 0: break;
 	default:
 		GP_LOG_E ("response got %d parameters?", n);
@@ -674,7 +674,7 @@ ptp_ptpip_event_wait (PTPParams* params, PTPContainer* event) {
  *
  * This command gets the GUID of this machine. If it does not exists, it creates
  * one.
- *  
+ *
  * params:	PTPParams*
  *
  * Return values: Some PTP_RC_* code.
@@ -688,9 +688,9 @@ ptp_nikon_getptpipguid (unsigned char* guid) {
 	int valid;
 	char* endptr;
 	char* pos;
-	
+
 	gp_setting_get("ptp2_ip","guid",buffer);
-	
+
 	if (strlen(buffer) == 47) { /* 47 = 16*2 (numbers) + 15 (semi-colons) */
 		pos = buffer;
 		valid = 1;
@@ -711,9 +711,9 @@ ptp_nikon_getptpipguid (unsigned char* guid) {
 		if (valid)
 			return;
 	}
-	
+
 	/*fprintf(stderr, "Invalid GUID\n");*/
-	
+
 	/* Generate an ID */
 	srand(time(NULL));
 	buffer[0] = 0;
@@ -723,9 +723,9 @@ ptp_nikon_getptpipguid (unsigned char* guid) {
 		pos += sprintf(pos, "%02x:", guid[i]);
 	}
 	buffer[47] = 0;
-	
+
 	/*printf("New GUID: %s\n", buffer);*/
-	
+
 	gp_setting_set("ptp2_ip","guid",buffer);
 }
 
