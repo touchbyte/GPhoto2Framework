@@ -206,6 +206,22 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 }
 
 - (IBAction)listTouched:(id)sender {
+    
+    
+    PTPPropertyValue        propval;
+    PTPParams *params;
+    params =&camera->pl->params;
+    
+  //  camera_unprepare_capture(camera,context);
+    propval.u16 = 5;
+    PTPObjectInfo        oi;
+
+    ptp_getobjectinfo (params, 0x04, &oi);
+
+    ptp_getdevicepropvalue(params, 0xDF25, &propval, PTP_DTC_UINT32);
+    ptp_setdevicepropvalue(params, 0xDF25, &propval, PTP_DTC_UINT32);
+
+    
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSMutableArray *allfiles = [NSMutableArray new];

@@ -579,16 +579,20 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
 	unsigned char*	cmdrequest;
 	unsigned int	i;
 	int 		len, ret;
-	unsigned char	guid[16];
+    
+    unsigned char guid[16] = {0xad, 0xa5, 0x48, 0x5d, 0x87, 0xb2, 0x7f, 0x0b,0xd3, 0xd5, 0xde, 0xd0, 0x02, 0x78, 0xa8, 0xc0};
 
-	ptp_nikon_getptpipguid(guid);
+    /*
 #if !defined (WIN32)
 	if (gethostname (hostname, sizeof(hostname)))
 		return PTP_RC_GeneralError;
 #else
 	strcpy (hostname, "gpwindows");
 #endif
-	len = fujiptpip_initcmd_name + (strlen(hostname)+1)*2;
+*/
+    strcpy (hostname, "PhotoSync");
+
+	len = fujiptpip_initcmd_name + (strlen(hostname)+1)*2 +4 + 30;
 
 	cmdrequest = malloc(len);
 	htod32a(&cmdrequest[fujiptpip_type],PTPIP_INIT_COMMAND_REQUEST);
@@ -603,10 +607,8 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
 		cmdrequest[fujiptpip_initcmd_name+i*2+1] = 0;
 	}
 
-	/*
-	htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2],PTPIP_VERSION_MINOR);
-	htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2+2],PTPIP_VERSION_MAJOR);
-	*/
+	htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2],0x0000);
+	htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2+2],0x0000);
 
 
 	GP_LOG_DATA ((char*)cmdrequest, len, "ptpip/init_cmd data:");

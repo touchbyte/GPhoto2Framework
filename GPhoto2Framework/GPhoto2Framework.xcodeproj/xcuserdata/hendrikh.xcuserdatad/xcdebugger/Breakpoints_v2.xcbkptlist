@@ -200,17 +200,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CDD75FE3-8611-4956-948E-EE70D5483EE0"
+            uuid = "EA56E44F-46F1-4F28-B699-FC5598BDA091"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../libgphoto2/camlibs/ptp2/library.c"
+            filePath = "../libgphoto2/camlibs/ptp2/ptp.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9283"
-            endingLineNumber = "9283"
-            landmarkName = "camera_init(camera, context)"
+            startingLineNumber = "5146"
+            endingLineNumber = "5146"
+            landmarkName = "ptp_fuji_getdeviceinfo(params, props, numprops)"
             landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84E3CDCF-AD57-464F-9358-B6276184D054"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "GPhoto2Example/ViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "-listTouched:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
