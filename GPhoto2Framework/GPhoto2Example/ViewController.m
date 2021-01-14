@@ -21,8 +21,10 @@
     @property(nonatomic, assign) PTPDeviceInfo deviceInfo;
     @property(nonatomic, strong) NSString *cameraModel;
     @property(nonatomic, strong) NSString *protocol;
+    @property(nonatomic, assign) BOOL fuji_browse_active;
 
 @end
+
 
 @implementation ViewController
 
@@ -97,6 +99,9 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     gp_setting_set("ptpip", "hostname", "gphoto-example");
     ret = gp_camera_init (camera, context);
     self.deviceInfo =camera->pl->params.deviceinfo;
+    
+    PTPParams *params;
+    params =&(camera->pl->params);
     return ret;
 }
 
@@ -105,6 +110,8 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     int        i, ret;
     CameraList    *list;
     const char    *newfile;
+    PTPParams *params;
+    params =&(camera->pl->params);
     
     ret = gp_list_new (&list);
     if (ret < GP_OK) {
@@ -205,22 +212,90 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     [self doConnect];
 }
 
+-(NSInteger)indexForFileCount:(uint16_t*)events count:(uint16_t)count
+{
+    NSInteger returnIndex = -1;
+    for (NSInteger i=0;i<count;i++) {
+        if (events[i]==0xd222) {
+            returnIndex = i;
+        }
+        if (returnIndex==-1 && events[i]==0x220) {
+            returnIndex = i;
+        }
+    }
+    return returnIndex;
+}
+
+-(void)fuji_terminate
+{
+    PTPParams *params = &camera->pl->params;
+    ptp_closesession(params);
+    close(params->cmdfd);
+    close(params->evtfd);
+
+}
+
+-(void)fuji_switchToBrowse
+{
+    PTPPropertyValue        propval;
+    PTPPropertyValue        propval2;
+
+    PTPParams *params;
+    
+    params =&camera->pl->params;
+    params->fuji_nrofobjects = 0;
+    
+   
+    camera_unprepare_capture(camera,context);
+    //propval.u16 = 5;
+
+    uint16_t count = 0;
+    uint16_t *events = NULL;
+    uint32_t * values = NULL;
+    ptp_fuji_getevents (params, &events, &values, &count);
+    ptp_terminateopencapture(params, &params->opencapture_transid);
+    ptp_fuji_getevents (params, &events, &values, &count);
+
+    propval.u16 = 6;
+    ptp_setdevicepropvalue(params, 0xDF00, &propval, PTP_DTC_UINT16);
+    ptp_fuji_getevents (params, &events, &values, &count);
+
+    NSInteger fileIndex = [self indexForFileCount:events count:count];
+    if (fileIndex!=-1) {
+        params->fuji_nrofobjects = values[fileIndex];
+    }
+
+    ptp_getdevicepropvalue(params, 0xDF01, &propval, PTP_DTC_UINT16); //or 25
+    if (propval.u16 == 0) {
+        propval.u16 = 11;
+        ptp_setdevicepropvalue(params, 0xDF01, &propval, PTP_DTC_UINT16); //hangs on XT 200
+        ptp_fuji_getevents (params, &events, &values, &count);
+    }
+
+    ptp_getdevicepropvalue(params, 0xDF22, &propval, PTP_DTC_UINT32); //or 25
+    ptp_setdevicepropvalue(params, 0xDF22, &propval, PTP_DTC_UINT32);
+  
+    ptp_fuji_getevents (params, &events, &values, &count);
+
+    ptp_getdevicepropvalue(params, 0xd222, &propval, PTP_DTC_UINT32);
+    if (params->fuji_nrofobjects == 0 && propval.i32>0 ) {
+        params->fuji_nrofobjects = propval.i8;
+    }
+    NSLog(@"Count %i",propval.i32);
+    ptp_getdevicepropvalue(params, 0xD220, &propval2, PTP_DTC_UINT32);
+    if (params->fuji_nrofobjects == 0 && propval.i32>0 ) {
+        params->fuji_nrofobjects = propval.i8;
+    }
+    NSLog(@"Count 2 %i",propval2.i32);
+    ptp_fuji_getevents (params, &events, &values, &count);
+    self.fuji_browse_active = YES;
+}
+
 - (IBAction)listTouched:(id)sender {
     
-    
-    PTPPropertyValue        propval;
-    PTPParams *params;
-    params =&camera->pl->params;
-    
-  //  camera_unprepare_capture(camera,context);
-    propval.u16 = 5;
-    PTPObjectInfo        oi;
-
-    ptp_getobjectinfo (params, 0x04, &oi);
-
-    ptp_getdevicepropvalue(params, 0xDF25, &propval, PTP_DTC_UINT32);
-    ptp_setdevicepropvalue(params, 0xDF25, &propval, PTP_DTC_UINT32);
-
+    if (!self.fuji_browse_active) {
+        [self fuji_switchToBrowse];
+    }
     
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

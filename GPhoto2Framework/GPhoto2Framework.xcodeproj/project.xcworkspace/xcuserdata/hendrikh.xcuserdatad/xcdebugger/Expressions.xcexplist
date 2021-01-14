@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "folder_list_func:library.c">
+      </ContextState>
+      <ContextState
+         contextName = "ptp_getobjecthandles:ptp.c">
+      </ContextState>
+      <ContextState
+         contextName = "ptp_list_folder:ptp.c">
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController listTouched:]:ViewController.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

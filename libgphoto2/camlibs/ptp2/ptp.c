@@ -1577,33 +1577,48 @@ ptp_getobjecthandles (PTPParams* params, uint32_t storage,
 			uint32_t objectformatcode, uint32_t associationOH,
 			PTPObjectHandles* objecthandles)
 {
-	PTPContainer	ptp;
-	uint16_t	ret;
-	unsigned char	*data = NULL;
-	unsigned int	size;
+    
+    if (params->deviceinfo.VendorExtensionID == PTP_VENDOR_FUJI && params->wifi_connection==1) {
+        objecthandles->Handler = NULL;
+        objecthandles->n = params->fuji_nrofobjects;
+        uint8_t n = params->fuji_nrofobjects;
+        objecthandles->Handler = malloc (n*sizeof(uint32_t));
+        
+        
+        for (unsigned int i = 0; i<params->fuji_nrofobjects; i++) {
+            objecthandles->Handler[i]=(uint32_t)i+1;
+        }
+        
+        return PTP_RC_OK;
+    } else {
+        PTPContainer	ptp;
+        uint16_t	ret;
+        unsigned char	*data = NULL;
+        unsigned int	size;
 
-	objecthandles->Handler = NULL;
-	objecthandles->n = 0;
+        objecthandles->Handler = NULL;
+        objecthandles->n = 0;
 
-	PTP_CNT_INIT(ptp, PTP_OC_GetObjectHandles, storage, objectformatcode, associationOH);
-	ret=ptp_transaction(params, &ptp, PTP_DP_GETDATA, 0, &data, &size);
-	if (ret == PTP_RC_OK) {
-		ptp_unpack_OH(params, data, objecthandles, size);
-	} else {
-		if (	(storage == 0xffffffff) &&
-			(objectformatcode == 0) &&
-			(associationOH == 0)
-		) {
-			/* When we query all object handles on all stores and
-			 * get an error -> just handle it as "0 handles".
-			 */
-			objecthandles->Handler = NULL;
-			objecthandles->n = 0;
-			ret = PTP_RC_OK;
-		}
-	}
-	free(data);
-	return ret;
+        PTP_CNT_INIT(ptp, PTP_OC_GetObjectHandles, storage, objectformatcode, associationOH);
+        ret=ptp_transaction(params, &ptp, PTP_DP_GETDATA, 0, &data, &size);
+        if (ret == PTP_RC_OK) {
+            ptp_unpack_OH(params, data, objecthandles, size);
+        } else {
+            if (	(storage == 0xffffffff) &&
+                (objectformatcode == 0) &&
+                (associationOH == 0)
+            ) {
+                /* When we query all object handles on all stores and
+                 * get an error -> just handle it as "0 handles".
+                 */
+                objecthandles->Handler = NULL;
+                objecthandles->n = 0;
+                ret = PTP_RC_OK;
+            }
+        }
+        free(data);
+        return ret;
+    }
 }
 
 uint16_t
@@ -2715,7 +2730,6 @@ ptp_list_folder (PTPParams *params, uint32_t storage, uint32_t handle) {
 	if (handle == PTP_HANDLER_SPECIAL)
 		handle = 0;
 
-	/* Canon EOS Fast directory strategy */
 	if ((params->deviceinfo.VendorExtensionID == PTP_VENDOR_CANON) &&
 	    ptp_operation_issupported(params, PTP_OC_CANON_EOS_GetObjectInfoEx)) {
 		ret = ptp_list_folder_eos (params, storage, handle);
@@ -5177,7 +5191,7 @@ ptp_fuji_getdeviceinfo (PTPParams* params, uint16_t **props, unsigned int *numpr
 }
 
 uint16_t
-ptp_fuji_getevents (PTPParams* params, uint16_t** events, uint16_t* count)
+ptp_fuji_getevents (PTPParams* params, uint16_t** events, uint32_t** values, uint16_t* count)
 {
 	PTPContainer	ptp;
 	unsigned char	*data = NULL;
@@ -5192,6 +5206,8 @@ ptp_fuji_getevents (PTPParams* params, uint16_t** events, uint16_t* count)
                 *count = dtoh16a(data);
                 ptp_debug(params, "event count: %d", *count);
                 *events = calloc(*count, sizeof(uint16_t));
+                *values = calloc(*count, sizeof(uint32_t));
+
                 if(size >= 2u + *count * 6)
                 {
 			uint16_t	param;
@@ -5205,6 +5221,8 @@ ptp_fuji_getevents (PTPParams* params, uint16_t** events, uint16_t* count)
 				param = dtoh16a(&data[2 + 6 * i]);
 				value = dtoh32a(&data[2 + 6 * i + 2]);
 				(*events)[i] = param;
+                (*values)[i] = value;
+
 				ptp_debug(params, "param: %02x, value: %d ", param, value);
 
 				/* reset the property cache entry for refetch ... */

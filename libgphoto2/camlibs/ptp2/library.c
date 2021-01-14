@@ -374,8 +374,8 @@ fixup_cached_deviceinfo (Camera *camera, PTPDeviceInfo *di) {
 
 	/* Fuji S5 Pro mostly, make its vendor set available. */
 	if (	(di->VendorExtensionID == PTP_VENDOR_MICROSOFT) &&
-		(camera->port->type == GP_PORT_USB) &&
-		(a.usb_vendor == 0x4cb) &&
+		(((camera->port->type == GP_PORT_USB) &&
+		(a.usb_vendor == 0x4cb)) || camera->port->type == GP_PORT_PTPIP)  &&
 		strstr(di->VendorExtensionDesc,"fujifilm.co.jp: 1.0;")
 	) {
 		/*camera->pl->bugs |= PTP_MTP;*/
@@ -4993,8 +4993,9 @@ camera_fuji_capture (Camera *camera, CameraCaptureType type, CameraFilePath *pat
 	do {
 		uint16_t ret, count = 0;
 		uint16_t *events = NULL;
+        uint32_t *values = NULL;
 
-		C_PTP (ptp_fuji_getevents (params, &events, &count));
+		C_PTP (ptp_fuji_getevents (params, &events, &values, &count));
 		/* FIXME: should do something with those if needed */
 		free (events);
 
@@ -7612,7 +7613,7 @@ retry:
 		continue;
 
 	/* not on our storage devices -> next */
-	if ((hasgetstorageids && (ob->oi.StorageID != storage)))
+	if ((hasgetstorageids && (ob->oi.StorageID != storage)) && (params->deviceinfo.VendorExtensionID != PTP_VENDOR_FUJI && camera->port->type != GP_PORT_PTPIP))
 		continue;
 
 	oid = ob->oid; /* ob might change or even become invalid in the function below */
@@ -7733,6 +7734,8 @@ retry:
 		uint16_t	ret;
 		uint32_t	handle;
 
+        if (params->deviceinfo.VendorExtensionID == PTP_VENDOR_FUJI)
+            continue;
 		C_PTP_REP (ptp_object_want (params, params->objects[i].oid, PTPOBJECT_STORAGEID_LOADED|PTPOBJECT_PARENTOBJECT_LOADED, &ob));
 
 		if (ob->oi.ParentObject != handler)
@@ -9279,13 +9282,13 @@ camera_init (Camera *camera, GPContext *context)
 			return ret;
 		}
 		gp_port_info_get_path (info, &xpath);
-
 		if (strstr(a.model,"Fuji")) {
 			ret = ptp_fujiptpip_connect (params, xpath);
 			if (ret != GP_OK) {
 				GP_LOG_E ("Failed to connect.");
 				return ret;
 			}
+            params->wifi_connection = 1;
 			params->sendreq_func	= ptp_fujiptpip_sendreq;
 			params->senddata_func	= ptp_fujiptpip_senddata;
 			params->getresp_func	= ptp_fujiptpip_getresp;
@@ -9299,6 +9302,7 @@ camera_init (Camera *camera, GPContext *context)
 				GP_LOG_E ("Failed to connect.");
 				return ret;
 			}
+            params->wifi_connection = 1;
 			params->sendreq_func	= ptp_ptpip_sendreq;
 			params->senddata_func	= ptp_ptpip_senddata;
 			params->getresp_func	= ptp_ptpip_getresp;
@@ -9440,7 +9444,7 @@ camera_init (Camera *camera, GPContext *context)
 		C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_AppVersion, &propval, PTP_DTC_UINT32));
 
 		C_PTP_REP (ptp_initiateopencapture(params, 0x00000000, 0x00000000)); /* this will get the event queue started */
-		ptp_fujiptpip_init_event(params, xpath);
+        ptp_fujiptpip_init_event(params, xpath);
 	}
 #endif
 	/* Seems HP does not like getdevinfo outside of session

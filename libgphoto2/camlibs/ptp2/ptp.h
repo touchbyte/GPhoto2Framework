@@ -3616,7 +3616,11 @@ struct _PTPParams {
 	/* PTP: internal structures used by ptp driver */
 	PTPObject	*objects;
 	unsigned int	nrofobjects;
-
+    
+    unsigned int  fuji_startpos;
+    unsigned int  fuji_batchsize;
+    unsigned int  fuji_nrofobjects;
+    int           wifi_connection;
 	PTPDeviceInfo	deviceinfo;
 
 	/* PTP: the current event queue */
@@ -4625,7 +4629,7 @@ uint16_t ptp_chdk_call_function(PTPParams* params, int *args, int size, int *ret
 /*uint16_t ptp_chdk_get_script_output(PTPParams* params, char **output ); */
 /*uint16_t ptp_chdk_get_video_settings(PTPParams* params, ptp_chdk_videosettings* vsettings);*/
 
-uint16_t ptp_fuji_getevents (PTPParams* params, uint16_t** events, uint16_t* count);
+uint16_t ptp_fuji_getevents (PTPParams* params, uint16_t** events, uint32_t** values, uint16_t* count);
 uint16_t ptp_fuji_getdeviceinfo (PTPParams* params, uint16_t **props, unsigned int *numprops);
 
 #define ptp_panasonic_liveview(params,enable) ptp_generic_no_data(params,PTP_OC_PANASONIC_Liveview,1,enable?0xD000010:0xD000011)

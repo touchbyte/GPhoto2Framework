@@ -155,7 +155,6 @@
 		898D6A36222DE57300C2684B /* chdk_live_view.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chdk_live_view.h; sourceTree = "<group>"; };
 		898D6A59222DE57600C2684B /* device-flags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "device-flags.h"; sourceTree = "<group>"; };
 		898D6A5A222DE57700C2684B /* chdk_ptp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chdk_ptp.h; sourceTree = "<group>"; };
-		898D6A5B222DE57900C2684B /* ptp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ptp.h; sourceTree = "<group>"; };
 		898D6A5C222DE57B00C2684B /* gphoto2-endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "gphoto2-endian.h"; sourceTree = "<group>"; };
 		898D6A5D222DE57F00C2684B /* ptp-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ptp-private.h"; sourceTree = "<group>"; };
 		89C85E8C244CACFA004C3938 /* lumix.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lumix.c; sourceTree = "<group>"; };
@@ -320,7 +319,6 @@
 				898D6A59222DE57600C2684B /* device-flags.h */,
 				898D6A5C222DE57B00C2684B /* gphoto2-endian.h */,
 				898D6A5D222DE57F00C2684B /* ptp-private.h */,
-				898D6A5B222DE57900C2684B /* ptp.h */,
 				897992FE217CF3EB00C72F2E /* AppDelegate.h */,
 				897992FF217CF3EB00C72F2E /* AppDelegate.m */,
 				89799301217CF3EB00C72F2E /* ViewController.h */,
@@ -641,7 +639,7 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = libgphoto2/camlibs/ptp2;
 				INFOPLIST_FILE = GPhoto2Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -667,7 +665,7 @@
 					"$(PROJECT_DIR)/GPhoto2Example/gPhoto2\\ Button\\ Test/SSDP",
 					"$(PROJECT_DIR)",
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = libgphoto2/camlibs/ptp2;
 				INFOPLIST_FILE = GPhoto2Example/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
