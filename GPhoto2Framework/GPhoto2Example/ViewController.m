@@ -156,6 +156,8 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     int j;
     for (j = 0; j < gp_list_count (list); j++) {
         ret = gp_list_get_name (list, j, &newfile); /* only entry 0 needed */
+        CameraFileInfo    fileinfo;
+        ret = gp_camera_file_get_info (camera, folder, newfile, &fileinfo, context);
         if (ret != GP_OK) {
             NSLog(@"Could not get file info.\n");
         } else {

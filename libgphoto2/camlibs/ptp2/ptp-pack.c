@@ -758,7 +758,9 @@ ptp_unpack_OI (PTPParams *params, unsigned char* data, PTPObjectInfo *oi, unsign
 	oi->Filename = oi->Keywords = NULL;
 
 	/* FIXME: also handle length with all the strings at the end */
-	oi->StorageID=dtoh32a(&data[PTP_oi_StorageID]);
+    if (!(params->deviceinfo.VendorExtensionID == PTP_VENDOR_FUJI && params->wifi_connection==1)) {
+        oi->StorageID=dtoh32a(&data[PTP_oi_StorageID]);
+    }
 	oi->ObjectFormat=dtoh16a(&data[PTP_oi_ObjectFormat]);
 	oi->ProtectionStatus=dtoh16a(&data[PTP_oi_ProtectionStatus]);
 	oi->ObjectCompressedSize=dtoh32a(&data[PTP_oi_ObjectCompressedSize]);
