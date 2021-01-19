@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="hXu-Vb-kE5">
-                                <rect key="frame" x="40" y="30" width="295" height="612"/>
+                                <rect key="frame" x="40" y="30" width="295" height="581.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xxc-ka-7lu">
                                         <rect key="frame" x="0.0" y="0.0" width="295" height="34"/>
@@ -71,14 +71,21 @@
                                             <action selector="listTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jRC-Vy-eql"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IeT-hD-jg2">
+                                        <rect key="frame" x="0.0" y="188" width="295" height="30"/>
+                                        <state key="normal" title="Download File"/>
+                                        <connections>
+                                            <action selector="downloadFile:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pLX-SQ-b4A"/>
+                                        </connections>
+                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Console output:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Kl-Wn-uUu">
-                                        <rect key="frame" x="0.0" y="188" width="295" height="18"/>
+                                        <rect key="frame" x="0.0" y="224" width="295" height="18"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="Touch &quot;Connect&quot;" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Iw-lU-Wtu">
-                                        <rect key="frame" x="0.0" y="212" width="295" height="400"/>
+                                        <rect key="frame" x="0.0" y="248" width="295" height="333.5"/>
                                         <color key="backgroundColor" systemColor="darkTextColor"/>
                                         <color key="textColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -90,7 +97,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="0Iw-lU-Wtu" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.6" id="0WT-Ba-J33"/>
+                            <constraint firstItem="0Iw-lU-Wtu" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.5" id="0WT-Ba-J33"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hXu-Vb-kE5" secondAttribute="trailing" constant="40" id="fNG-dt-Evk"/>
                             <constraint firstItem="hXu-Vb-kE5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="pSC-eY-YbN"/>
                             <constraint firstItem="hXu-Vb-kE5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="rJb-Nu-Te7"/>

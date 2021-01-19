@@ -13,6 +13,7 @@
 - (IBAction)connectTouchedPTP:(id)sender;
 - (IBAction)connectLumixTouched:(id)sender;
 - (IBAction)listTouched:(id)sender;
+-(IBAction)downloadFile:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *connectButtonPTP;
 @property (weak, nonatomic) IBOutlet UIButton *connectButtonLumix;

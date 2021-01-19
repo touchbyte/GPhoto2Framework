@@ -72,7 +72,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     NSString *connectionStr = [NSString stringWithFormat:@"%@:%@",self.protocol,cameraIP];
     
     gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
-    gp_log_add_func(GP_LOG_DEBUG, logdumper, NULL);
+    gp_log_add_func(GP_LOG_ALL, logdumper, NULL);
     context = sample_create_context();
     gp_camera_new (&camera);
     
@@ -172,6 +172,31 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     return GP_OK;
 }
 
+
+-(IBAction)downloadFile:(id)sender
+{
+    NSString *name = @"DSCF7083.JPG";
+    static int buffersize = 1*1024*1024;
+    long long filesize = 6917259;
+    long long offset = 0;
+    char* buffer = malloc(buffersize);
+    uint64_t readSize = buffersize;
+    NSOutputStream *outPutStream = [NSOutputStream outputStreamToFileAtPath:@"/Users/hendrikh/Desktop/test.jpg" append:NO];
+    [outPutStream open];
+    while (offset < filesize) {
+        int ret = gp_camera_file_read(camera, "/store_00010001", [name UTF8String], GP_FILE_TYPE_NORMAL, offset, buffer, &readSize, context);
+        NSLog(@"Read finished with %i",ret);
+        offset = offset + readSize;
+        NSLog(@"Download progress %.2lld %.2lld",offset,filesize);
+        if ([outPutStream write:(const uint8_t *)buffer maxLength:readSize]<=0 || ret!=GP_OK) {
+            NSLog(@"Download aborted");
+            break;
+        }
+    }
+    [outPutStream close];
+    free(buffer);
+}
+
 -(void)doConnect
 {
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
@@ -258,7 +283,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     ptp_terminateopencapture(params, &params->opencapture_transid);
     ptp_fuji_getevents (params, &events, &values, &count);
 
-    propval.u16 = 6;
+    propval.u16 = 6;  //before terminate open capture?
     ptp_setdevicepropvalue(params, 0xDF00, &propval, PTP_DTC_UINT16);
     ptp_fuji_getevents (params, &events, &values, &count);
 
@@ -290,6 +315,10 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     }
     NSLog(@"Count 2 %i",propval2.i32);
     ptp_fuji_getevents (params, &events, &values, &count);
+    
+    propval.u16 = 0x1;
+    ptp_setdevicepropvalue(params, 0xD227, &propval, PTP_DTC_UINT16); //hangs on XT 200
+
     self.fuji_browse_active = YES;
 }
 
