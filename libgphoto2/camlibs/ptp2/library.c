@@ -9247,7 +9247,6 @@ camera_init (Camera *camera, GPContext *context)
             }
         }
 
-
 	switch (camera->port->type) {
 #if !defined(IOS_BUILD)
 	case GP_PORT_USB:
@@ -9351,7 +9350,11 @@ camera_init (Camera *camera, GPContext *context)
 	SET_CONTEXT(camera, context);
 
 	tries = 0;
-	sessionid = 0x41;
+    if (strstr(a.model,"Fuji") && params->wifi_connection==1) {
+        sessionid = 0x1;
+    } else {
+        sessionid = 0x41;
+    }
 	while (1) {
 		ret = LOG_ON_PTP_E (ptp_opensession (params, sessionid));
 		if (ret == PTP_RC_SessionAlreadyOpened || ret == PTP_RC_OK)
@@ -9435,16 +9438,31 @@ camera_init (Camera *camera, GPContext *context)
 
 		params->byteorder = PTP_DL_LE;
 
-		propval.u16 = 5;
-		C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
+        char mode[100];
+        gp_setting_get("ptpip", "fuji_mode", mode);
+        
+        if (strcmp(mode, "pc_autosave") == 0) {
+            propval.u16 = 3;
+            C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
 
-		/* We send back the version we get from the camera */
-		C_PTP_REP (ptp_getdevicepropvalue(params, PTP_DPC_FUJI_AppVersion, &propval, PTP_DTC_UINT32));
-		GP_LOG_D("FUJI AppVersion is %d", propval.u32);
-		C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_AppVersion, &propval, PTP_DTC_UINT32));
+            /* We send back the version we get from the camera */
+            C_PTP_REP (ptp_getdevicepropvalue(params, 0xDF23, &propval, PTP_DTC_UINT32));
+            GP_LOG_D("0xDF23 is %d", propval.u32);
+            C_PTP_REP (ptp_setdevicepropvalue(params, 0xDF23, &propval, PTP_DTC_UINT32));
+            ptp_fujiptpip_init_event(params, xpath);
+        } else {
+            propval.u16 = 5;
+            C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
 
-		C_PTP_REP (ptp_initiateopencapture(params, 0x00000000, 0x00000000)); /* this will get the event queue started */
-        ptp_fujiptpip_init_event(params, xpath);
+            /* We send back the version we get from the camera */
+            C_PTP_REP (ptp_getdevicepropvalue(params, PTP_DPC_FUJI_AppVersion, &propval, PTP_DTC_UINT32));
+            GP_LOG_D("FUJI AppVersion is %d", propval.u32);
+            propval.u32 = propval.u32 +1;
+            C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_AppVersion, &propval, PTP_DTC_UINT32));
+            C_PTP_REP (ptp_initiateopencapture(params, 0x00000000, 0x00000000)); /* this will get the event queue started */
+            params->opencapture_transid = params->transaction_id-1;
+            ptp_fujiptpip_init_event(params, xpath);
+        }
 	}
 #endif
 	/* Seems HP does not like getdevinfo outside of session

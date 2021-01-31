@@ -72,7 +72,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     NSString *connectionStr = [NSString stringWithFormat:@"%@:%@",self.protocol,cameraIP];
     
     gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
-    gp_log_add_func(GP_LOG_ALL, logdumper, NULL);
+    gp_log_add_func(GP_LOG_DEBUG, logdumper, NULL);
     context = sample_create_context();
     gp_camera_new (&camera);
     
@@ -97,6 +97,11 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     gp_abilities_list_free(abilities);
 
     gp_setting_set("ptpip", "hostname", "gphoto-example");
+
+  //  gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
+    gp_setting_set("ptpip", "fuji_mode", "tethering");
+
+    
     ret = gp_camera_init (camera, context);
     self.deviceInfo =camera->pl->params.deviceinfo;
     
@@ -175,9 +180,10 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 
 -(IBAction)downloadFile:(id)sender
 {
-    NSString *name = @"DSCF7083.JPG";
+  
+    NSString *name = @"DSCF7092.RAF";
     static int buffersize = 1*1024*1024;
-    long long filesize = 6917259;
+    long long filesize = 42615376;
     long long offset = 0;
     char* buffer = malloc(buffersize);
     uint64_t readSize = buffersize;
@@ -262,64 +268,65 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 
 }
 
+
 -(void)fuji_switchToBrowse
 {
     PTPPropertyValue        propval;
-    PTPPropertyValue        propval2;
 
     PTPParams *params;
     
     params =&camera->pl->params;
     params->fuji_nrofobjects = 0;
     
-   
-    camera_unprepare_capture(camera,context);
-    //propval.u16 = 5;
 
     uint16_t count = 0;
     uint16_t *events = NULL;
     uint32_t * values = NULL;
-    ptp_fuji_getevents (params, &events, &values, &count);
-    ptp_terminateopencapture(params, &params->opencapture_transid);
-    ptp_fuji_getevents (params, &events, &values, &count);
-
-    propval.u16 = 6;  //before terminate open capture?
-    ptp_setdevicepropvalue(params, 0xDF00, &propval, PTP_DTC_UINT16);
-    ptp_fuji_getevents (params, &events, &values, &count);
-
-    NSInteger fileIndex = [self indexForFileCount:events count:count];
-    if (fileIndex!=-1) {
-        params->fuji_nrofobjects = values[fileIndex];
-    }
-
-    ptp_getdevicepropvalue(params, 0xDF01, &propval, PTP_DTC_UINT16); //or 25
-    if (propval.u16 == 0) {
-        propval.u16 = 11;
-        ptp_setdevicepropvalue(params, 0xDF01, &propval, PTP_DTC_UINT16); //hangs on XT 200
-        ptp_fuji_getevents (params, &events, &values, &count);
-    }
-
-    ptp_getdevicepropvalue(params, 0xDF22, &propval, PTP_DTC_UINT32); //or 25
-    ptp_setdevicepropvalue(params, 0xDF22, &propval, PTP_DTC_UINT32);
-  
-    ptp_fuji_getevents (params, &events, &values, &count);
-
-    ptp_getdevicepropvalue(params, 0xd222, &propval, PTP_DTC_UINT32);
-    if (params->fuji_nrofobjects == 0 && propval.i32>0 ) {
-        params->fuji_nrofobjects = propval.i8;
-    }
-    NSLog(@"Count %i",propval.i32);
-    ptp_getdevicepropvalue(params, 0xD220, &propval2, PTP_DTC_UINT32);
-    if (params->fuji_nrofobjects == 0 && propval.i32>0 ) {
-        params->fuji_nrofobjects = propval.i8;
-    }
-    NSLog(@"Count 2 %i",propval2.i32);
-    ptp_fuji_getevents (params, &events, &values, &count);
     
-    propval.u16 = 0x1;
-    ptp_setdevicepropvalue(params, 0xD227, &propval, PTP_DTC_UINT16); //hangs on XT 200
+    char mode[100];
+    gp_setting_get("ptpip", "fuji_mode", mode);
+    
+    if (strcmp(mode, "pc_autosave") == 0) {
+        ptp_fuji_getevents (params, &events, &values, &count);
+        NSInteger fileIndex = [self indexForFileCount:events count:count];
+        if (fileIndex!=-1) {
+            params->fuji_nrofobjects = values[fileIndex];
+        }
+        propval.u16 = 0x0001;
+        ptp_setdevicepropvalue(params, 0xD227, &propval, PTP_DTC_UINT16);
+        
+        ptp_fuji_getevents (params, &events, &values, &count);
+    } else {
+        
+        ptp_fuji_getevents (params, &events, &values, &count);
+        ptp_terminateopencapture(params,params->opencapture_transid);
+        ptp_fuji_getevents (params, &events, &values, &count);
 
-    self.fuji_browse_active = YES;
+        propval.u16 = 0x0006;
+        ptp_setdevicepropvalue(params, 0xDF00, &propval, PTP_DTC_UINT16);
+        ptp_fuji_getevents (params, &events, &values, &count);
+
+        NSInteger fileIndex = [self indexForFileCount:events count:count];
+        if (fileIndex!=-1) {
+            params->fuji_nrofobjects = values[fileIndex];
+        }
+
+        ptp_getdevicepropvalue(params, 0xDF25, &propval, PTP_DTC_UINT32);
+        ptp_fuji_getevents (params, &events, &values, &count);
+
+        propval.u16 = 0x000B;
+        ptp_setdevicepropvalue(params, 0xDF01, &propval, PTP_DTC_UINT16);
+
+        propval.u32 = 0x00020004;
+        ptp_setdevicepropvalue(params, 0xDF25, &propval, PTP_DTC_UINT32);
+        ptp_fuji_getevents (params, &events, &values, &count);
+        
+        propval.u16 = 0x0001;
+        ptp_setdevicepropvalue(params, 0xD227, &propval, PTP_DTC_UINT16);
+        ptp_fuji_getevents (params, &events, &values, &count);
+
+        self.fuji_browse_active = YES;
+    }
 }
 
 - (IBAction)listTouched:(id)sender {

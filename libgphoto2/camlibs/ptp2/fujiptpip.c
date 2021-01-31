@@ -581,7 +581,10 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
 	int 		len, ret;
     
     unsigned char guid[16] = {0xad, 0xa5, 0x48, 0x5d, 0x87, 0xb2, 0x7f, 0x0b,0xd3, 0xd5, 0xde, 0xd0, 0x02, 0x78, 0xa8, 0xc0};
-
+    
+    unsigned char version[32] = {
+        0x00,0x00,0x13,0x00,0x43,0x00,0x41,0x00,0x4d,0x00,0x45,0x00,0x52,0x00,0x41,0x00,0x5f,0x00,0x50,0x00,0x52,0x00,0x4f,0x00,0x44,0x00,0x55,0x00,0x43,0x00,0x54,0x00};
+    
     /*
 #if !defined (WIN32)
 	if (gethostname (hostname, sizeof(hostname)))
@@ -606,9 +609,10 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
 		cmdrequest[fujiptpip_initcmd_name+i*2] = hostname[i];
 		cmdrequest[fujiptpip_initcmd_name+i*2+1] = 0;
 	}
+    memcpy(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname))*2], version,32);
 
-	htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2],0x0000);
-	htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2+2],0x0000);
+	//htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2],0x0000);
+	//htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2+2],0x0000);
 
 
 	GP_LOG_DATA ((char*)cmdrequest, len, "ptpip/init_cmd data:");
@@ -688,7 +692,14 @@ ptp_fujiptpip_init_event (PTPParams* params, const char *address)
 	}
 	*s = '\0';
 	p = strchr (s+1,':');
-	port = 55740;
+    
+    char mode[100];
+    gp_setting_get("ptpip", "fuji_mode", mode);
+    if (strcmp(mode, "tethering") == 0) {
+        port = 15740;
+    } else {
+        port = 55740;
+    }
 	eventport = port+1;
 	if (p) {
 		*p = '\0';
@@ -904,7 +915,13 @@ ptp_fujiptpip_connect (PTPParams* params, const char *address) {
 	}
 	*s = '\0';
 	p = strchr (s+1,':');
-	port = 55740;
+    char mode[100];
+    gp_setting_get("ptpip", "fuji_mode", mode);
+    if (strcmp(mode, "tethering") == 0) {
+        port = 15740;
+    } else {
+        port = 55740;
+    }
 	eventport = port+1;
 	if (p) {
 		*p = '\0';
