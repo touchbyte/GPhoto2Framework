@@ -99,9 +99,9 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     gp_setting_set("ptpip", "hostname", "gphoto-example");
 
   //  gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
-    gp_setting_set("ptpip", "fuji_mode", "tethering");
+  //  gp_setting_set("ptpip", "fuji_mode", "tethering");
 
-    
+  //  gp_setting_set("ptpip", "fuji_mode", "tethering");
     ret = gp_camera_init (camera, context);
     self.deviceInfo =camera->pl->params.deviceinfo;
     
@@ -259,6 +259,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     return returnIndex;
 }
 
+
 -(void)fuji_terminate
 {
     PTPParams *params = &camera->pl->params;
@@ -267,7 +268,6 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     close(params->evtfd);
 
 }
-
 
 -(void)fuji_switchToBrowse
 {
@@ -286,7 +286,46 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     char mode[100];
     gp_setting_get("ptpip", "fuji_mode", mode);
     
-    if (strcmp(mode, "pc_autosave") == 0) {
+    CameraEventType  evttype;
+    void    *evtdata;
+    
+    if (strcmp(mode, "tethering") == 0) {
+        while (1) {
+            int retval = gp_camera_wait_for_event (camera, 1000, &evttype, &evtdata, context);
+            switch (evttype) {
+                case GP_EVENT_UNKNOWN: {
+                    NSLog(@"Event unknown");
+                    break;
+                }
+                case GP_EVENT_TIMEOUT: {
+                    NSLog(@"Event timeout");
+                    break;
+                }
+                case GP_EVENT_FILE_ADDED: {
+                    NSLog(@"File added");
+                    CameraFilePath *cameraFilePath = (CameraFilePath*)evtdata;
+                    CameraFileInfo info;
+                    retval = gp_camera_file_get_info (camera, cameraFilePath->folder, cameraFilePath->name, &info, context);
+                    NSLog(@"Info %@:%@",[[NSString alloc] initWithUTF8String:cameraFilePath->folder],[[NSString alloc] initWithUTF8String:cameraFilePath->name]);
+
+                }case GP_EVENT_FOLDER_ADDED: {
+                    NSLog(@"Folder added");
+
+                    break;
+                }
+                case GP_EVENT_CAPTURE_COMPLETE: {
+                    NSLog(@"Capture completed");
+                    break;
+                }
+                case GP_EVENT_FILE_CHANGED: {
+                    NSLog(@"File changed");
+                    break;
+                }
+                    
+            }
+        }
+
+    } else if (strcmp(mode, "pc_autosave") == 0) {
         ptp_fuji_getevents (params, &events, &values, &count);
         NSInteger fileIndex = [self indexForFileCount:events count:count];
         if (fileIndex!=-1) {
@@ -333,6 +372,13 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     
     if (!self.fuji_browse_active) {
         [self fuji_switchToBrowse];
+    }
+    
+    char mode[100];
+    gp_setting_get("ptpip", "fuji_mode", mode);
+    
+    if (strcmp(mode, "tethering") == 0) {
+        return;
     }
     
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;

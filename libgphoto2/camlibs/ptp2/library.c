@@ -451,15 +451,21 @@ fixup_cached_deviceinfo (Camera *camera, PTPDeviceInfo *di) {
 		di->DevicePropertiesSupported[di->DevicePropertiesSupported_len+59] = 0xd17b; /* seen on xt3 */
 		di->DevicePropertiesSupported_len += 60;
 
+        
 		if (ptp_operation_issupported(&camera->pl->params, PTP_OC_FUJI_GetDeviceInfo)) {
-			uint16_t	*props;
-			unsigned int	numprops;
+            
+            char mode[100];
+            gp_setting_get("ptpip", "fuji_mode", mode);
+            if (strcmp(mode, "pc_autosave") != 0) {
+                uint16_t	*props;
+                unsigned int	numprops;
 
-			C_PTP (ptp_fuji_getdeviceinfo (params, &props, &numprops));
-			free (di->DevicePropertiesSupported);
+                C_PTP (ptp_fuji_getdeviceinfo (params, &props, &numprops));
+                free (di->DevicePropertiesSupported);
 
-			di->DevicePropertiesSupported		= props;
-			di->DevicePropertiesSupported_len	= numprops;
+                di->DevicePropertiesSupported		= props;
+                di->DevicePropertiesSupported_len	= numprops;
+            }
 		}
 
 	}
@@ -9440,8 +9446,9 @@ camera_init (Camera *camera, GPContext *context)
 
         char mode[100];
         gp_setting_get("ptpip", "fuji_mode", mode);
-        
-        if (strcmp(mode, "pc_autosave") == 0) {
+        if (strcmp(mode, "tethering") == 0) {
+            //
+        } else if (strcmp(mode, "pc_autosave") == 0) {
             propval.u16 = 3;
             C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
 
@@ -9449,7 +9456,7 @@ camera_init (Camera *camera, GPContext *context)
             C_PTP_REP (ptp_getdevicepropvalue(params, 0xDF23, &propval, PTP_DTC_UINT32));
             GP_LOG_D("0xDF23 is %d", propval.u32);
             C_PTP_REP (ptp_setdevicepropvalue(params, 0xDF23, &propval, PTP_DTC_UINT32));
-            ptp_fujiptpip_init_event(params, xpath);
+         //   ptp_fujiptpip_init_event(params, xpath);
         } else {
             propval.u16 = 5;
             C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
@@ -9545,9 +9552,14 @@ camera_init (Camera *camera, GPContext *context)
 			C_PTP (ptp_sony_9281(params, 0x4));
 		}
 		break;
-	case PTP_VENDOR_FUJI:
-		CR (camera_prepare_capture (camera, context));
-		break;
+        case PTP_VENDOR_FUJI: {
+            char mode[100];
+            gp_setting_get("ptpip", "fuji_mode", mode);
+            if (strcmp(mode, "tethering") != 0) {
+                CR (camera_prepare_capture (camera, context));
+            }
+            break;
+        }
 	case PTP_VENDOR_GP_LEICA:
 		if (ptp_operation_issupported(params, PTP_OC_LEICA_LEOpenSession)) {
 			PTPDeviceInfo	pdi;

@@ -582,8 +582,13 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
     
     unsigned char guid[16] = {0xad, 0xa5, 0x48, 0x5d, 0x87, 0xb2, 0x7f, 0x0b,0xd3, 0xd5, 0xde, 0xd0, 0x02, 0x78, 0xa8, 0xc0};
     
+    unsigned char guid_tether[16] = {0xf2,0xe4,0x53,0x8f,0xad,0xa5,0x48,0x5d,0x87,0xb2,0x7f,0x0b,0xd3,0xd5,0xde,0xd0};
+    
     unsigned char version[32] = {
         0x00,0x00,0x13,0x00,0x43,0x00,0x41,0x00,0x4d,0x00,0x45,0x00,0x52,0x00,0x41,0x00,0x5f,0x00,0x50,0x00,0x52,0x00,0x4f,0x00,0x44,0x00,0x55,0x00,0x43,0x00,0x54,0x00};
+    
+    char mode[100];
+    gp_setting_get("ptpip", "fuji_mode", mode);
     
     /*
 #if !defined (WIN32)
@@ -601,19 +606,27 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
 	htod32a(&cmdrequest[fujiptpip_type],PTPIP_INIT_COMMAND_REQUEST);
 	htod32a(&cmdrequest[fujiptpip_len],len);
 
-	htod32a(&cmdrequest[fujiptpip_initcmd_protocolversion], 0x8f53e4f2);	/* magic number */
-
-	memcpy(&cmdrequest[fujiptpip_initcmd_guid], guid, 16);
-	for (i=0;i<strlen(hostname)+1;i++) {
-		/* -> ucs-2 in little endian */
-		cmdrequest[fujiptpip_initcmd_name+i*2] = hostname[i];
-		cmdrequest[fujiptpip_initcmd_name+i*2+1] = 0;
-	}
-    memcpy(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname))*2], version,32);
-
-	//htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2],0x0000);
-	//htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2+2],0x0000);
-
+    if (strcmp(mode, "tethering") != 0) {
+        htod32a(&cmdrequest[fujiptpip_initcmd_protocolversion], 0x8f53e4f2);
+        memcpy(&cmdrequest[fujiptpip_initcmd_guid], guid, 16);
+        for (i=0;i<strlen(hostname)+1;i++) {
+            /* -> ucs-2 in little endian */
+            cmdrequest[fujiptpip_initcmd_name+i*2] = hostname[i];
+            cmdrequest[fujiptpip_initcmd_name+i*2+1] = 0;
+        }
+        memcpy(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname))*2], version,32);
+        params->fuji_tether = 0;
+    } else {
+        memcpy(&cmdrequest[fujiptpip_initcmd_guid-4], guid_tether, 16);
+        for (i=0;i<strlen(hostname)+1;i++) {
+            /* -> ucs-2 in little endian */
+            cmdrequest[fujiptpip_initcmd_name-4+i*2] = hostname[i];
+            cmdrequest[fujiptpip_initcmd_name-4+i*2+1] = 0;
+        }
+        htod16a(&cmdrequest[fujiptpip_initcmd_name-4+(strlen(hostname)+1)*2],0x0000);
+        htod16a(&cmdrequest[fujiptpip_initcmd_name-4+(strlen(hostname)+1)*2+2],0x0000);
+        params->fuji_tether = 1;
+    }
 
 	GP_LOG_DATA ((char*)cmdrequest, len, "ptpip/init_cmd data:");
 	ret = write (params->cmdfd, cmdrequest, len);
@@ -980,9 +993,27 @@ ptp_fujiptpip_connect (PTPParams* params, const char *address) {
 	}
 	ret = ptp_fujiptpip_init_command_ack (params);
 	if (ret != PTP_RC_OK) {
-		close (params->cmdfd);
-		close (params->evtfd);
-		return translate_ptp_result (ret);
+        char mode[100];
+        gp_setting_get("ptpip", "fuji_mode", mode);
+        if (strcmp(mode, "tethering") == 0) {
+            int ret2;
+            int retry_count = 0;
+            while (ret2 != PTP_RC_OK && retry_count<=10) {
+                ret = ptp_fujiptpip_init_command_request (params);
+                ret2 = ptp_fujiptpip_init_command_ack (params);
+                retry_count++;
+                usleep(500*1000);
+            }
+            if (retry_count>10) {
+                close (params->cmdfd);
+                close (params->evtfd);
+                return translate_ptp_result (ret);
+            }
+        } else {
+            close (params->cmdfd);
+            close (params->evtfd);
+            return translate_ptp_result (ret);
+        }
 	}
 	GP_LOG_D ("fujiptpip connected!");
 	return GP_OK;

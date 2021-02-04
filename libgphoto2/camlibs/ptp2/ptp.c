@@ -1577,8 +1577,7 @@ ptp_getobjecthandles (PTPParams* params, uint32_t storage,
 			uint32_t objectformatcode, uint32_t associationOH,
 			PTPObjectHandles* objecthandles)
 {
-    
-    if (params->deviceinfo.VendorExtensionID == PTP_VENDOR_FUJI && params->wifi_connection==1) {
+    if (params->deviceinfo.VendorExtensionID == PTP_VENDOR_FUJI && params->wifi_connection==1 && params->fuji_tether!=1) {
         objecthandles->Handler = NULL;
         objecthandles->n = params->fuji_nrofobjects;
         uint8_t n = params->fuji_nrofobjects;
