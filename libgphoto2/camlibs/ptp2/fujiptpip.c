@@ -627,7 +627,10 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
         htod16a(&cmdrequest[fujiptpip_initcmd_name-4+(strlen(hostname)+1)*2+2],0x0000);
         params->fuji_tether = 1;
     }
-
+    if (strcmp(mode, "push") == 0) {
+        params->fuji_push = 1;
+    }
+    
 	GP_LOG_DATA ((char*)cmdrequest, len, "ptpip/init_cmd data:");
 	ret = write (params->cmdfd, cmdrequest, len);
 	free (cmdrequest);

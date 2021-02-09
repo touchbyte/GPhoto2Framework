@@ -3621,6 +3621,8 @@ struct _PTPParams {
     unsigned int  fuji_batchsize;
     unsigned int  fuji_nrofobjects;
     unsigned int  fuji_tether;
+    unsigned int  fuji_push;
+
     int           wifi_connection;
 	PTPDeviceInfo	deviceinfo;
 

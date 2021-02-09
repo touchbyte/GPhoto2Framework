@@ -99,6 +99,8 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     gp_setting_set("ptpip", "hostname", "gphoto-example");
 
   //  gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
+  //  gp_setting_set("ptpip", "fuji_mode", "browse_legacy");
+    gp_setting_set("ptpip", "fuji_mode", "push");
   //  gp_setting_set("ptpip", "fuji_mode", "tethering");
 
   //  gp_setting_set("ptpip", "fuji_mode", "tethering");
@@ -107,6 +109,8 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     
     PTPParams *params;
     params =&(camera->pl->params);
+  
+
     return ret;
 }
 
@@ -174,6 +178,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     
     if (foundfile) *foundfile = 1;
     gp_list_free (list);
+    
     return GP_OK;
 }
 
@@ -181,16 +186,17 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 -(IBAction)downloadFile:(id)sender
 {
   
-    NSString *name = @"DSCF7092.RAF";
+    NSString *name = @"DSCF7084.RAF";
     static int buffersize = 1*1024*1024;
-    long long filesize = 42615376;
+    long long filesize = 42660112;
     long long offset = 0;
     char* buffer = malloc(buffersize);
     uint64_t readSize = buffersize;
     NSOutputStream *outPutStream = [NSOutputStream outputStreamToFileAtPath:@"/Users/hendrikh/Desktop/test.jpg" append:NO];
     [outPutStream open];
     while (offset < filesize) {
-        int ret = gp_camera_file_read(camera, "/store_00010001", [name UTF8String], GP_FILE_TYPE_NORMAL, offset, buffer, &readSize, context);
+        //store_10000001
+        int ret = gp_camera_file_read(camera, "/store_10000001", [name UTF8String], GP_FILE_TYPE_NORMAL, offset, buffer, &readSize, context);
         NSLog(@"Read finished with %i",ret);
         offset = offset + readSize;
         NSLog(@"Download progress %.2lld %.2lld",offset,filesize);
@@ -289,7 +295,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     CameraEventType  evttype;
     void    *evtdata;
     
-    if (strcmp(mode, "tethering") == 0) {
+    if (strcmp(mode, "tethering") == 0 || strcmp(mode, "push") == 0 ) {
         while (1) {
             int retval = gp_camera_wait_for_event (camera, 1000, &evttype, &evtdata, context);
             switch (evttype) {
@@ -337,10 +343,12 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
         ptp_fuji_getevents (params, &events, &values, &count);
     } else {
         
-        ptp_fuji_getevents (params, &events, &values, &count);
-        ptp_terminateopencapture(params,params->opencapture_transid);
-        ptp_fuji_getevents (params, &events, &values, &count);
-
+        if (strcmp(mode, "browse_legacy") != 0) {
+            ptp_fuji_getevents (params, &events, &values, &count);
+            ptp_terminateopencapture(params,params->opencapture_transid);
+            ptp_fuji_getevents (params, &events, &values, &count);
+        }
+        
         propval.u16 = 0x0006;
         ptp_setdevicepropvalue(params, 0xDF00, &propval, PTP_DTC_UINT16);
         ptp_fuji_getevents (params, &events, &values, &count);
@@ -377,7 +385,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     char mode[100];
     gp_setting_get("ptpip", "fuji_mode", mode);
     
-    if (strcmp(mode, "tethering") == 0) {
+    if (strcmp(mode, "tethering") == 0 || strcmp(mode, "push") == 0) {
         return;
     }
     

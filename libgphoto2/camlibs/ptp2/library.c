@@ -456,7 +456,7 @@ fixup_cached_deviceinfo (Camera *camera, PTPDeviceInfo *di) {
             
             char mode[100];
             gp_setting_get("ptpip", "fuji_mode", mode);
-            if (strcmp(mode, "pc_autosave") != 0) {
+            if (strcmp(mode, "pc_autosave") != 0 && strcmp(mode, "push") != 0 && strcmp(mode, "browse_legacy") != 0) {
                 uint16_t	*props;
                 unsigned int	numprops;
 
@@ -9448,15 +9448,30 @@ camera_init (Camera *camera, GPContext *context)
         gp_setting_get("ptpip", "fuji_mode", mode);
         if (strcmp(mode, "tethering") == 0) {
             //
-        } else if (strcmp(mode, "pc_autosave") == 0) {
+        } else if (strcmp(mode, "push") == 0) {
+            propval.u16 = 8;
+            C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
+            /* We send back the version we get from the camera */
+            C_PTP_REP (ptp_getdevicepropvalue(params, 0xDF21, &propval, PTP_DTC_UINT32));
+            GP_LOG_D("0xDF21 is %d", propval.u32);
+            propval.u32 = propval.u32;
+            C_PTP_REP (ptp_setdevicepropvalue(params, 0xDF21, &propval, PTP_DTC_UINT32));
+        } else if (strcmp(mode, "browse_legacy") == 0) {
+            propval.u16 = 9;
+            C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
+            /* We send back the version we get from the camera */
+            C_PTP_REP (ptp_getdevicepropvalue(params, 0xDF22, &propval, PTP_DTC_UINT32));
+            GP_LOG_D("0xDF22 is %d", propval.u32);
+            propval.u32 = propval.u32;
+            C_PTP_REP (ptp_setdevicepropvalue(params, 0xDF22, &propval, PTP_DTC_UINT32));
+        }  else if (strcmp(mode, "pc_autosave") == 0) {
             propval.u16 = 3;
             C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
-
             /* We send back the version we get from the camera */
             C_PTP_REP (ptp_getdevicepropvalue(params, 0xDF23, &propval, PTP_DTC_UINT32));
             GP_LOG_D("0xDF23 is %d", propval.u32);
             C_PTP_REP (ptp_setdevicepropvalue(params, 0xDF23, &propval, PTP_DTC_UINT32));
-         //   ptp_fujiptpip_init_event(params, xpath);
+             //   ptp_fujiptpip_init_event(params, xpath);
         } else {
             propval.u16 = 5;
             C_PTP_REP (ptp_setdevicepropvalue(params, PTP_DPC_FUJI_InitSequence, &propval, PTP_DTC_UINT16));
@@ -9555,7 +9570,7 @@ camera_init (Camera *camera, GPContext *context)
         case PTP_VENDOR_FUJI: {
             char mode[100];
             gp_setting_get("ptpip", "fuji_mode", mode);
-            if (strcmp(mode, "tethering") != 0) {
+            if (strcmp(mode, "tethering") != 0 && strcmp(mode, "push") != 0 && strcmp(mode, "browse_legacy") != 0) {
                 CR (camera_prepare_capture (camera, context));
             }
             break;
