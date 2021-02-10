@@ -69,8 +69,8 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9349"
-            endingLineNumber = "9349"
+            startingLineNumber = "9352"
+            endingLineNumber = "9352"
             landmarkName = "camera_init(camera, context)"
             landmarkType = "9">
          </BreakpointContent>
@@ -85,8 +85,8 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9721"
-            endingLineNumber = "9721"
+            startingLineNumber = "9724"
+            endingLineNumber = "9724"
             landmarkName = "camera_init(camera, context)"
             landmarkType = "9">
          </BreakpointContent>
@@ -120,86 +120,6 @@
             startingLineNumber = "7753"
             endingLineNumber = "7753"
             landmarkName = "folder_list_func(fs, folder, list, data, context)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C41D9EE1-9AC0-48FC-B0F5-C83BFCC3E554"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../libgphoto2/camlibs/ptp2/library.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7629"
-            endingLineNumber = "7629"
-            landmarkName = "file_list_func(fs, folder, list, data, context)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8C9F75D7-1B4D-4FE2-BEFA-D5970DD06BE1"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../libgphoto2/camlibs/ptp2/library.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7686"
-            endingLineNumber = "7686"
-            landmarkName = "file_list_func(fs, folder, list, data, context)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "8C9F75D7-1B4D-4FE2-BEFA-D5970DD06BE1 - 1d052bbd2ef825de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "file_list_func"
-                  moduleName = "gphoto2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Library/Mobile%20Documents/com~apple~CloudDocs/Current/fuji/GPhoto2Framework/libgphoto2/camlibs/ptp2/library.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7688"
-                  endingLineNumber = "7688"
-                  offsetFromSymbolStart = "1838">
-               </Location>
-               <Location
-                  uuid = "8C9F75D7-1B4D-4FE2-BEFA-D5970DD06BE1 - 1d052bbd2ef825de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "file_list_func"
-                  moduleName = "gphoto2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/hendrikh/Library/Mobile%20Documents/com~apple~CloudDocs/Current/fuji/GPhoto2Framework/libgphoto2/camlibs/ptp2/library.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7688"
-                  endingLineNumber = "7688"
-                  offsetFromSymbolStart = "1847">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0EFC8E21-FF75-4DB7-B0BE-E421931B5935"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../libgphoto2/libgphoto2/gphoto2-filesys.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "983"
-            endingLineNumber = "983"
-            landmarkName = "gp_filesystem_list_files(fs, folder, list, context)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

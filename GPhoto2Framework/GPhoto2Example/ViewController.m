@@ -72,7 +72,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     NSString *connectionStr = [NSString stringWithFormat:@"%@:%@",self.protocol,cameraIP];
     
     gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
-    gp_log_add_func(GP_LOG_ALL, logdumper, NULL);
+    gp_log_add_func(GP_LOG_ERROR, logdumper, NULL);
     context = sample_create_context();
     gp_camera_new (&camera);
     
@@ -100,8 +100,8 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 
   //  gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
   //  gp_setting_set("ptpip", "fuji_mode", "browse_legacy");
-    gp_setting_set("ptpip", "fuji_mode", "push");
-  //  gp_setting_set("ptpip", "fuji_mode", "tethering");
+  //  gp_setting_set("ptpip", "fuji_mode", "push");
+      gp_setting_set("ptpip", "fuji_mode", "tethering");
 
   //  gp_setting_set("ptpip", "fuji_mode", "tethering");
     ret = gp_camera_init (camera, context);
@@ -319,8 +319,12 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
                     int fd = open ([savePath UTF8String], O_CREAT | O_WRONLY, 0644);
                     retval = gp_file_new_from_fd(&file, fd);
                     if (retval == GP_OK) {
+                        params->fuji_tether_progress = ^(long long bytesWritten, long long totalBytes) {
+                            NSLog(@"Progress called %.2lld of %.2lld",bytesWritten, totalBytes);
+                        };
                         retval = gp_camera_file_get(camera, cameraFilePath->folder, cameraFilePath->name,
                                                     GP_FILE_TYPE_NORMAL, file, context);
+                        params->fuji_tether_progress = NULL;
                         NSLog(@"saved %@",[[NSString alloc] initWithUTF8String:cameraFilePath->name]);
                     }
                 }case GP_EVENT_FOLDER_ADDED: {

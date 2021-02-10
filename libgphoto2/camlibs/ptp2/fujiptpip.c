@@ -201,6 +201,7 @@ ptp_fujiptpip_generic_read (PTPParams *params, int fd, PTPIPHeader *hdr, unsigne
 		return PTP_RC_GeneralError;
 	}
 	curread = 0;
+    long long lastStep = 0;
 	while (curread < len) {
 		ret = read (fd, (*data)+curread, len-curread);
 		if (ret == -1) {
@@ -208,6 +209,10 @@ ptp_fujiptpip_generic_read (PTPParams *params, int fd, PTPIPHeader *hdr, unsigne
 			free (*data);*data = NULL;
 			return PTP_RC_GeneralError;
 		} else {
+            if (params->fuji_tether_progress != NULL && curread >= (lastStep+512*1024)) {
+                lastStep = curread;
+                params->fuji_tether_progress((long long)curread,(long long)len);
+            }
 			GP_LOG_DATA ((char*)((*data)+curread), ret, "ptpip/generic_read data:");
 		}
 		if (ret == 0)
@@ -501,7 +506,7 @@ ptp_fujiptpip_getdata (PTPParams* params, PTPContainer* ptp, PTPDataHandler *han
 	ret = ptp_fujiptpip_cmd_read (params, &hdr, &xdata);
 	if (ret != PTP_RC_OK)
 		return ret;
-
+    
 	/* the Fuji X-T4 does only return an empty deviceinfo ... so we synthesize one */
 	if ((ptp->Code == PTP_OC_GetDeviceInfo) && (dtoh32(hdr.length)-fujiptpip_getdata_payload-4 == 0)) {
 		GP_LOG_D("synthesizing Fuji DeviceInfo");

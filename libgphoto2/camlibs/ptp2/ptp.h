@@ -3622,6 +3622,7 @@ struct _PTPParams {
     unsigned int  fuji_nrofobjects;
     unsigned int  fuji_tether;
     unsigned int  fuji_push;
+    void (^fuji_tether_progress)(long long bytesWritten, long long totalBytes);
 
     int           wifi_connection;
 	PTPDeviceInfo	deviceinfo;

@@ -8546,7 +8546,7 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 #define BLOBSIZE 1*1024*1024
 		/* We also need this for Nikon D850 and very big RAWs (>40 MB) */
 		/* Try the generic method first, EOS R does not like the second for some reason */
-		if (	(ptp_operation_issupported(params,PTP_OC_GetPartialObject)) &&
+		if ((params->fuji_tether != 1) &&	(ptp_operation_issupported(params,PTP_OC_GetPartialObject)) &&
 			(size > BLOBSIZE)
 		) {
             
@@ -8609,6 +8609,9 @@ get_file_func (CameraFilesystem *fs, const char *folder, const char *filename,
 			ptp_init_camerafile_handler (&handler, file);
 			ret = ptp_getobject_to_handler(params, oid, &handler);
 			ptp_exit_camerafile_handler (&handler);
+            if (params->deviceinfo.VendorExtensionID == PTP_VENDOR_FUJI && params->fuji_tether==1) {
+                ptp_deleteobject(params, oid, 0);
+            }
 			if (ret == PTP_ERROR_CANCEL)
 				return GP_ERROR_CANCEL;
 			C_PTP_REP (ret);
