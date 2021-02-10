@@ -6698,19 +6698,49 @@ sonyout:
 			unsigned int		i;
 			PTPObject		*oi;
 
-			if (ptp_get_one_event (params, &event))
-				goto handleregular;
-			C_PTP (ptp_getobjecthandles (params, PTP_HANDLER_SPECIAL, 0x000000, 0x000000, &handles));
-			for (i=handles.n;i--;) {
-				if (PTP_RC_OK == ptp_object_find (params, handles.Handler[i], &oi)) /* already have it */
-					continue;
-				event.Code = PTP_EC_ObjectAdded;
-				event.Param1 = handles.Handler[i];
-				free (handles.Handler);
-				goto handleregular;
-			}
-			free (handles.Handler);
-			C_PTP_REP (ptp_check_event(params));
+            if (params->fuji_push == 1) {
+                uint16_t count = 0;
+                uint16_t *events = NULL;
+                uint32_t *values = NULL;
+                C_PTP(ptp_fuji_getevents (params, &events, &values, &count));
+                int16_t returnIndex = -1;
+                for (uint16_t i=0;i<count;i++) {
+                    if (events[i]==0xd220) {
+                        returnIndex = i;
+                    }
+                }
+                if (returnIndex!=-1) {
+                    for (int i=0;i<params->nrofobjects;i++) {
+                        ptp_free_object (&params->objects[i]);
+                    }
+                    free (params->objects);
+                    params->objects = NULL;
+                    params->nrofobjects = 0;
+                    params->storagechanged = 1;
+                    handles.n = 1;
+                    handles.Handler = malloc (1.*sizeof(uint32_t));
+                    handles.Handler[0]=(uint32_t)1;
+                    event.Code = PTP_EC_ObjectAdded;
+                    event.Param1 = handles.Handler[0];
+                    free (handles.Handler);
+                    goto handleregular;
+                }
+                C_PTP_REP (ptp_check_event(params));
+            } else {
+                if (ptp_get_one_event (params, &event))
+                    goto handleregular;
+                C_PTP (ptp_getobjecthandles (params, PTP_HANDLER_SPECIAL, 0x000000, 0x000000, &handles));
+                for (i=handles.n;i--;) {
+                    if (PTP_RC_OK == ptp_object_find (params, handles.Handler[i], &oi)) /* already have it */
+                        continue;
+                    event.Code = PTP_EC_ObjectAdded;
+                    event.Param1 = handles.Handler[i];
+                    free (handles.Handler);
+                    goto handleregular;
+                }
+                free (handles.Handler);
+                C_PTP_REP (ptp_check_event(params));
+            }
 		} while (waiting_for_timeout (&back_off_wait, event_start, timeout));
 		*eventtype = GP_EVENT_TIMEOUT;
 		return GP_OK;

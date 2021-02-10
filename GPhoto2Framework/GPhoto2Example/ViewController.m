@@ -72,7 +72,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     NSString *connectionStr = [NSString stringWithFormat:@"%@:%@",self.protocol,cameraIP];
     
     gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
-    gp_log_add_func(GP_LOG_DEBUG, logdumper, NULL);
+    gp_log_add_func(GP_LOG_ALL, logdumper, NULL);
     context = sample_create_context();
     gp_camera_new (&camera);
     
@@ -298,6 +298,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     if (strcmp(mode, "tethering") == 0 || strcmp(mode, "push") == 0 ) {
         while (1) {
             int retval = gp_camera_wait_for_event (camera, 1000, &evttype, &evtdata, context);
+            if (retval != GP_OK) break;
             switch (evttype) {
                 case GP_EVENT_UNKNOWN: {
                     NSLog(@"Event unknown");
@@ -313,7 +314,15 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
                     CameraFileInfo info;
                     retval = gp_camera_file_get_info (camera, cameraFilePath->folder, cameraFilePath->name, &info, context);
                     NSLog(@"Info %@:%@",[[NSString alloc] initWithUTF8String:cameraFilePath->folder],[[NSString alloc] initWithUTF8String:cameraFilePath->name]);
-
+                    NSString *savePath = [@"/Users/hendrikh/Desktop/fuji_save/" stringByAppendingString:[[NSString alloc] initWithUTF8String:cameraFilePath->name]];
+                    CameraFile *file;
+                    int fd = open ([savePath UTF8String], O_CREAT | O_WRONLY, 0644);
+                    retval = gp_file_new_from_fd(&file, fd);
+                    if (retval == GP_OK) {
+                        retval = gp_camera_file_get(camera, cameraFilePath->folder, cameraFilePath->name,
+                                                    GP_FILE_TYPE_NORMAL, file, context);
+                        NSLog(@"saved %@",[[NSString alloc] initWithUTF8String:cameraFilePath->name]);
+                    }
                 }case GP_EVENT_FOLDER_ADDED: {
                     NSLog(@"Folder added");
 

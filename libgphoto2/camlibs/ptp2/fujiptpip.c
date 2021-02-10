@@ -508,9 +508,17 @@ ptp_fujiptpip_getdata (PTPParams* params, PTPContainer* ptp, PTPDataHandler *han
 		xret = handler->putfunc (params, handler->priv, sizeof(hardcoded_deviceinfo),hardcoded_deviceinfo);
 	} else {
 		GP_LOG_DATA ((char*)(xdata+fujiptpip_getdata_payload), dtoh32(hdr.length)-fujiptpip_getdata_payload-4, "fujiptpip/getdatda data:");
-		xret = handler->putfunc (params, handler->priv,
-			dtoh32(hdr.length)-fujiptpip_getdata_payload-4, xdata+fujiptpip_getdata_payload
-		);
+        GP_LOG_D("Readsize %d",(dtoh32(hdr.length)-fujiptpip_getdata_payload-4));
+
+        if ((int32_t)(dtoh32(hdr.length)-fujiptpip_getdata_payload-4)<0) {
+            GP_LOG_E ("failed to putfunc of returned data");
+            free (xdata);
+            return GP_ERROR;
+        } else {
+            xret = handler->putfunc (params, handler->priv,
+                dtoh32(hdr.length)-fujiptpip_getdata_payload-4, xdata+fujiptpip_getdata_payload
+            );
+        }
 	}
 	free (xdata);
 	if (xret != PTP_RC_OK) {
@@ -999,7 +1007,7 @@ ptp_fujiptpip_connect (PTPParams* params, const char *address) {
         char mode[100];
         gp_setting_get("ptpip", "fuji_mode", mode);
         if (strcmp(mode, "tethering") == 0) {
-            int ret2;
+            int ret2 = PTP_RC_Undefined;
             int retry_count = 0;
             while (ret2 != PTP_RC_OK && retry_count<=10) {
                 ret = ptp_fujiptpip_init_command_request (params);
@@ -1018,7 +1026,7 @@ ptp_fujiptpip_connect (PTPParams* params, const char *address) {
             return translate_ptp_result (ret);
         }
 	}
-	GP_LOG_D ("fujiptpip connected!");
+	GP_LOG_D ("fujiptpip connected!?");
 	return GP_OK;
 #else
 	GP_LOG_E ("Windows currently not supported, neeeds a winsock port.");

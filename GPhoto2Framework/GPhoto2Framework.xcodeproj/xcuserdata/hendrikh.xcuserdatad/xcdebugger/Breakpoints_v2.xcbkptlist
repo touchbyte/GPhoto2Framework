@@ -69,8 +69,8 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9319"
-            endingLineNumber = "9319"
+            startingLineNumber = "9349"
+            endingLineNumber = "9349"
             landmarkName = "camera_init(camera, context)"
             landmarkType = "9">
          </BreakpointContent>
@@ -85,8 +85,8 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9691"
-            endingLineNumber = "9691"
+            startingLineNumber = "9721"
+            endingLineNumber = "9721"
             landmarkName = "camera_init(camera, context)"
             landmarkType = "9">
          </BreakpointContent>
@@ -117,8 +117,8 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7723"
-            endingLineNumber = "7723"
+            startingLineNumber = "7753"
+            endingLineNumber = "7753"
             landmarkName = "folder_list_func(fs, folder, list, data, context)"
             landmarkType = "9">
          </BreakpointContent>
@@ -133,8 +133,8 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7599"
-            endingLineNumber = "7599"
+            startingLineNumber = "7629"
+            endingLineNumber = "7629"
             landmarkName = "file_list_func(fs, folder, list, data, context)"
             landmarkType = "9">
          </BreakpointContent>
@@ -149,13 +149,13 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7656"
-            endingLineNumber = "7656"
+            startingLineNumber = "7686"
+            endingLineNumber = "7686"
             landmarkName = "file_list_func(fs, folder, list, data, context)"
             landmarkType = "9">
             <Locations>
                <Location
-                  uuid = "8C9F75D7-1B4D-4FE2-BEFA-D5970DD06BE1 - 1d052bbd2ef829fc"
+                  uuid = "8C9F75D7-1B4D-4FE2-BEFA-D5970DD06BE1 - 1d052bbd2ef825de"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -165,12 +165,12 @@
                   urlString = "file:///Users/hendrikh/Library/Mobile%20Documents/com~apple~CloudDocs/Current/fuji/GPhoto2Framework/libgphoto2/camlibs/ptp2/library.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7658"
-                  endingLineNumber = "7658"
+                  startingLineNumber = "7688"
+                  endingLineNumber = "7688"
                   offsetFromSymbolStart = "1838">
                </Location>
                <Location
-                  uuid = "8C9F75D7-1B4D-4FE2-BEFA-D5970DD06BE1 - 1d052bbd2ef829fc"
+                  uuid = "8C9F75D7-1B4D-4FE2-BEFA-D5970DD06BE1 - 1d052bbd2ef825de"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -180,8 +180,8 @@
                   urlString = "file:///Users/hendrikh/Library/Mobile%20Documents/com~apple~CloudDocs/Current/fuji/GPhoto2Framework/libgphoto2/camlibs/ptp2/library.c"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "7658"
-                  endingLineNumber = "7658"
+                  startingLineNumber = "7688"
+                  endingLineNumber = "7688"
                   offsetFromSymbolStart = "1847">
                </Location>
             </Locations>
@@ -213,8 +213,8 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7608"
-            endingLineNumber = "7608"
+            startingLineNumber = "7638"
+            endingLineNumber = "7638"
             landmarkName = "file_list_func(fs, folder, list, data, context)"
             landmarkType = "9">
             <Locations>
@@ -276,8 +276,8 @@
             filePath = "../libgphoto2/camlibs/ptp2/library.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7737"
-            endingLineNumber = "7737"
+            startingLineNumber = "7767"
+            endingLineNumber = "7767"
             landmarkName = "folder_list_func(fs, folder, list, data, context)"
             landmarkType = "9">
          </BreakpointContent>
