@@ -602,17 +602,25 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
     
     char mode[100];
     gp_setting_get("ptpip", "fuji_mode", mode);
+        
+    params->fuji_tether = 0;
+    params->fuji_autosave = 0;
+    params->fuji_push = 0;
     
-    /*
 #if !defined (WIN32)
-	if (gethostname (hostname, sizeof(hostname)))
-		return PTP_RC_GeneralError;
+    if (gethostname (hostname, sizeof(hostname)))
+        return PTP_RC_GeneralError;
+    #if defined(IOS_BUILD)
+        char buf[100];
+        gp_setting_get("ptpip", "hostname", buf);
+        if (strlen(buf)>0) {
+            strcpy(hostname, buf);
+        }
+    #endif
 #else
-	strcpy (hostname, "gpwindows");
+    strcpy (hostname, "gpwindows");
 #endif
-*/
-    strcpy (hostname, "PhotoSync");
-
+    
 	len = fujiptpip_initcmd_name + (strlen(hostname)+1)*2 +4 + 30;
 
 	cmdrequest = malloc(len);
@@ -642,6 +650,10 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
     }
     if (strcmp(mode, "push") == 0) {
         params->fuji_push = 1;
+    }
+    
+    if (strcmp(mode, "pc_autosave") == 0) {
+        params->fuji_autosave = 1;
     }
     
 	GP_LOG_DATA ((char*)cmdrequest, len, "ptpip/init_cmd data:");

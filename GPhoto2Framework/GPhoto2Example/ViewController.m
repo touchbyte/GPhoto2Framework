@@ -97,11 +97,11 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     gp_abilities_list_free(abilities);
 
     gp_setting_set("ptpip", "hostname", "gphoto-example");
-
-  //  gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
-  //  gp_setting_set("ptpip", "fuji_mode", "browse_legacy");
+   // gp_setting_set("ptpip", "fuji_mode", "browse");
+ //   gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
+    gp_setting_set("ptpip", "fuji_mode", "browse_legacy");
   //  gp_setting_set("ptpip", "fuji_mode", "push");
-      gp_setting_set("ptpip", "fuji_mode", "tethering");
+  //    gp_setting_set("ptpip", "fuji_mode", "tethering");
 
   //  gp_setting_set("ptpip", "fuji_mode", "tethering");
     ret = gp_camera_init (camera, context);
@@ -275,6 +275,36 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 
 }
 
+-(void)displayCount
+{
+    PTPPropertyValue        propval;
+
+    PTPParams *params;
+    
+    params =&camera->pl->params;
+    params->fuji_nrofobjects = 0;
+    
+    propval.str = "0/220";
+    ptp_setdevicepropvalue(params, 0xD228, &propval, PTP_DTC_STR);
+}
+
+-(void)registerListProgress
+{
+    PTPParams *params;
+    params =&camera->pl->params;
+    
+    params->fuji_list_progress = ^(int progress, int total) {
+        NSLog(@"====> List progress %i of %i",progress,total);
+    };
+}
+
+-(void)deregisterListProgress
+{
+    PTPParams *params;
+    params =&camera->pl->params;
+    params->fuji_list_progress = NULL;
+}
+
 -(void)fuji_switchToBrowse
 {
     PTPPropertyValue        propval;
@@ -352,7 +382,6 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
         }
         propval.u16 = 0x0001;
         ptp_setdevicepropvalue(params, 0xD227, &propval, PTP_DTC_UINT16);
-        
         ptp_fuji_getevents (params, &events, &values, &count);
     } else {
         
@@ -401,10 +430,11 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     if (strcmp(mode, "tethering") == 0 || strcmp(mode, "push") == 0) {
         return;
     }
-    
+    [self registerListProgress];
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSMutableArray *allfiles = [NSMutableArray new];
+        
         int ret = [self listAlFiles:"/" foundfile:NULL files:allfiles];
         if (ret == GP_OK) {
             NSString *outText = @"";
@@ -412,6 +442,9 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
                 outText = [outText stringByAppendingFormat:@"%@\n",item];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self deregisterListProgress];
+
+                [self displayCount];
                 UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
                 self.consoleTextView.text = outText;
             });

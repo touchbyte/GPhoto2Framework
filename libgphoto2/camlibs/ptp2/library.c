@@ -7669,7 +7669,11 @@ retry:
 		continue;
 
 	debug_objectinfo(params, ob->oid, &ob->oi);
-
+        
+    if (params->fuji_list_progress!=NULL && params->deviceinfo.VendorExtensionID == PTP_VENDOR_FUJI && camera->port->type == GP_PORT_PTPIP) {
+        params->fuji_list_progress(i+1,params->nrofobjects);
+    }
+    
 	if (!ob->oi.Filename)
 	    continue;
 
