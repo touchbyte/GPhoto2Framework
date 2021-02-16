@@ -72,7 +72,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     NSString *connectionStr = [NSString stringWithFormat:@"%@:%@",self.protocol,cameraIP];
     
     gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
-    gp_log_add_func(GP_LOG_ERROR, logdumper, NULL);
+    gp_log_add_func(GP_LOG_DEBUG, logdumper, NULL);
     context = sample_create_context();
     gp_camera_new (&camera);
     
@@ -98,8 +98,8 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 
     gp_setting_set("ptpip", "hostname", "gphoto-example");
    // gp_setting_set("ptpip", "fuji_mode", "browse");
- //   gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
-    gp_setting_set("ptpip", "fuji_mode", "browse_legacy");
+     gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
+  //  gp_setting_set("ptpip", "fuji_mode", "browse_legacy");
   //  gp_setting_set("ptpip", "fuji_mode", "push");
   //    gp_setting_set("ptpip", "fuji_mode", "tethering");
 

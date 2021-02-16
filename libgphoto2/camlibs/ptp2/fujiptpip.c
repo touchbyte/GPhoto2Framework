@@ -597,8 +597,10 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
     
     unsigned char guid_tether[16] = {0xf2,0xe4,0x53,0x8f,0xad,0xa5,0x48,0x5d,0x87,0xb2,0x7f,0x0b,0xd3,0xd5,0xde,0xd0};
     
+    /*
     unsigned char version[32] = {
         0x00,0x00,0x13,0x00,0x43,0x00,0x41,0x00,0x4d,0x00,0x45,0x00,0x52,0x00,0x41,0x00,0x5f,0x00,0x50,0x00,0x52,0x00,0x4f,0x00,0x44,0x00,0x55,0x00,0x43,0x00,0x54,0x00};
+    */
     
     char mode[100];
     gp_setting_get("ptpip", "fuji_mode", mode);
@@ -621,8 +623,9 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
     strcpy (hostname, "gpwindows");
 #endif
     
-	len = fujiptpip_initcmd_name + (strlen(hostname)+1)*2 +4 + 30;
-
+    
+//	len = fujiptpip_initcmd_name + (strlen(hostname)+1)*2 +4 + 30;
+    len = 82;
 	cmdrequest = malloc(len);
 	htod32a(&cmdrequest[fujiptpip_type],PTPIP_INIT_COMMAND_REQUEST);
 	htod32a(&cmdrequest[fujiptpip_len],len);
@@ -635,7 +638,8 @@ ptp_fujiptpip_init_command_request (PTPParams* params)
             cmdrequest[fujiptpip_initcmd_name+i*2] = hostname[i];
             cmdrequest[fujiptpip_initcmd_name+i*2+1] = 0;
         }
-        memcpy(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname))*2], version,32);
+        htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2],0x0000);
+        htod16a(&cmdrequest[fujiptpip_initcmd_name+(strlen(hostname)+1)*2+2],0x0000);
         params->fuji_tether = 0;
     } else {
         memcpy(&cmdrequest[fujiptpip_initcmd_guid-4], guid_tether, 16);
