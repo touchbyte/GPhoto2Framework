@@ -98,8 +98,8 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
 
     gp_setting_set("ptpip", "hostname", "gphoto-example");
    // gp_setting_set("ptpip", "fuji_mode", "browse");
-     gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
-  //  gp_setting_set("ptpip", "fuji_mode", "browse_legacy");
+   //  gp_setting_set("ptpip", "fuji_mode", "pc_autosave");
+    gp_setting_set("ptpip", "fuji_mode", "browse_legacy");
   //  gp_setting_set("ptpip", "fuji_mode", "push");
   //    gp_setting_set("ptpip", "fuji_mode", "tethering");
 

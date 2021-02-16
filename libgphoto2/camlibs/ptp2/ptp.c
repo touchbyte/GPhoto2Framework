@@ -1580,14 +1580,11 @@ ptp_getobjecthandles (PTPParams* params, uint32_t storage,
     if (params->deviceinfo.VendorExtensionID == PTP_VENDOR_FUJI && params->wifi_connection==1 && params->fuji_tether!=1 && params->fuji_push!=1 ) {
         objecthandles->Handler = NULL;
         objecthandles->n = params->fuji_nrofobjects;
-        uint8_t n = params->fuji_nrofobjects;
-        objecthandles->Handler = malloc (n*sizeof(uint32_t));
-        
-        
-        for (unsigned int i = 0; i<params->fuji_nrofobjects; i++) {
+        uint32_t n = params->fuji_nrofobjects;
+        objecthandles->Handler = calloc(n,sizeof(uint32_t));
+        for (unsigned int i = 0; i<n; i++) {
             objecthandles->Handler[i]=(uint32_t)i+1;
         }
-        
         return PTP_RC_OK;
     } else {
         PTPContainer	ptp;
@@ -8587,7 +8584,7 @@ ptp_object_want (PTPParams *params, uint32_t handle, unsigned int want, PTPObjec
 			ob->oi.ParentObject = 0;
 
 		/* Apple iOS X does that for the root folder. */
-		if ((ob->oi.ParentObject == ob->oi.StorageID)) {
+		if (ob->oi.ParentObject == ob->oi.StorageID) {
 			PTPObject *parentob;
 
 			if (ptp_object_find (params, ob->oi.ParentObject, &parentob) != PTP_RC_OK) {
