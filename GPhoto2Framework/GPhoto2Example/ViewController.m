@@ -293,7 +293,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
     PTPParams *params;
     params =&camera->pl->params;
     
-    params->fuji_list_progress = ^(int progress, int total) {
+    params->fuji_list_progress = ^(uint32_t progress, uint32_t total) {
         NSLog(@"====> List progress %i of %i",progress,total);
     };
 }
@@ -349,7 +349,7 @@ static void logdumper(GPLogLevel level, const char *domain, const char *str,
                     int fd = open ([savePath UTF8String], O_CREAT | O_WRONLY, 0644);
                     retval = gp_file_new_from_fd(&file, fd);
                     if (retval == GP_OK) {
-                        params->fuji_tether_progress = ^(long long bytesWritten, long long totalBytes) {
+                        params->fuji_tether_progress = ^(uint64_t bytesWritten, uint64_t totalBytes) {
                             NSLog(@"Progress called %.2lld of %.2lld",bytesWritten, totalBytes);
                         };
                         retval = gp_camera_file_get(camera, cameraFilePath->folder, cameraFilePath->name,

@@ -3617,17 +3617,17 @@ struct _PTPParams {
 	PTPObject	*objects;
 	unsigned int	nrofobjects;
     
-    unsigned int  fuji_startpos;
-    unsigned int  fuji_batchsize;
-    unsigned int  fuji_nrofobjects;
-    unsigned int  fuji_tether;
-    unsigned int  fuji_push;
-    unsigned int  fuji_autosave;
+    uint32_t fuji_startpos;
+    uint16_t fuji_batchsize;
+    uint32_t fuji_nrofobjects;
+    uint8_t  fuji_tether;
+    uint8_t  fuji_push;
+    uint8_t  fuji_autosave;
 
-    void (^fuji_tether_progress)(long long bytesWritten, long long totalBytes);
-    void (^fuji_list_progress)(int progress, int total);
+    void (^fuji_tether_progress)(uint64_t bytesWritten, uint64_t totalBytes);
+    void (^fuji_list_progress)(uint32_t progress, uint32_t total);
 
-    int           wifi_connection;
+    uint8_t           wifi_connection;
 	PTPDeviceInfo	deviceinfo;
 
 	/* PTP: the current event queue */
