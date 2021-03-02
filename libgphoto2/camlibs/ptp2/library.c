@@ -9607,7 +9607,7 @@ camera_init (Camera *camera, GPContext *context)
         case PTP_VENDOR_FUJI: {
             char mode[100];
             gp_setting_get("ptpip", "fuji_mode", mode);
-            if (strcmp(mode, "tethering") != 0 && strcmp(mode, "push") != 0 && strcmp(mode, "browse_legacy") != 0) {
+            if (strcmp(mode, "tethering") != 0 && strcmp(mode, "push") != 0 && strcmp(mode, "browse_legacy") != 0  && strcmp(mode, "pc_autosave") != 0 ) {
                 CR (camera_prepare_capture (camera, context));
             }
             break;

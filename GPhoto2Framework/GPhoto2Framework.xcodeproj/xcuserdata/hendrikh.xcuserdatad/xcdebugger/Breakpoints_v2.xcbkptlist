@@ -279,5 +279,68 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3C0BCA1F-6A92-4112-9ED6-28A61BA2C74D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../libgphoto2/camlibs/ptp2/library.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "9530"
+            endingLineNumber = "9530"
+            landmarkName = "camera_init(camera, context)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "3C0BCA1F-6A92-4112-9ED6-28A61BA2C74D - 5a72846bd316847f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "camera_init"
+                  moduleName = "gphoto2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hendrikh/Library/Mobile%20Documents/com~apple~CloudDocs/Current/fuji/GPhoto2Framework/libgphoto2/camlibs/ptp2/library.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9530"
+                  endingLineNumber = "9530"
+                  offsetFromSymbolStart = "8409">
+               </Location>
+               <Location
+                  uuid = "3C0BCA1F-6A92-4112-9ED6-28A61BA2C74D - 5a72846bd316847f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "camera_init"
+                  moduleName = "gphoto2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hendrikh/Library/Mobile%20Documents/com~apple~CloudDocs/Current/fuji/GPhoto2Framework/libgphoto2/camlibs/ptp2/library.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9530"
+                  endingLineNumber = "9530"
+                  offsetFromSymbolStart = "8414">
+               </Location>
+               <Location
+                  uuid = "3C0BCA1F-6A92-4112-9ED6-28A61BA2C74D - 5a72846bd316847f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "camera_init"
+                  moduleName = "gphoto2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hendrikh/Library/Mobile%20Documents/com~apple~CloudDocs/Current/fuji/GPhoto2Framework/libgphoto2/camlibs/ptp2/library.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "9530"
+                  endingLineNumber = "9530"
+                  offsetFromSymbolStart = "8468">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
