@@ -8,7 +8,7 @@
 * Example project included
 
 ## Currently used in:
-* [PhotoSync 4.0 for iOS](https://www.photosync-app.com)
+* [PhotoSync 4.0 and higher for iOS](https://www.photosync-app.com)
 
 For any questions/feedback, please contact holtmann@touchbyte.com
 
